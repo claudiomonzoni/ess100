@@ -1,20 +1,26 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-    i18n: {
-        defaultLocale: 'en',
-        locales: ['en', 'fr'],
+  i18n: {
+    locales: ["en", "de"],
+    defaultLocale: "en",
+    fallback: {
+      de: "en",
     },
-    site: 'https://fanny-astro.vercel.app',
-    trailingSlash: 'always',
-    build: {
-        format: 'directory',
-    },
-    // vite: {
-    //     ssr: {
-    //         noExternal: ['@astrojs/image', 'astro-icon'],
-    //     },
-    // },
+    routing: {
+      fallbackType: "rewrite"
+    }
+  },
+  site: "https://ess100.vercel.app",
+//   trailingSlash: "always",
+//   build: {
+//     format: "directory",
+//   },
+  // vite: {
+  //     ssr: {
+  //         noExternal: ['@astrojs/image', 'astro-icon'],
+  //     },
+  // },
 });

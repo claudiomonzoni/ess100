@@ -1,0 +1,21 @@
+---
+
+const currentLang = Astro.currentLocale ?? "en"; // default en
+let targetLang: string;
+let targetUrl: string;
+
+// Construir la URL de destino
+if (currentLang === "en") {
+  // estamos en inglés → link a alemán
+  targetLang = "de";
+  targetUrl = "/de" + Astro.url.pathname; // agrega /de
+} else {
+  // estamos en alemán → link a inglés
+  targetLang = "en";
+  targetUrl = Astro.url.pathname.replace(/^\/de/, "") || "/"; // quita /de
+}
+---
+
+<a href={targetUrl} class="px-3 py-1 rounded-md border text-sm hover:bg-gray-100">
+  {targetLang}
+</a>

@@ -1,0 +1,13 @@
+---
+import Layout from '@layouts/Layout.astro';
+//i18n
+import { getRelativeLocaleUrl } from 'astro:i18n';
+const prueba = getRelativeLocaleUrl("de", "prueba");
+
+---
+
+<Layout title="100 aniversary Ess Ski school Crans Montana" description="Welcome to the home page">
+<h1>Erste Schritte!</h1>
+<p>Dies ist die Startseite der Website.</p>
+<p>Test der i18n-Funktionalität: <a href={prueba}>Zur Testseite wechseln</a></p>
+</Layout>
