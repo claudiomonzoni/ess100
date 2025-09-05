@@ -1,9 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
+import Loader from '../components/Loader.astro';
 ---
 
 <Layout title="100 aniversary Ess Ski school Crans Montana" description="Welcome to the home page">
-<h1>Iniciando!
-</h1>
+    <Loader 
+  duration={5000}  
+  loadingText="Please wait..."  
+/>
+    <main>
+        <h1>Iniciando!</h1>
+        <img src="1.jpg" alt="carrousel image 1" />
+        <img src="2.png" alt="carrousel image 2" />
+        <img src="3.png" alt="carrousel image 3" />
+    </main>
 </Layout>
