@@ -10,6 +10,9 @@ const {
   duration = 3000, 
   loadingText = 'Loading...' 
 } = Astro.props;
+
+// El loader se renderizará inicialmente pero se ocultará mediante JS si todo está en caché
+---
 ---
 
 <div class="loader-wrapper">
@@ -94,35 +97,52 @@ const {
 </style>
 
 <script define:vars={{ duration }}>
-  // Update percentage counter
+  // Elementos del loader
   const progressBar = document.querySelector('.loader-progress-bar');
   const percentageElement = document.querySelector('.loader-percentage');
   const loaderWrapper = document.querySelector('.loader-wrapper');
   
-  if (progressBar && percentageElement && loaderWrapper) {
-    let progress = 0;
-    const interval = 30; // Update interval in ms
-    const increment = (interval / duration) * 100;
-    
-    const updateProgress = () => {
-      if (progress < 100) {
-        progress += increment;
-        const roundedProgress = Math.min(Math.round(progress), 100);
-        percentageElement.textContent = `${roundedProgress}%`;
-        progressBar.style.width = `${roundedProgress}%`;
-        requestAnimationFrame(updateProgress);
-      } else {
-        // When progress reaches 100%, hide the loader
-        loaderWrapper.style.opacity = '0';
-        loaderWrapper.style.visibility = 'hidden';
-        // Optional: Remove the loader from the DOM after the fade out
+  // Comprobar si la página ya está cargada
+  if (document.readyState === 'complete') {
+    // Si la página ya está cargada, removemos el loader inmediatamente
+    loaderWrapper?.remove();
+  } else {
+    // Si no está cargada, iniciamos la animación
+    if (progressBar && percentageElement && loaderWrapper) {
+      let progress = 0;
+      const interval = 30; // Update interval in ms
+      const increment = (interval / duration) * 100;
+      
+      const updateProgress = () => {
+        if (progress < 100) {
+          progress += increment;
+          const roundedProgress = Math.min(Math.round(progress), 100);
+          percentageElement.textContent = `${roundedProgress}%`;
+          progressBar.style.width = `${roundedProgress}%`;
+          requestAnimationFrame(updateProgress);
+        }
+      };
+      
+      // Iniciar animación
+      requestAnimationFrame(updateProgress);
+
+      // Cuando la página termine de cargar, ocultamos el loader
+      window.addEventListener('load', () => {
+        // Asegurar que llegue al 100%
+        progress = 100;
+        progressBar.style.width = '100%';
+        percentageElement.textContent = '100%';
+        
+        // Ocultar y remover el loader
         setTimeout(() => {
-          loaderWrapper.remove();
-        }, 500); // Match this with the transition duration
-      }
-    };
-    
-    // Start animation
-    requestAnimationFrame(updateProgress);
+          loaderWrapper.style.opacity = '0';
+          loaderWrapper.style.visibility = 'hidden';
+          
+          setTimeout(() => {
+            loaderWrapper.remove();
+          }, 500);
+        }, 200); // Pequeña pausa para mostrar el 100%
+      });
+    }
   }
 </script>

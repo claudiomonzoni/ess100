@@ -4,10 +4,10 @@ import { defineConfig } from "astro/config";
 // https://astro.build/config
 export default defineConfig({
   i18n: {
-    locales: ["en", "de"],
+    locales: ["en", "fr"],
     defaultLocale: "en",
     fallback: {
-      de: "en",
+      fr: "en",
     },
     routing: {
       fallbackType: "rewrite"

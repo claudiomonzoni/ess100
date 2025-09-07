@@ -1,12 +1,63 @@
 ---
 import LangSelect from "./LangSelect.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+const home = getRelativeLocaleUrl("fr", "/");
 ---
 
 <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/contact">Contact</a>
-    <li>
-        <LangSelect />
-    </li>
+  <div class="grid contenido">
+    <div id="menu">
+
+        <div class="logo">Aqui el logo</div>
+        <ul>
+            <li>
+                <a href={home}>Home</a>
+            </li>
+            <li>
+                <a href="/about">About</a>
+            </li>
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+        </ul>
+        <div class="selector">
+            <LangSelect />
+        </div>
+    </div>
+  </div>
 </nav>
+
+<style lang="scss">
+  nav {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+  }
+  #menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: solid;
+  }
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    li{
+        list-style: none;
+    }
+  }
+
+  nav a {
+    margin-right: 1rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+</style>
