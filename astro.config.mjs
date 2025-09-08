@@ -13,7 +13,7 @@ export default defineConfig({
       fallbackType: "rewrite"
     }
   },
-  site: "https://ess100.vercel.app",
+  site: "https://ess100.netlify.app/",
 //   trailingSlash: "always",
 //   build: {
 //     format: "directory",
