@@ -34,9 +34,16 @@ const home = getRelativeLocaleUrl("fr", "/");
     </div>
   </div>
 </nav>
+<div id="margenNav"></div>
 
 <style lang="scss">
   @use '../styles/variables.scss' as *;
+  #margenNav {
+    margin-bottom: 2rem;
+    @include cel {
+      margin-bottom: 5rem;
+    }
+  }
   
   .nav-main {
     position: fixed;
