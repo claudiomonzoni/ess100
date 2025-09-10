@@ -1,18 +1,10 @@
 ---
 interface Props {
-  /** Duration of the loading animation in milliseconds */
-  duration?: number;
-  /** Text to display inside the loader */
   loadingText?: string;
 }
-
-const { 
-  duration = 3000, 
-  loadingText = 'Loading...' 
-} = Astro.props;
+const { loadingText = "Loading..." } = Astro.props;
 
 // El loader se renderizará inicialmente pero se ocultará mediante JS si todo está en caché
-
 ---
 
 <div class="loader-wrapper">
@@ -21,14 +13,14 @@ const {
       <div class="loader-progress">
         <div class="loader-progress-bar"></div>
       </div>
-      <div class="loader-percentage" aria-live="polite">0%</div>
+      <div class="loader-percentage" aria-live="polite">0</div>
     </div>
     {loadingText && <p class="loader-text">{loadingText}</p>}
   </div>
 </div>
 
 <style lang="scss">
-  @use '../styles/variables.scss' as *;
+  @use "../styles/variables.scss" as *;
   $duration: 3000;
 
   .loader-wrapper {
@@ -42,12 +34,13 @@ const {
     background-color: $primario;
     z-index: 9999;
     backdrop-filter: blur(5px);
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    transition:
+      opacity 0.5s ease-out,
+      visibility 0.5s ease-out;
   }
 
   .loader-container {
     text-align: center;
-    
   }
 
   .loader {
@@ -58,7 +51,7 @@ const {
 
   .loader-progress {
     width: 100%;
-    height: 20vh;
+    height: 10px;
     background-color: $secundario;
     border-radius: 3px;
     overflow: hidden;
@@ -67,7 +60,7 @@ const {
   }
 
   .loader-progress-bar {
-    height: 100%;
+    height: 10px;
     width: 0;
     background: $primario;
     filter: invert(80%);
@@ -78,9 +71,9 @@ const {
 
   .loader-percentage {
     text-align: center;
-    font-size: clamp(1.2rem, 20.5vw, 30vw);
+    font-size: clamp(1.2rem, 6vw, 8vw);
     font-weight: 600;
-    color:($primario);
+    color: ($primario);
     filter: invert(80%);
     margin-bottom: 0.5rem;
   }
@@ -93,24 +86,52 @@ const {
   }
 
   @keyframes progress {
-    0% { width: 0%; }
-    100% { width: 100%; }
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
 
-<script define:vars={{ duration }}>
+<script>
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+  gsap.registerPlugin(SplitText);
+
   // Elementos del loader
-  const progressBar = document.querySelector('.loader-progress-bar');
-  const percentageElement = document.querySelector('.loader-percentage');
-  const loaderWrapper = document.querySelector('.loader-wrapper');
-  
+  const progressBar = document.querySelector(
+    ".loader-progress-bar"
+  ) as HTMLElement | null;
+  const percentageElement = document.querySelector(
+    ".loader-percentage"
+  ) as HTMLElement | null;
+  const loaderWrapper = document.querySelector(
+    ".loader-wrapper"
+  ) as HTMLElement | null;
+
+  // // Verificar que los elementos existen y son HTMLElements
+  // if (!(progressBar instanceof HTMLElement) ||
+  //     !(percentageElement instanceof HTMLElement) ||
+  //     !(loaderWrapper instanceof HTMLElement)) {
+  //   console.error('No se pudieron encontrar los elementos necesarios');
+  //   return;
+  // }
+
   // Comprobar si la página ya está cargada
-  if (document.readyState === 'complete') {
+  if (document.readyState === "complete") {
     // Si la página ya está cargada, removemos el loader inmediatamente
     loaderWrapper?.remove();
   } else {
@@ -118,38 +139,131 @@ const {
     if (progressBar && percentageElement && loaderWrapper) {
       let progress = 0;
       const interval = 30; // Update interval in ms
-      const increment = (interval / duration) * 100;
-      
+      const increment = (interval / 3000) * 100;
+
       const updateProgress = () => {
         if (progress < 100) {
           progress += increment;
           const roundedProgress = Math.min(Math.round(progress), 100);
-          percentageElement.textContent = `${roundedProgress}%`;
-          progressBar.style.width = `${roundedProgress}%`;
+          percentageElement.textContent = `${roundedProgress}`;
+          progressBar.style.width = `${roundedProgress}%`; // Añadido el símbolo %
           requestAnimationFrame(updateProgress);
+        } else {
+          // Cuando llega a 100%, esperar y luego ocultar
+          completeLoading();
         }
       };
-      
-      // Iniciar animación
-      requestAnimationFrame(updateProgress);
 
-      // Cuando la página termine de cargar, ocultamos el loader
-      window.addEventListener('load', () => {
-        // Asegurar que llegue al 100%
-        progress = 100;
-        progressBar.style.width = '100%';
-        percentageElement.textContent = '100%';
-        
-        // Ocultar y remover el loader
+      const completeLoading = () => {
+        // Asegurar que muestre 100%
+        progressBar.style.width = "100%";
+        percentageElement.textContent = "100";
         setTimeout(() => {
-          loaderWrapper.style.opacity = '0';
-          loaderWrapper.style.visibility = 'hidden';
-          
+          salida100();
+        }, 1500);
+
+        // Obtener la posición final del número relativa al viewport
+        // const rect = percentageElement.getBoundingClientRect();
+        // const viewportWidth = window.innerWidth;
+        // const viewportHeight = window.innerHeight;
+
+        // Esperar 2 segundos y luego iniciar la transición
+        setTimeout(() => {
+          // Disparar el evento con la posición centrada
+          const eventoCompleto = new CustomEvent("loaderComplete", {
+            detail: {
+              // x: viewportWidth / 2,  // Centro horizontal de la pantalla
+              // y: viewportHeight / 2, // Centro vertical de la pantalla
+              fontSize: window.getComputedStyle(percentageElement).fontSize,
+            },
+          });
+          window.dispatchEvent(eventoCompleto);
+
+          // Ocultar el loader
+          loaderWrapper.style.opacity = "0";
+          loaderWrapper.style.visibility = "hidden";
+
+          // Remover después de la transición
           setTimeout(() => {
             loaderWrapper.remove();
           }, 500);
-        }, 200); // Pequeña pausa para mostrar el 100%
-      });
+        }, 2000);
+      };
+
+      // animacion de salida del 100
+
+      const salida100 = () => {
+        // Crear el split text
+        const split100 = new SplitText(percentageElement, {
+          type: "chars",
+          position: "relative",
+        });
+
+        split100.chars.forEach((char) => {
+          gsap.set(char, {
+            // position: 'fixed',
+            left: "0%",
+            top: "0%",
+            //   fontSize: fromLoader.fontSize,
+            opacity: 1,
+            x: "0%",
+            y: "0%",
+            transformOrigin: "center center",
+          });
+
+          const tl = gsap.timeline();
+
+          tl.to(split100.chars, {
+            position: "relative",
+            left: "0",
+            top: "50%",
+            // fontSize: "10rem",
+            x: 0,
+            yPercent: 50,
+            opacity: 0,
+            duration: 2,
+            ease: "elastic.out(1, 0.75)",
+            stagger: {
+              amount: 0.5,
+              // from: 'left'
+            },
+          });
+        });
+      };
+
+      // Iniciar animación
+      requestAnimationFrame(updateProgress);
+
+      // // Si la página ya está cargada, completar inmediatamente
+      // window.addEventListener("load", () => {
+      //   progress = 100;
+      //   completeLoading();
+
+      //   // La interfaz LoaderCompleteEvent solo es válida en TypeScript, así que se elimina.
+      //   // El objeto 'detail' se define directamente en el CustomEvent más abajo.
+
+      //   // Disparar evento personalizado con la posición del número 100
+      //   // const finalNumberPosition = percentageElement.getBoundingClientRect();
+
+      //   // Ocultar y remover el loader
+      //   setTimeout(() => {
+      //     // Disparar evento antes de que el loader desaparezca
+      //     const event = new CustomEvent<LoaderCompleteEvent>('loaderComplete', {
+      //       detail: {
+      //         // x: finalNumberPosition.left + (finalNumberPosition.width / 2),
+      //         // y: finalNumberPosition.top + (finalNumberPosition.height / 2),
+      //         fontSize: window.getComputedStyle(percentageElement).fontSize
+      //       }
+      //     });
+
+      //     loaderWrapper.style.opacity = "0";
+      //     loaderWrapper.style.visibility = "hidden";
+
+      //     setTimeout(() => {
+      //       loaderWrapper.remove();
+      //     }, 500);
+      //   }, 2000); // Pequeña pausa para mostrar el 100%
+      // });
     }
   }
 </script>

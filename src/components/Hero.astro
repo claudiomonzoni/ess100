@@ -1,0 +1,192 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  cover?: string;
+}
+const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
+---
+
+<div id="hero">
+  <div class="grid contenido">
+    <div class="centro">
+      <h1>100<br /></h1>
+      <h2>{title}</h2>
+      <p>{subtitle}</p>
+    </div>
+    <video autoplay muted loop id="video-hero">
+      <source src="/video/hero.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <style lang="scss">
+    @use "../styles/variables.scss" as *;
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      border-radius: 10px;
+
+      h1 {
+          font-family: "Montserrat Alternates", sans-serif;
+        text-align: center;
+        font-size: clamp(1.2rem, 6vw, 8vw);
+        font-weight: 600;
+        color: ($primario);
+        filter: invert(80%);
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .centro {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      text-align: center;
+    }
+
+    video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  </style>
+
+  <script>
+    import { gsap } from "gsap";
+    import { SplitText } from "gsap/SplitText";
+
+    // Definir la interfaz para la posición del loader
+    interface LoaderPosition {
+      fontSize: string;
+    }
+
+    // Registrar el plugin inmediatamente
+    gsap.registerPlugin(SplitText);
+
+    // Esperar a que el DOM esté listo
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!gsap || !SplitText) {
+        console.error("GSAP o SplitText no están disponibles");
+        return;
+      }
+
+      gsap.registerPlugin(SplitText);
+
+      // Función para inicializar la animación del Hero
+      function initHeroAnimation(fromLoader: LoaderPosition | null = null) {
+        const heroNumber = document.querySelector("#hero h1");
+        if (!heroNumber || !(heroNumber instanceof HTMLElement)) {
+          // console.error('No se encontró el elemento del número');
+          return;
+        }
+
+       // console.log("Iniciando animación del hero");
+
+        // Hacer visible el número
+        heroNumber.style.visibility = "visible";
+        heroNumber.style.opacity = "1";
+
+        // Crear el split text
+        const splitNumber = new SplitText(heroNumber, {
+          type: "chars",
+          position: "relative",
+        });
+
+        // Animación inicial
+        if (fromLoader) {
+          console.log("Animando desde el loader", fromLoader);
+
+          // Posicionar cada carácter en el centro de la pantalla
+          splitNumber.chars.forEach((char) => {
+            gsap.set(char, {
+              // position: 'fixed',
+              left: "0%",
+              top: "0%",
+            //   fontSize: fromLoader.fontSize,
+              opacity: 0,
+              x: "0%",
+              y: "-50%",
+              transformOrigin: "center center",
+            });
+          });
+
+          // Timeline para la animación
+          const tl = gsap.timeline();
+
+          tl.to(splitNumber.chars, {
+            position: "relative",
+            left: "0",
+            top: "0",
+            // fontSize: "10rem",
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 2,
+            ease: "elastic.out(1, 0.75)",
+            stagger: {
+              amount: 0.5,
+              // from: 'left'
+            },
+          }).from(
+            "#hero h2, #hero p",
+            {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              stagger: 0.3,
+            },
+            "-=0.5"
+          );
+        } else {
+          console.log("Animación fallback");
+
+          // Animación fallback
+          const tl = gsap.timeline();
+
+          tl.from(splitNumber.chars, {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.08,
+          }).from(
+            "#hero h1 br, #hero p",
+            {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              stagger: 0.1,
+            },
+            "-=0.5"
+          );
+        }
+      }
+
+      // Escuchar el evento del loader
+      window.addEventListener("loaderComplete", (e) => {
+        // console.log('Evento loaderComplete recibido', e);
+        const customEvent = e as any;
+        if (customEvent.detail) {
+          // console.log('Detalle del evento:', customEvent.detail);
+          initHeroAnimation(customEvent.detail);
+        }
+      });
+
+      // Iniciar animación si no hay loader
+      if (
+        document.readyState === "complete" &&
+        !document.querySelector(".loader-wrapper")
+      ) {
+        console.log("Iniciando animación sin loader");
+        initHeroAnimation();
+      }
+    });
+  </script>
+</div>
