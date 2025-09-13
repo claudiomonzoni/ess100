@@ -39,63 +39,60 @@ const home = getRelativeLocaleUrl("fr", "/");
 </nav>
 <div id="margenNav"></div>
 
-  <svg style="display: none">
-      <filter
-        id="glass-distortion"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        filterUnits="objectBoundingBox"
-      >
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0 0.01"
-          numOctaves="1"
-          seed="5"
-          result="turbulence"
-        />
-        <!-- Seeds: 14, 17,  -->
+<svg style="display: none">
+  <filter
+    id="glass-distortion"
+    x="0%"
+    y="0%"
+    width="100%"
+    height="100%"
+    filterUnits="objectBoundingBox"
+  >
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0 0.01"
+      numOctaves="1"
+      seed="5"
+      result="turbulence"></feTurbulence>
+    <!-- Seeds: 14, 17,  -->
 
-        <feComponentTransfer in="turbulence" result="mapped">
-          <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
-          <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
-          <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
-        </feComponentTransfer>
+    <feComponentTransfer in="turbulence" result="mapped">
+      <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5"></feFuncR>
+      <feFuncG type="gamma" amplitude="0" exponent="1" offset="0"></feFuncG>
+      <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5"></feFuncB>
+    </feComponentTransfer>
 
-        <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+    <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap"
+    ></feGaussianBlur>
 
-        <feSpecularLighting
-          in="softMap"
-          surfaceScale="5"
-          specularConstant="1"
-          specularExponent="100"
-          lighting-color="white"
-          result="specLight"
-        >
-          <fePointLight x="-200" y="-200" z="300" />
-        </feSpecularLighting>
+    <feSpecularLighting
+      in="softMap"
+      surfaceScale="5"
+      specularConstant="1"
+      specularExponent="100"
+      lighting-color="white"
+      result="specLight"
+    >
+      <fePointLight x="-200" y="-200" z="300"></fePointLight>
+    </feSpecularLighting>
 
-        <feComposite
-          in="specLight"
-          operator="arithmetic"
-          k1="0"
-          k2="1"
-          k3="1"
-          k4="0"
-          result="litImage"
-        />
+    <feComposite
+      in="specLight"
+      operator="arithmetic"
+      k1="0"
+      k2="1"
+      k3="1"
+      k4="0"
+      result="litImage"></feComposite>
 
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="softMap"
-          scale="150"
-          xChannelSelector="R"
-          yChannelSelector="G"
-        />
-      </filter>
-    </svg>
-
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="softMap"
+      scale="150"
+      xChannelSelector="R"
+      yChannelSelector="G"></feDisplacementMap>
+  </filter>
+</svg>
 
 <svg style="display: none">
   <filter
@@ -104,7 +101,6 @@ const home = getRelativeLocaleUrl("fr", "/");
     filterUnits="objectBoundingBox"
     primitiveUnits="userSpaceOnUse"
   >
-
     <feDisplacementMap
       in="SourceGraphic"
       in2="SourceGraphic"
@@ -116,7 +112,7 @@ const home = getRelativeLocaleUrl("fr", "/");
       width="100%"
       height="100%"
       result="displacementMap"></feDisplacementMap>
-      
+
     <feGaussianBlur
       stdDeviation="3 3"
       x="0%"
@@ -128,12 +124,22 @@ const home = getRelativeLocaleUrl("fr", "/");
       result="blur"></feGaussianBlur>
     <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap"
     ></feGaussianBlur>
-   
   </filter>
 </svg>
 
 <style lang="scss">
   @use "../styles/variables.scss" as *;
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   #margenNav {
     margin-bottom: 2rem;
     @include cel {
@@ -144,14 +150,19 @@ const home = getRelativeLocaleUrl("fr", "/");
   .nav-main {
     position: fixed;
     top: 0;
-    left: 0;
+    left:0;
     right: 0;
     background-color: hsla(0, 0%, 92%, 0.2);
     padding: 1rem 0;
     transition: transform 0.3s ease;
     z-index: 1000;
     border-radius: 0.8rem;
+    overflow: hidden;
     margin: 0.3rem;
+    box-shadow:
+      0 6px 6px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease-in-out;
   }
 
   #menu {
@@ -217,6 +228,16 @@ const home = getRelativeLocaleUrl("fr", "/");
   }
 
   @include cel {
+    .nav-main {
+      height: 4rem;
+      transition: all 0.5s ease;
+    }
+
+    .nav-main.fullscreen {
+      height: 50vh;
+      top: 25%;
+    }
+
     .hamburger {
       display: block;
     }
@@ -224,18 +245,22 @@ const home = getRelativeLocaleUrl("fr", "/");
     #menu {
       .nav-content {
         position: fixed;
-        top: 0;
-        right: -100%;
+        top: 4pc;
+        right: 0;
         width: 100%;
-        height: 100vh;
-        background-color: #f8f9fa;
+        height: 100%;
         flex-direction: column;
         justify-content: center;
         padding: 2rem;
-        transition: right 0.5s ease;
+        opacity: 0;
+        transition:
+          all 0.5s ease,
+          opacity 0.5s ease;
 
         &.active {
-          right: 0;
+          top: 0;
+          opacity: 1;
+          background-color: hsla(0, 0%, 2%, 0.224);
         }
       }
     }
@@ -243,17 +268,32 @@ const home = getRelativeLocaleUrl("fr", "/");
     ul {
       flex-direction: column;
       align-items: center;
-      width: 100%;
 
       li {
-        width: 100%;
         text-align: center;
+        opacity: 0;
+        transform: translateX(20px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
       }
 
       a {
         display: block;
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
+      }
+    }
+
+    .nav-content.active ul li {
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    @for $i from 1 through 3 {
+      ul li:nth-child(#{$i}) {
+        transition-delay: #{(3 - $i) * 0.2}s;
+      }
+
+      .nav-content.active ul li:nth-child(#{$i}) {
+        animation-delay: #{($i - 1) * 0.2}s;
       }
     }
 
@@ -281,13 +321,6 @@ const home = getRelativeLocaleUrl("fr", "/");
 
   //efecto vidrio
 
-  .glass {
-    overflow: hidden;
-    box-shadow:
-      0 6px 6px rgba(0, 0, 0, 0.2),
-      0 0 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
-  }
   .liquidGlass-effect {
     position: absolute;
     z-index: 0;
@@ -327,11 +360,23 @@ const home = getRelativeLocaleUrl("fr", "/");
 
   // Toggle menu
   function toggleMenu() {
-    hamburger?.classList.toggle("active");
-    navContent?.classList.toggle("active");
-    document.body.style.overflow = navContent?.classList.contains("active")
-      ? "hidden"
-      : "";
+    const isActive = hamburger?.classList.contains("active");
+    if (!isActive) {
+      // Opening
+      hamburger?.classList.add("active");
+      nav?.classList.add("fullscreen");
+      setTimeout(() => {
+        navContent?.classList.add("active");
+      }, 500);
+    } else {
+      // Closing
+      navContent?.classList.remove("active");
+      setTimeout(() => {
+        nav?.classList.remove("fullscreen");
+        hamburger?.classList.remove("active");
+      }, 200);
+    }
+    document.body.style.overflow = !isActive ? "hidden" : "";
   }
 
   // Hide/Show nav on scroll
@@ -340,7 +385,7 @@ const home = getRelativeLocaleUrl("fr", "/");
 
     if (currentScroll > lastScroll && currentScroll > 100) {
       // Scrolling down - hide nav
-      (nav as HTMLElement)?.style.setProperty("transform", "translateY(-100%)");
+      (nav as HTMLElement)?.style.setProperty("transform", "translateY(-120%)");
     } else {
       // Scrolling up - show nav
       (nav as HTMLElement)?.style.setProperty("transform", "translateY(0)");
@@ -356,7 +401,12 @@ const home = getRelativeLocaleUrl("fr", "/");
   menuLinks.forEach((link) => {
     link.addEventListener("click", () => {
       if (navContent?.classList.contains("active")) {
-        toggleMenu();
+        navContent?.classList.remove("active");
+        setTimeout(() => {
+          nav?.classList.remove("fullscreen");
+          hamburger?.classList.remove("active");
+        }, 500);
+        document.body.style.overflow = "";
       }
     });
   });

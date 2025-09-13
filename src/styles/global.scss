@@ -69,10 +69,8 @@ ul {
   list-style: none;
 }
 li {
-  list-style: disc;
-  /* list-style-position: inside; */
-  margin-left: 1.5rem;
-  margin-bottom: 0.2rem;
+  list-style: none;
+  list-style-position: inside; 
 }
 
 img {

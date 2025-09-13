@@ -24,7 +24,9 @@ const currentLocale = Astro.currentLocale;
 		<meta name="description" content={description} />
 	</head>
 	<body>
-		<Nav />
+		<div class="grid contenido">
+			<Nav />
+		</div>
 		<slot />
 		<Footer />
 	</body>
