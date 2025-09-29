@@ -8,7 +8,7 @@ const home = getRelativeLocaleUrl("fr", "/");
   <div class="conteEfecto">
     <div class="liquidGlass-effect liquidGlass-tint liquidGlass-shine"></div>
   </div>
-  <div class="grid contenido">
+  <div class="grids contenidos">
     <div id="menu">
       <div class="logo">
         <!-- <img src="ess100-logo.svg" alt="100 years ESS Ski School Crans Montana"> -->
@@ -280,23 +280,41 @@ const home = getRelativeLocaleUrl("fr", "/");
   }
   .logoabajo{
     height: 60px!important;
+    #ans, #crans {
+      display: none;
+    }
   }
   .nav-main {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 20vw); // 10vw a cada lado (5vw extra-start + 5vw pantalla-start)
     background-color: hsla(0, 0%, 92%, 0.2);
     padding: 1rem 0;
-    // transition: transform 0.3s ease;
     z-index: 1000;
     border-radius: 0.8rem;
     overflow: hidden;
-    margin: 0.3rem;
+    margin: 0.3rem auto;
     box-shadow:
       0 6px 6px rgba(0, 0, 0, 0.2),
       0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease-in-out;
+
+    @include hd {
+      width: calc(100% - 16vw); // 8vw a cada lado (6vw extra + 2vw pantalla)
+    }
+
+    @include hdplus {
+      width: calc(100% - 18vw); // 9vw a cada lado (6vw extra + 3vw pantalla)
+    }
+
+    @include cel {
+      width: 100%;
+      left: 0;
+      transform: none;
+      margin: 0;
+    }
   }
 
   #menu {
@@ -500,12 +518,15 @@ const home = getRelativeLocaleUrl("fr", "/");
   // Toggle menu
   function toggleMenu() {
     const isActive = hamburger?.classList.contains("active");
+        const currentScroll = window.scrollY;
+
     if (!isActive) {
       // Opening
       hamburger?.classList.add("active");
       nav?.classList.add("fullscreen");
       setTimeout(() => {
         navContent?.classList.add("active");
+        (nav as HTMLElement)?.classList.remove("ceroEstilos");
       }, 500);
     } else {
       // Closing
@@ -513,6 +534,7 @@ const home = getRelativeLocaleUrl("fr", "/");
       setTimeout(() => {
         nav?.classList.remove("fullscreen");
         hamburger?.classList.remove("active");
+        (nav as HTMLElement)?.classList.add("ceroEstilos");
       }, 200);
     }
     document.body.style.overflow = !isActive ? "hidden" : "";
@@ -524,13 +546,22 @@ const home = getRelativeLocaleUrl("fr", "/");
 
     if (currentScroll > lastScroll && currentScroll > 200) {
       // Scrolling down - hide nav
-      (nav as HTMLElement)?.style.setProperty("transform", "translateY(-120%)");
+      (nav as HTMLElement)?.style.setProperty("transform", "translate(-50%, -120%)");
       // (ans as HTMLElement)?.style.setProperty("display", "none");
       // (crans as HTMLElement)?.style.setProperty("display", "block");
     } else {
       // Scrolling up - show nav
       // (logo as HTMLElement)?.style.setProperty("height", "70px");
-      (nav as HTMLElement)?.style.setProperty("transform", "translateY(0)");
+      (nav as HTMLElement)?.style.setProperty("transform", "translate(-50%, 0)");
+    }
+
+    // Para móviles, usamos una transformación diferente
+    if (window.innerWidth <= 768) { // Ajusta este valor según tu breakpoint cel
+      if (currentScroll > lastScroll && currentScroll > 200) {
+        (nav as HTMLElement)?.style.setProperty("transform", "translateY(-120%)");
+      } else {
+        (nav as HTMLElement)?.style.setProperty("transform", "translateY(0)");
+      }
     }
   if (currentScroll > 200) {
     (logo as HTMLElement)?.classList.add("logoabajo");
