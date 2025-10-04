@@ -256,9 +256,15 @@ const home = getRelativeLocaleUrl("fr", "/");
   //   }
   // }
 
+  .logo {
+    padding: 0.5rem 0;
+    @extend .anime;
+  }
+
   .logo svg {
     height: 100px;
     width: auto;
+    display: block;
     @extend .anime;
 
     #uno, #dos, #tres {
@@ -276,24 +282,28 @@ const home = getRelativeLocaleUrl("fr", "/");
     @include cel {
       height: 70px;
       padding: 0 1rem;
+      margin: -0.5rem 0;  // Ajustar el margen para móviles
     }
   }
   .logoabajo{
-    height: 40px!important;
+    height: 70px!important;
     #ans, #crans {
       display: none;
     }
+    @include cel {
+      height: 50px!important;
+    }
+  }
+  .logoabajo + .nav-content {
+    margin-top: -1.5rem;
   }
   .nav-main {
-        border: solid;
-
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 20vw); // 10vw a cada lado (5vw extra-start + 5vw pantalla-start)
     background-color: hsla(0, 0%, 92%, 0.2);
-    padding: 1rem 0;
     z-index: 1000;
     border-radius: 0.8rem;
     overflow: hidden;
@@ -384,12 +394,11 @@ const home = getRelativeLocaleUrl("fr", "/");
 
   @include cel {
     .nav-main {
-      height: 4rem;
       transition: all 0.5s ease;
     }
 
     .nav-main.fullscreen {
-      height: 50vh;
+      min-height: 50vh;
       top: 25%;
     }
 
