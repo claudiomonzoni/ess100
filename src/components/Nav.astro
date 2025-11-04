@@ -116,13 +116,19 @@ const home = getRelativeLocaleUrl("fr", "/");
       <div class="nav-content">
         <ul>
           <li>
-            <a href={home}>Home</a>
+            <a href="#histoire">histoire</a>
           </li>
           <li>
-            <a href="/about">About</a>
+            <a href="#brochure">brochure</a>
           </li>
           <li>
-            <a href="/contact">Contact</a>
+            <a href="#video">vidéo teaser</a>
+          </li>
+          <li>
+            <a href="#events">événements</a>
+          </li>
+          <li>
+            <a href="#contact">contact</a>
           </li>
         </ul>
         <div class="selector">
@@ -305,27 +311,28 @@ const home = getRelativeLocaleUrl("fr", "/");
     width: calc(100% - 20vw); // 10vw a cada lado (5vw extra-start + 5vw pantalla-start)
     background-color: hsla(0, 0%, 92%, 0.2);
     z-index: 1000;
-    border-radius: 0.8rem;
+    // border-radius: 0.8rem;
     overflow: hidden;
     margin: 0.3rem auto;
     box-shadow:
       0 6px 6px rgba(0, 0, 0, 0.2),
       0 0 20px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease-in-out;
-
+    padding: 0 1.4rem;
+    
     @include hd {
       width: calc(100% - 16vw); // 8vw a cada lado (6vw extra + 2vw pantalla)
     }
-
+    
     @include hdplus {
       width: calc(100% - 18vw); // 9vw a cada lado (6vw extra + 3vw pantalla)
     }
-
+    
     @include cel {
+      padding: 1rem 1.4rem;
       width: 100%;
       left: 0;
       transform: none;
-      margin: 0;
     }
   }
 
@@ -336,6 +343,7 @@ const home = getRelativeLocaleUrl("fr", "/");
     gap: 1rem;
     position: relative;
     z-index: 4;
+
   }
 
   .logo {
@@ -363,7 +371,6 @@ const home = getRelativeLocaleUrl("fr", "/");
   nav a {
     text-decoration: none;
     color: #333;
-    font-weight: bold;
     transition: color 0.3s ease;
 
     &:hover {
@@ -385,7 +392,7 @@ const home = getRelativeLocaleUrl("fr", "/");
       display: block;
       width: 28px;
       height: 2px;
-      background-color: $acento;
+      background-color: $rojo;
       margin: 5px 0;
       transition: all 0.3s ease;
       border-radius: 3px;
@@ -470,14 +477,14 @@ const home = getRelativeLocaleUrl("fr", "/");
       span {
         &:first-child {
           transform: rotate(45deg) translate(5px, 5px);
-          background-color: $primario;
+          background-color: $rojo;
         }
         &:nth-child(2) {
           opacity: 0;
         }
         &:last-child {
           transform: rotate(-45deg) translate(5px, -5px);
-          background-color: $primario;
+          background-color: $rojo;
         }
       }
     }
