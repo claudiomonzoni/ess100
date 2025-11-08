@@ -1,0 +1,56 @@
+---
+/**
+ * Botón reutilizable para Astro.
+ *
+ * Props:
+ *  - url: string – destino del enlace (puede ser una URL externa o interna).
+ *  - text: string – texto que se mostrará dentro del botón.
+ *  - class: string (opcional) – clases CSS adicionales para personalizar el estilo.
+ */
+import { Icon } from "astro-icon/components";
+
+// Props del botón. "icon" es opcional y recibe el nombre del icono tal como lo usa astro-icon.
+interface Props {
+  url: string;
+  text: string;
+  class?: string;
+  icon?: string; // e.g. "mdi:home" o "heroicons:solid:arrow-right"
+}
+
+const { url, text, class: extraClass = '', icon } = Astro.props as Props;
+---
+
+<a href={url} class={`btn ${extraClass}`}>
+  {icon && <Icon name={icon} class="icon" />}
+  {text}
+</a>
+
+<style lang="scss">
+  @use "../styles/variables.scss" as *;
+
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $fondo;
+    background-color: $rojo;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: $fondo;
+      color: $rojo;
+    }
+  }
+
+  .icon {
+    vertical-align: middle;
+    margin-right: 0.4rem;
+    width: 1em;
+    height: 1em;
+  }
+</style>

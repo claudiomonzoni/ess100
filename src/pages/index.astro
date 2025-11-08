@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Loader from "@components/Loader.astro";
 import Hero from "@components/Hero.astro";
+import Button from "@components/Button.astro";
 ---
 
 <Layout
@@ -17,5 +18,7 @@ import Hero from "@components/Hero.astro";
       <img src="2.png" alt="carrousel image 2" />
       <img src="3.png" alt="carrousel image 3" />
     </div>
+    <!-- Ejemplo de uso del nuevo botón -->
+    <Button url="/about" text="Conócenos" class="custom-btn" icon="mdi:account" />
   </main>
 </Layout>

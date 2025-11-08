@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,9 +19,17 @@ export default defineConfig({
 //   build: {
 //     format: "directory",
 //   },
-  // vite: {
-  //     ssr: {
-  //         noExternal: ['@astrojs/image', 'astro-icon'],
-  //     },
-  // },
+  // Add astro-icon integration with mdi icon set included
+  integrations: [icon({
+    include: {
+      // Load all Material Design Icons (mdi) – you can restrict to specific icons if desired
+      mdi: ["*"],
+    },
+  })],
+  // Ensure astro-icon is not externalized during SSR
+  vite: {
+    ssr: {
+      noExternal: ["astro-icon"],
+    },
+  },
 });

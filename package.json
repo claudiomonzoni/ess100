@@ -11,8 +11,12 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.5.1",
     "astro": "^5.13.5",
+    "astro-icon": "^1.1.5",
     "gsap": "^3.13.0",
     "sass": "^1.92.0",
     "split-type": "^0.3.4"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3"
   }
 }
