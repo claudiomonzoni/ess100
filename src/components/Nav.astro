@@ -395,7 +395,8 @@ const home = getRelativeLocaleUrl("fr", "/");
   }
 
   .logo svg {
-    height: 100px;
+    height: 4rem;
+    max-width: 300px;
     width: auto;
     display: block;
     @extend .anime;
@@ -420,21 +421,17 @@ const home = getRelativeLocaleUrl("fr", "/");
     }
 
     @include cel {
-      height: 8dvh;
+      height: 4rem;
       padding: 0 1rem;
       margin: -0.5rem 0;
     }
-    @include tableta {
-      height: 6dvh;
-    }
-    @include tableta-land {
-      height: 8dvh;
-    }
+  
+  
   }
 
   /* Cuando el logo está "abajo" (pasados 200px de scroll) */
   .logoabajo {
-    height: 70px !important;
+    height: 3rem !important;
     #ans,
     #crans {
       display: none;

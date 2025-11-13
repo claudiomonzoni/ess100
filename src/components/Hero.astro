@@ -8,11 +8,17 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
 ---
 
 <div id="hero">
-  <div class="grid contenido">
-    <div class="centro">
-      <h1>100 <span>ANS</span><br /></h1>
-      <h2>{title}</h2>
-      <p>{subtitle}</p>
+  <div class="centro">
+    <div class="mainimage">
+      <img src="/main-hero-ess-100.webp" alt="Ess Ski School 100 ans" />
+      <div class="bg-mainimage"></div>
+    </div>
+    <div class="txt">
+      <div class="conte">
+        <h1>100 <span>ANS</span><br /></h1>
+        <h2>{title}</h2>
+        <p>{subtitle}</p>
+      </div>
     </div>
   </div>
 </div>
@@ -23,8 +29,19 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
     position: relative;
     width: 100%;
     height: 100vh;
-    overflow: hidden;
-    // border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 10%;
+    place-items: center;
+    
+    &::after{
+      content: "";
+      grid-column: 2 / -1;
+      grid-row: 1 / -1;
+      width: 100%;
+      height: 100%;
+      background: url("/bg-hero-mountain-ess-100.webp") no-repeat right top/cover;
+      z-index: -1;
+    }
 
     h1 {
       text-align: center;
@@ -32,19 +49,63 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
       font-weight: 600;
       color: $dorado;
       margin-bottom: 0.5rem;
-      span{
+      span {
         color: $rojo;
       }
     }
   }
 
   .centro {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 4;
-    text-align: center;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 10%;
+    grid-template-rows: 20% repeat(2, 1fr);
+    height: 26dvw;
+
+    .mainimage {
+      grid-column: 1 / span 1;
+      grid-row: 1 / -1;
+      display: grid;
+      grid-template-columns: subgrid;
+      grid-template-rows: subgrid;
+
+      img {
+        grid-column: 1 / span 1;
+        grid-row: 1/ -1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: left center;
+        order: 1;
+        grid-template-rows: subgrid;
+      }
+      .bg-mainimage {
+        grid-column: 1 / span 1;
+        grid-row: 2/ -1;
+        width: 100%;
+        height: 100%;
+        background: #e7f3fc;
+        background: linear-gradient(
+          316deg,
+          rgba($fondo, 1) 0%,
+          rgba($gris-fondo, 1) 100%
+        );
+      }
+    }
+    .txt {
+      grid-column: 2 / span 1;
+      grid-row: 2 / -1;
+      background: rgba($fondo, .6);
+      display: flex;
+      place-items: center;
+      backdrop-filter: blur(8px);
+      .conte {
+        grid-row: 2 / span 1;
+        text-align: center;
+        order: 2;
+      }
+    }
   }
 
   video {
