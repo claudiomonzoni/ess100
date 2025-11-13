@@ -157,3 +157,26 @@ b {
 .pantalla-reservar > * {
   grid-column: contenido;
 }
+
+.recuadro-rojo {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 3rem;
+  color: white;   
+  z-index: 300;
+  mix-blend-mode: darken;   
+}
+
+/* Fondo rojo semi-transparente que se mezcla */
+.recuadro-rojo::before {
+  content: "";
+  background: $rojo;
+  background-blend-mode: color-burn;
+  position: absolute;
+  inset: 0;
+  z-index: -1;        
+       
+}

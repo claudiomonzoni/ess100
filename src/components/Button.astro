@@ -21,8 +21,8 @@ const { url, text, class: extraClass = '', icon } = Astro.props as Props;
 ---
 
 <a href={url} class={`btn ${extraClass}`}>
-  {icon && <Icon name={icon} class="icon" />}
   {text}
+  {icon && <Icon name={icon} class="icon" />}
 </a>
 
 <style lang="scss">
@@ -32,10 +32,8 @@ const { url, text, class: extraClass = '', icon } = Astro.props as Props;
     display: inline-block;
     padding: 0.6rem 1.2rem;
     font-size: 1rem;
-    font-weight: 600;
     color: $fondo;
     background-color: $rojo;
-    border-radius: 0.4rem;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -49,8 +47,14 @@ const { url, text, class: extraClass = '', icon } = Astro.props as Props;
 
   .icon {
     vertical-align: middle;
-    margin-right: 0.4rem;
+    margin-left: 0.4rem;
     width: 1em;
     height: 1em;
+  }
+  .linea{
+    border: solid 1px $dorado!important;
+    background-color: transparent!important;
+    color: $rojo!important;
+    font-weight: 600!important;
   }
 </style>
