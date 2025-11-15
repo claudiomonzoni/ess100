@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 interface Props {
   span?: string;
   title?: string;
@@ -9,7 +11,7 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
 ---
 
 <div id="teaser">
-  <div class="izq">
+  <div class="izq  ">
     <div class="conte">
       <div class="centrar">
         <span>{span}</span>
@@ -21,9 +23,13 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
     </div>
   </div>
   <div class="der">
-    <div class="video-conte">
-      <video  controls loop playsinline poster="/cover-video.webp">
-        <source src={videoSrc} type="video/mp4"  />
+    <div id="video-conte">
+      <a href="#" id="play">
+        <Icon name="mdi:play-box" size="2rem" class="icon-play" />
+      </a>
+      <!-- <Icon name="mdi:stop" size="2rem" class="icon-stop" /> -->
+      <video loop playsinline poster="/cover-video.webp">
+        <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </div>
@@ -34,27 +40,27 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
   @use "../styles/variables.scss" as *;
 
   #teaser {
-    // display: grid;
-    // grid-template-columns: repeat(6, 1fr);
-    // grid-template-rows: auto;
     display: flex;
   }
   .izq {
     flex: 1;
-    grid-column: 1 / span 3;
+    transition: all 0.3s ease;
     background: url("/teaser-bg.webp") no-repeat right center;
     background-size: contain;
     display: flex;
     justify-content: right;
     align-items: center;
-    h2{
-        color: $dorado;
-        font-weight: 600;
-        border-bottom: solid 1px $dorado;
+    position: relative; // 👈 necesario para z-index
+    z-index: 2;
+    
+    h2 {
+      color: $dorado;
+      font-weight: 600;
+      border-bottom: solid 1px $dorado;
     }
-    span{
-        font-size:1.1rem;
-        font-weight: 200;
+    span {
+      font-size: 1.1rem;
+      font-weight: 200;
     }
 
     .conte {
@@ -68,32 +74,199 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
       align-items: center;
       transform: translateX(50px);
     }
-    
-    .centrar{
-        position: relative;
+
+    .centrar {
+      position: relative;
     }
     .recuadro-rojo {
-        position: absolute;
-        width: 110%;
-        left: 130%;
-        top: 50%;
-        transform: translateY(-50%);
+      position: absolute;
+      width: 110%;
+      left: 130%;
+      top: 50%;
+      transform: translateY(-50%);
     }
+    
   }
+  .chirris{
+    flex: .5!important;
+  }
+  .recuadro-anima{
+    transform: translate(0, -50%)!important;
+    opacity: 0;
+    @include cel{
+      opacity: 1;
+      transform: translate(0, 0)!important;
+    
+   }
+  }
+  .playing {
+    transform: translateX(0) !important;
+  }
+  .izq,
+  .der,
+  .conte,
+  .recuadro-rojo, {
+  @extend .anime;
+ 
+}
+   
+ 
+
   .der {
-      flex: 1.4;
+    flex: 1.4;
     grid-column: 4/-1;
   }
-  
+
   video {
     width: 100%;
     height: auto;
     aspect-ratio: 16/9;
+    @include cel{
+      aspect-ratio: 1/1;
+    }
   }
-  video[poster]
-  {
+  video[poster] {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+  @include cel {
+    #teaser {
+      flex-direction: column;
+    }
+    .izq,
+    .der {
+      grid-column: auto;
+      width: 100%;
+    }
+    .izq {
+      justify-content: center;
+      .conte {
+        width: 80%;
+        height: auto;
+        transform: translate(0, 30px);
+        padding: 1rem 0;
+        text-align: center;
+      }
+      .recuadro-rojo {
+        position: static;
+        width: 80%;
+        transform: translate(0, 30px);
+        margin: 1rem auto 0 auto;
+        left: auto;
+        top: auto;
+      }
+    }
+  }
+  #video-conte {
+    position: relative;
+    z-index: 1;
+    #play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 400;
+    }
+    .icon-play {
+      width: 80px;
+      height: 80px;
+      fill: currentColor;
+      color: white;
+    }
+  }
 </style>
+
+<!-- <script>
+  const play = document.querySelector("#play") as HTMLElement;
+  const video = document.querySelector("video") as HTMLVideoElement;
+  const izq = document.querySelector(".izq .conte") as HTMLElement;
+
+  // 1️⃣ Botón play
+  play?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (video?.paused) {
+      video.play();
+      play.style.display = "none";
+      izq.classList.add("playing"); // añade clase
+    } else {
+      video.pause();
+      play.style.display = "block";
+      izq.classList.remove("playing"); // quita clase
+    }
+  });
+
+  // 2️⃣ Video (pausar al hacer clic)
+  video?.addEventListener("click", () => {
+    if (!video.paused) {
+      video.pause();
+      play.style.display = "block";
+      izq.classList.remove("playing");
+    }
+  });
+
+  // 3️⃣ Video (al terminar)
+  video?.addEventListener("ended", () => {
+    play.style.display = "block";
+    izq.classList.remove("playing");
+  });
+</script> -->
+
+
+<script>
+  const play = document.querySelector("#play") as HTMLElement;
+  const video = document.querySelector("video") as HTMLVideoElement;
+  const izq = document.querySelector("#teaser .izq") as HTMLElement;
+  const conte = document.querySelector(".izq .conte") as HTMLElement;
+  const recuadro = document.querySelector(".izq .conte .recuadro-rojo") as HTMLElement;
+
+  // Valores originales (guardados para restaurar)
+  const originalIzqTransform = getComputedStyle(izq).transform;
+  const originalConteTransform = getComputedStyle(conte).transform;
+
+
+  // 1️⃣ Botón play
+  play?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (video?.paused) {
+      video.play();
+      play.style.display = "none";
+      izq.style.transform = "translateX(0)";
+      izq.classList.add("chirris")
+      conte.style.transform = "translate(0, 0)";
+      // recuadro.style.opacity = "0";
+      recuadro.classList.add("recuadro-anima")
+    } else {
+      video.pause();
+      play.style.display = "block";
+      izq.classList.remove("chirris")
+      izq.style.transform = originalIzqTransform;
+      conte.style.transform = originalConteTransform;
+      // recuadro.style.opacity = "1";
+      recuadro.classList.remove("recuadro-anima")
+    }
+  });
+  
+  // 2️⃣ Video (pausar al hacer clic)
+  video?.addEventListener("click", () => {
+    if (!video.paused) {
+      video.pause();
+      izq.classList.remove("chirris")
+      play.style.display = "block";
+      izq.style.transform = originalIzqTransform;
+      conte.style.transform = originalConteTransform;
+      // recuadro.style.opacity = "1";
+      recuadro.classList.remove("recuadro-anima")
+    }
+  });
+  
+  // 3️⃣ Video (mostrar .izq al terminar)
+  video?.addEventListener("ended", () => {
+    izq.classList.remove("chirris")
+    play.style.display = "block";
+    izq.style.transform = originalIzqTransform;
+    conte.style.transform = originalConteTransform;
+    // recuadro.style.opacity = "1";
+    recuadro.classList.remove("recuadro-anima")
+  });
+</script> 
