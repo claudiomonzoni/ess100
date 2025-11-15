@@ -1,0 +1,99 @@
+---
+interface Props {
+  span?: string;
+  title?: string;
+  subtitle?: string;
+  videoSrc?: string;
+}
+const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
+---
+
+<div id="teaser">
+  <div class="izq">
+    <div class="conte">
+      <div class="centrar">
+        <span>{span}</span>
+        <h2>{title}</h2>
+        <div class="recuadro-rojo">
+          <p>{subtitle}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="der">
+    <div class="video-conte">
+      <video  controls loop playsinline poster="/cover-video.webp">
+        <source src={videoSrc} type="video/mp4"  />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "../styles/variables.scss" as *;
+
+  #teaser {
+    // display: grid;
+    // grid-template-columns: repeat(6, 1fr);
+    // grid-template-rows: auto;
+    display: flex;
+  }
+  .izq {
+    flex: 1;
+    grid-column: 1 / span 3;
+    background: url("/teaser-bg.webp") no-repeat right center;
+    background-size: contain;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    h2{
+        color: $dorado;
+        font-weight: 600;
+        border-bottom: solid 1px $dorado;
+    }
+    span{
+        font-size:1.1rem;
+        font-weight: 200;
+    }
+
+    .conte {
+      background: rgba($fondo, 0.6);
+      backdrop-filter: blur(5px);
+      position: relative;
+      width: 70%;
+      height: 60%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translateX(50px);
+    }
+    
+    .centrar{
+        position: relative;
+    }
+    .recuadro-rojo {
+        position: absolute;
+        width: 110%;
+        left: 130%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+  }
+  .der {
+      flex: 1.4;
+    grid-column: 4/-1;
+  }
+  
+  video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+  video[poster]
+  {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

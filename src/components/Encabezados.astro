@@ -1,0 +1,112 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<div class="grid contenido">
+  <h2 class="encabezado-title">{title}</h2>
+  <p class="encabezado-subtitle">{subtitle}</p>
+</div>
+
+<style lang="scss">
+  @use "../styles/variables.scss" as *;
+  .contenido {
+    opacity: 0; // invisible hasta que se anime
+    margin: 4rem auto;
+    text-align: left;
+  }
+
+  .encabezado-title,
+  .encabezado-subtitle {
+    // texto invisible hasta que se anime
+    font-family: "Bai Jamjuree", sans-serif;
+
+}
+.gsap-word {
+  display: inline-block;
+  opacity: 0;
+}
+.encabezado-title {
+  font-size: clamp(3rem, 4vw, 4rem);
+  padding: 0;
+  color: $rojo;
+}
+.encabezado-subtitle {
+  font-size: 1.5rem;
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+
+  gsap.registerPlugin(SplitText);
+
+  // Seleccionamos todos los encabezados en la página
+  const wrappers = document.querySelectorAll(".contenido");
+
+  // Creamos un observer para cada uno
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const wrapper = entry.target as HTMLElement;
+          const title = wrapper.querySelector(".encabezado-title");
+          const subtitle = wrapper.querySelector(".encabezado-subtitle");
+
+          // Evitar que se anime más de una vez
+          if (wrapper.dataset.animated) return;
+          wrapper.dataset.animated = "true";
+
+          // Hacemos visible el contenedor
+          gsap.set(wrapper, { opacity: 1 });
+
+          // SplitText en palabras
+          const splitTitle = new SplitText(title, { type: "words" });
+          const splitSubtitle = new SplitText(subtitle, { type: "words" });
+
+          // Timeline
+          const tl = gsap.timeline();
+
+          // Animar title
+          tl.from(splitTitle.words, {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.1,
+        })
+        
+        // Animar subtitle (después del title)
+        .from(
+            splitSubtitle.words,
+            {
+                opacity: 0,
+                y: 20,
+                delay: -0.3,
+                duration: 0.8,
+                ease: "power23out",
+                stagger: 0.1,
+              },
+              "-=0.4"
+            ); // solapar ligeramente
+
+          // Dejar de observar este elemento
+          observer.unobserve(wrapper);
+        }
+      });
+    },
+    {
+      threshold: 0.3, // se dispara cuando el 30% entra en pantalla
+    }
+  );
+
+  // Observar todos los encabezados
+  wrappers.forEach((wrapper) => observer.observe(wrapper));
+</script>

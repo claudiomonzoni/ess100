@@ -167,16 +167,22 @@ b {
   padding: 3rem;
   color: white;   
   z-index: 300;
-  mix-blend-mode: darken;   
+  
+  p{
+    color: white;
+  }   
 }
 
 /* Fondo rojo semi-transparente que se mezcla */
 .recuadro-rojo::before {
   content: "";
-  background: $rojo;
-  background-blend-mode: color-burn;
   position: absolute;
   inset: 0;
-  z-index: -1;        
+  background: $rojo;
+  opacity: 0.9;
+  filter: contrast(150%) brightness(80%);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);   // sombra interior
+  z-index: -1;       
+  backdrop-filter: blur(5px) brightness(-120%);
        
 }
