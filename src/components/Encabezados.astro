@@ -2,18 +2,35 @@
 interface Props {
   title: string;
   subtitle: string;
+  extra?: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, extra } = Astro.props;
 ---
 
 <div class="grid contenido">
-  <h2 class="encabezado-title">{title}</h2>
-  <p class="encabezado-subtitle">{subtitle}</p>
+  <div class="encabezados">
+    <div class="izq">
+      <h2 class="encabezado-title">{title}</h2>
+      <p class="encabezado-subtitle">{subtitle}</p>
+    </div>
+    <div class="der">
+      {extra ? <p class="extra">{extra}</p> : null}
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
   @use "../styles/variables.scss" as *;
+  .encabezados{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    @include cel{
+      padding: 0 3rem;
+    }
+  }
   .contenido {
     opacity: 0; // invisible hasta que se anime
     margin: 4rem auto;
@@ -24,22 +41,30 @@ const { title, subtitle } = Astro.props;
   .encabezado-subtitle {
     // texto invisible hasta que se anime
     font-family: "Bai Jamjuree", sans-serif;
-
-}
-.gsap-word {
-  display: inline-block;
-  opacity: 0;
-}
-.encabezado-title {
-  font-size: clamp(3rem, 4vw, 4rem);
-  padding: 0;
-  color: $rojo;
-}
-.encabezado-subtitle {
-  font-size: 1.5rem;
-  font-weight: lighter;
-  text-transform: uppercase;
-}
+  }
+  .gsap-word {
+    display: inline-block;
+    opacity: 0;
+  }
+  .encabezado-title {
+    font-size: clamp(3rem, 4vw, 4rem);
+    padding: 0;
+    color: $rojo;
+  }
+  .encabezado-subtitle {
+    font-size: 1.5rem;
+    font-weight: lighter;
+    text-transform: uppercase;
+  }
+  .extra{
+    border-top: solid 1px $dorado;
+    padding: 1rem 0 0;
+    font-size: clamp(1.5rem, 2.6rem, 4vw);
+    font-weight: 200;
+    @include cel{
+      margin-top: 1rem;
+    }
+  }
 </style>
 
 <script>
@@ -59,6 +84,7 @@ const { title, subtitle } = Astro.props;
           const wrapper = entry.target as HTMLElement;
           const title = wrapper.querySelector(".encabezado-title");
           const subtitle = wrapper.querySelector(".encabezado-subtitle");
+          const extra = wrapper.querySelector(".extra");
 
           // Evitar que se anime más de una vez
           if (wrapper.dataset.animated) return;
@@ -70,6 +96,7 @@ const { title, subtitle } = Astro.props;
           // SplitText en palabras
           const splitTitle = new SplitText(title, { type: "words" });
           const splitSubtitle = new SplitText(subtitle, { type: "words" });
+          const splitExtra = new SplitText(extra, { type: "words" });
 
           // Timeline
           const tl = gsap.timeline();
@@ -81,12 +108,24 @@ const { title, subtitle } = Astro.props;
             duration: 0.8,
             ease: "power3.out",
             stagger: 0.1,
-        })
-        
-        // Animar subtitle (después del title)
-        .from(
-            splitSubtitle.words,
-            {
+          })
+
+            // Animar subtitle (después del title)
+            .from(
+              splitSubtitle.words,
+              {
+                opacity: 0,
+                y: 20,
+                delay: -0.3,
+                duration: 0.8,
+                ease: "power23out",
+                stagger: 0.1,
+              },
+              "-=0.4"
+            )
+            .from(
+              splitExtra.words,
+              {
                 opacity: 0,
                 y: 20,
                 delay: -0.3,
