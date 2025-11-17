@@ -1,0 +1,34 @@
+---
+interface Props {
+  imageUrl: string;
+  title: string;
+  excerpt: string;
+  postId: number;
+  contenidoCompleto: string;
+  pdfUrl?: string;
+}
+
+const { imageUrl, title, excerpt, postId, contenidoCompleto, pdfUrl } = Astro.props;
+
+// Convertir datos a JSON para pasarlos al dataset
+const datosPost = JSON.stringify({
+  title,
+  imageUrl,
+  contenidoCompleto,
+  pdfUrl
+});
+---
+
+<div class="CartaEventoPrincipal">
+  <img src={imageUrl} alt={title} />
+  <h2>{title}</h2>
+  <p set:html={excerpt} />
+  <!-- Botón con todos los datos -->
+  <button class="btn-modal" data-post-id={postId} data-post={datosPost}>Ver más</button>
+</div>
+
+<style lang="scss">
+  .CartaEventoPrincipal{
+    flex: 1;
+  }
+</style>

@@ -5,6 +5,7 @@ import Hero from "@components/Hero.astro";
 import Button from "@components/Button.astro";
 import Encabezados from "@components/Encabezados.astro";
 import Teaser from "@components/Teaser.astro";
+import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
 ---
 
 <Layout
@@ -17,11 +18,29 @@ import Teaser from "@components/Teaser.astro";
 
     <Encabezados title="Teaser" subtitle="100 ans avec vous" />
     <div class="grid contenido">
-      <Teaser span="REVIVEZ" title="100 ANS" subtitle="d'histoire EN 1 MINUTE" videoSrc="/video/hero.mp4"/>
+      <Teaser
+        span="REVIVEZ"
+        title="100 ANS"
+        subtitle="d'histoire EN 1 MINUTE"
+        videoSrc="/video/hero.mp4"
+      />
     </div>
-    
-    <Encabezados title="Calendrier" subtitle="des événements" extra="100 ans, ça se fête!" />
+
+    <Encabezados
+      title="Calendrier"
+      subtitle="des événements"
+      extra="100 ans, ça se fête!"
+    />
     <!-- Ejemplo de uso del nuevo botón -->
-    <Button url="/about" text="Conócenos" class="custom-btn" icon="mdi:account" />
+    <Button
+      url="/about"
+      text="Conócenos"
+      class="custom-btn"
+      icon="mdi:account"
+    />
+
+    <div class="grid pantalla">
+      <ContenedorEventosPrincipal />
+    </div>
   </main>
 </Layout>

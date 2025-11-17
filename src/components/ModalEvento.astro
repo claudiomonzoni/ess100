@@ -1,0 +1,107 @@
+<div id="modal-evento" class="modal" style="display:none;">
+  <div class="modal-contenido">
+    <span class="cerrar">&times;</span>
+    <div id="contenido-modal">
+      <p>Cargando contenido...</p>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-contenido {
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 8px;
+    padding: 2rem;
+    position: relative;
+  }
+  
+  .cerrar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  
+  .modal-pdf {
+    margin-top: 1.5rem;
+  }
+  
+  .modal-pdf a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: #ee3124;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  document.addEventListener("click", async (e) => {
+    if (e.target && (e.target as HTMLElement).classList.contains("btn-modal")) {
+      const modal = document.getElementById("modal-evento");
+      const contenido = document.getElementById("contenido-modal");
+      
+      // Obtener datos del dataset (sin fetch)
+      const datosJson = (e.target as HTMLElement).dataset.post;
+      if (!datosJson) return;
+      const datos = JSON.parse(datosJson);
+      
+      if (modal) {
+        modal.style.display = "flex";
+      }
+      
+      if (contenido) {
+        let htmlPdf = "";
+        if (datos.pdfUrl) {
+          htmlPdf = `
+            <div class="modal-pdf">
+              <a href="${datos.pdfUrl}" target="_blank" download>📄 Descargar PDF</a>
+            </div>
+          `;
+        }
+        
+        contenido.innerHTML = `
+          <h2>${datos.title}</h2>
+          ${datos.imageUrl ? 
+            `<img src="${datos.imageUrl}" alt="${datos.title}" style="width:100%; height:auto; margin:1rem 0;" />` : 
+            ""}
+          <div>${datos.contenidoCompleto}</div>
+          ${htmlPdf}
+        `;
+      }
+    }
+    
+    // Cerrar modal
+    if (
+      e.target &&
+      (
+        (e.target as HTMLElement).classList.contains("cerrar") ||
+        (e.target as HTMLElement).id === "modal-evento"
+      )
+    ) {
+      const modal = document.getElementById("modal-evento");
+      if (modal) {
+        modal.style.display = "none";
+      }
+    }
+  });
+</script>

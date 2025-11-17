@@ -1,0 +1,71 @@
+---
+import CardEventoPrincipal from "./CardEventoPrincipal.astro";
+import ModalEvento from "./ModalEvento.astro";
+
+const API_FR = "https://esscrans-montana.ch/wp-json/wp/v2/posts?categories=45";
+const API_EN = "https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
+
+const idioma = Astro.props.idioma || "fr";
+const apiUrl = idioma === "en" ? API_EN : API_FR;
+
+let eventos: any[] = [];
+try {
+  const response = await fetch(apiUrl);
+  const todos = await response.json();
+  eventos = todos.filter((evento: any) => evento.sticky === true);
+  
+  // Obtener imagen de alta resolución
+  for (const evento of eventos) {
+    if (evento.featured_media) {
+      try {
+        const mediaRes = await fetch(`https://esscrans-montana.ch/wp-json/wp/v2/media/${evento.featured_media}`);
+        const media = await mediaRes.json();
+        
+        // Prioridad: large → full → medium → original
+        evento.imagenUrl = media?.media_details?.sizes?.large?.source_url || 
+                          media?.media_details?.sizes?.full?.source_url ||
+                          media?.media_details?.sizes?.medium?.source_url || 
+                          media?.source_url || 
+                          "/default-event.jpg";
+      } catch (err) {
+        evento.imagenUrl = "/default-event.jpg";
+      }
+    } else {
+      evento.imagenUrl = "/default-event.jpg";
+    }
+  }
+} catch (error) {
+  console.error("Error al cargar eventos:", error);
+  eventos = [];
+}
+---
+
+<div class="grid contenido">
+  <div id="contenedorCardsEventoPrincipal">
+    {
+      eventos.length > 0 ? (
+        eventos.map((evento:any) => (
+          <CardEventoPrincipal 
+            imageUrl={evento.imagenUrl}   
+            title={evento.title?.rendered || "Sin título"}
+            excerpt={evento.excerpt?.rendered || "Sin descripción"}
+            postId={evento.id}
+            contenidoCompleto={evento.content?.rendered || "Sin contenido"}
+            pdfUrl={evento.acf?.pdf_url || undefined}
+          />
+        ))
+      ) : (
+        <p>No hay eventos destacados disponibles.</p>
+      )
+    }
+  </div>
+  <ModalEvento />
+</div>
+
+<style lang="scss">
+  @use '/src/styles/variables.scss' as *;
+
+  .contenedorCardsEventoPrincipal{
+    display: flex;
+  }
+</style>
