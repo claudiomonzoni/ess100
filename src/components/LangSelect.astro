@@ -1,17 +1,17 @@
 ---
-const currentLang = Astro.currentLocale ?? "en"; // default en
+const currentLang = Astro.currentLocale ?? "fr"; // default fr
 let targetLang: string;
 let targetUrl: string;
 
-if (currentLang === "en") {
+if (currentLang === "fr") {
   // En inglés → link al francés
-  targetLang = "fr";
-  targetUrl = "/fr" + Astro.url.pathname;
+  targetLang = "en";
+  targetUrl = "/en" + Astro.url.pathname;
 } else {
   // En francés → link al inglés
-  targetLang = "en";
+  targetLang = "fr";
   // Reemplaza solo el prefijo /fr en el pathname
-  const cleanPath = Astro.url.pathname.replace(/^\/fr/, "") || "/";
+  const cleanPath = Astro.url.pathname.replace(/^\/en/, "") || "/";
   targetUrl = cleanPath + Astro.url.search + Astro.url.hash;
 }
 const newUrl = new URL("/api/data", Astro.url);

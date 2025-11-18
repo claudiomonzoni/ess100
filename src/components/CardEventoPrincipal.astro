@@ -1,4 +1,8 @@
 ---
+import Button from "./Button.astro"; 
+import Fecha from "./Fecha.astro";
+import ModalEvento from "./ModalEvento.astro";
+
 interface Props {
   imageUrl: string;
   title: string;
@@ -6,29 +10,117 @@ interface Props {
   postId: number;
   contenidoCompleto: string;
   pdfUrl?: string;
+  fechaEvento?: string;
+  subcategoria?: string;
 }
 
-const { imageUrl, title, excerpt, postId, contenidoCompleto, pdfUrl } = Astro.props;
-
-// Convertir datos a JSON para pasarlos al dataset
-const datosPost = JSON.stringify({
-  title,
-  imageUrl,
-  contenidoCompleto,
-  pdfUrl
-});
+const { imageUrl, title, excerpt, postId, contenidoCompleto, pdfUrl, fechaEvento, subcategoria } = Astro.props;
 ---
 
-<div class="CartaEventoPrincipal">
+<div class="CartaEventoPrincipal" data-post-id={postId}>
   <img src={imageUrl} alt={title} />
   <h2>{title}</h2>
+  
+  <!-- Mostrar fecha y subcategoría -->
+  <div class="meta">
+    {fechaEvento && <Fecha fecha={fechaEvento} />}
+    {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
+  </div>
+  
   <p set:html={excerpt} />
-  <!-- Botón con todos los datos -->
-  <button class="btn-modal" data-post-id={postId} data-post={datosPost}>Ver más</button>
+  
+  <!-- Botón que dispara el modal -->
+  <Button 
+    text="détails" 
+    icon="mdi:chevron-right"
+    type="button"
+    onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
+  />
+  
+  <!-- Modal Wrapper -->
+  <div class="modal-wrapper" data-modal={postId}>
+    <ModalEvento
+      isOpen={true}
+      title={title}
+      imageUrl={imageUrl}
+      contenidoCompleto={contenidoCompleto}
+      pdfUrl={pdfUrl}
+      fechaEvento={fechaEvento}
+      subcategoria={subcategoria}
+      onClose={() => {}}
+    />
+  </div>
 </div>
 
 <style lang="scss">
-  .CartaEventoPrincipal{
+  .CartaEventoPrincipal {
     flex: 1;
+    background: white;
+
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    
+   
+    
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    h2 {
+      padding: 1rem 1rem 0.5rem;
+      color: #333;
+    }
+    
+    .meta {
+      display: flex;
+      gap: 1rem;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .fecha, .categoria {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    p {
+      padding: 0.5rem 1rem 1rem;
+      color: #666;
+    }
+  }
+
+  .modal-wrapper {
+    :global(.modal) {
+      display: none;
+    }
+
+    &.visible :global(.modal) {
+      display: flex !important;
+    }
   }
 </style>
+
+<script define:vars={{ postId }}>
+  // Script para manejar el cierre del modal
+  document.addEventListener('click', (e) => {
+    const wrapper = document.querySelector(`[data-post-id="${postId}"] .modal-wrapper`);
+    if (!wrapper) return;
+
+    const modalContent = wrapper.querySelector('.modal-contenido');
+    const modal = wrapper.querySelector('.modal');
+    
+    // Cerrar si clickea en el fondo (fuera del contenido)
+    if (e.target === modal) {
+      wrapper.classList.remove('visible');
+    }
+
+    // Cerrar si clickea la X
+    if (e.target.classList.contains('cerrar')) {
+      wrapper.classList.remove('visible');
+    }
+  });
+</script>

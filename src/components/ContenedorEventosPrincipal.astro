@@ -1,12 +1,17 @@
 ---
 import CardEventoPrincipal from "./CardEventoPrincipal.astro";
-import ModalEvento from "./ModalEvento.astro";
 
+// Detectar idioma desde la URL
+const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
+
+// URLs por idioma
 const API_FR = "https://esscrans-montana.ch/wp-json/wp/v2/posts?categories=45";
 const API_EN = "https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
 
-const idioma = Astro.props.idioma || "fr";
 const apiUrl = idioma === "en" ? API_EN : API_FR;
+
+// Verificar URL (solo en desarrollo)
+console.log("API URL:", apiUrl);
 
 let eventos: any[] = [];
 try {
@@ -33,6 +38,24 @@ try {
     } else {
       evento.imagenUrl = "/default-event.jpg";
     }
+    
+    // Fecha del evento
+    evento.fechaEvento = evento.meta?.fecha_evento || null;
+    
+    // Subcategoría
+    evento.subcategoria = null;
+    if (evento.categories && Array.isArray(evento.categories)) {
+      const subcatId = evento.categories.find((id: number) => id !== 45);
+      if (subcatId) {
+        try {
+          const catRes = await fetch(`https://esscrans-montana.ch/wp-json/wp/v2/categories/${subcatId}`);
+          const categoria = await catRes.json();
+          evento.subcategoria = categoria?.name || null;
+        } catch (err) {
+          console.warn("No se pudo obtener subcategoría:", err);
+        }
+      }
+    }
   }
 } catch (error) {
   console.error("Error al cargar eventos:", error);
@@ -52,6 +75,8 @@ try {
             postId={evento.id}
             contenidoCompleto={evento.content?.rendered || "Sin contenido"}
             pdfUrl={evento.acf?.pdf_url || undefined}
+            fechaEvento={evento.fechaEvento}
+            subcategoria={evento.subcategoria}
           />
         ))
       ) : (
@@ -59,13 +84,4 @@ try {
       )
     }
   </div>
-  <ModalEvento />
 </div>
-
-<style lang="scss">
-  @use '/src/styles/variables.scss' as *;
-
-  .contenedorCardsEventoPrincipal{
-    display: flex;
-  }
-</style>

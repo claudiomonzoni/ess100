@@ -1,26 +1,78 @@
-<div id="modal-evento" class="modal" style="display:none;">
-  <div class="modal-contenido">
-    <span class="cerrar">&times;</span>
-    <div id="contenido-modal">
-      <p>Cargando contenido...</p>
+---
+import Fecha from "./Fecha.astro";
+
+interface Props {
+  isOpen: boolean;
+  title: string;
+  imageUrl?: string;
+  contenidoCompleto: string;
+  pdfUrl?: string;
+  fechaEvento?: string;
+  subcategoria?: string;
+  onClose: () => void;
+}
+
+const { isOpen, title, imageUrl, contenidoCompleto, pdfUrl, fechaEvento, subcategoria, onClose } = Astro.props;
+---
+
+{isOpen && (
+  <div class="modal" onclick="if(event.target.id === 'modal-evento') this.style.display='none'">
+    <div class="modal-contenido">
+      <span class="cerrar" onclick="this.closest('.modal').style.display='none'">&times;</span>
+      
+      <h2>{title}</h2>
+      
+      {/* Meta datos con componentes */}
+      {(fechaEvento || subcategoria) && (
+        <div class="modal-meta">
+          {fechaEvento && <Fecha fecha={fechaEvento} />}
+          {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
+        </div>
+      )}
+      
+      {imageUrl && (
+        <img src={imageUrl} alt={title} style="width:100%; height:auto; margin:1rem 0; border-radius: 8px;" />
+      )}
+      
+      <div class="contenido">
+        {contenidoCompleto && <div set:html={contenidoCompleto} />}
+      </div>
+      
+      {pdfUrl && (
+        <div class="modal-pdf">
+          <a href={pdfUrl} target="_blank" download>📄 Descargar PDF</a>
+        </div>
+      )}
     </div>
   </div>
-</div>
+)}
 
 <style lang="scss">
+  @use "../styles/variables.scss" as *;
+  
   .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
   }
-  
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .modal-contenido {
     background: white;
     width: 90%;
@@ -30,20 +82,79 @@
     border-radius: 8px;
     padding: 2rem;
     position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   }
-  
+
+  h2 {
+    margin-top: 0;
+    color: #333;
+  }
+
   .cerrar {
     position: absolute;
     top: 1rem;
     right: 1rem;
     font-size: 2rem;
     cursor: pointer;
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: scale(1.2);
+    }
   }
-  
+
+  .modal-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+  }
+
+  .categoria {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+
+  .contenido {
+    line-height: 1.6;
+    color: #555;
+    
+    :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+
+     :global(a) {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    color: $fondo;
+    background-color: $rojo;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: $fondo;
+      color: $rojo;
+    }
+  }
+  }
+
   .modal-pdf {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
   }
-  
+
   .modal-pdf a {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -51,57 +162,10 @@
     color: white;
     text-decoration: none;
     border-radius: 4px;
+    transition: background 0.3s;
+    
+    &:hover {
+      background: darken(#ee3124, 10%);
+    }
   }
 </style>
-
-<script>
-  document.addEventListener("click", async (e) => {
-    if (e.target && (e.target as HTMLElement).classList.contains("btn-modal")) {
-      const modal = document.getElementById("modal-evento");
-      const contenido = document.getElementById("contenido-modal");
-      
-      // Obtener datos del dataset (sin fetch)
-      const datosJson = (e.target as HTMLElement).dataset.post;
-      if (!datosJson) return;
-      const datos = JSON.parse(datosJson);
-      
-      if (modal) {
-        modal.style.display = "flex";
-      }
-      
-      if (contenido) {
-        let htmlPdf = "";
-        if (datos.pdfUrl) {
-          htmlPdf = `
-            <div class="modal-pdf">
-              <a href="${datos.pdfUrl}" target="_blank" download>📄 Descargar PDF</a>
-            </div>
-          `;
-        }
-        
-        contenido.innerHTML = `
-          <h2>${datos.title}</h2>
-          ${datos.imageUrl ? 
-            `<img src="${datos.imageUrl}" alt="${datos.title}" style="width:100%; height:auto; margin:1rem 0;" />` : 
-            ""}
-          <div>${datos.contenidoCompleto}</div>
-          ${htmlPdf}
-        `;
-      }
-    }
-    
-    // Cerrar modal
-    if (
-      e.target &&
-      (
-        (e.target as HTMLElement).classList.contains("cerrar") ||
-        (e.target as HTMLElement).id === "modal-evento"
-      )
-    ) {
-      const modal = document.getElementById("modal-evento");
-      if (modal) {
-        modal.style.display = "none";
-      }
-    }
-  });
-</script>

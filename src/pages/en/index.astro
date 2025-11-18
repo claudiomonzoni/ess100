@@ -6,6 +6,10 @@ import Button from "@components/Button.astro";
 import Encabezados from "@components/Encabezados.astro";
 import Teaser from "@components/Teaser.astro";
 import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
+
+//i18n
+import { getRelativeLocaleUrl } from 'astro:i18n';
+const prueba = getRelativeLocaleUrl("en", "prueba");
 ---
 
 <Layout
@@ -14,7 +18,7 @@ import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.a
 >
   <!-- <Loader loadingText="Historique de chargement" /> -->
   <main>
-    <Hero title="100 ans d’histoire… ça se fête !!" subtitle="1926-2026" />
+    <Hero title=" 100 years of history" subtitle="1926-2026" />
 
     <Encabezados title="Teaser" subtitle="100 ans avec vous" />
     <div class="grid contenido">

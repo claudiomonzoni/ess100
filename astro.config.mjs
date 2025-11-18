@@ -4,32 +4,35 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  i18n: {
+   i18n: {
     locales: ["en", "fr"],
-    defaultLocale: "en",
+    defaultLocale: "fr",
     fallback: {
-      fr: "en",
+      en: "fr",
     },
     routing: {
-      fallbackType: "rewrite"
-    }
+      fallbackType: "rewrite",
+    },
   },
   site: "https://ess100.netlify.app/",
-//   trailingSlash: "always",
-//   build: {
-//     format: "directory",
-//   },
+  base: "/", //cambiar en produccion
+
   // Add astro-icon integration with mdi icon set included
   integrations: [icon({
     include: {
-      // Load all Material Design Icons (mdi) – you can restrict to specific icons if desired
       mdi: ["*"],
     },
   })],
   // Ensure astro-icon is not externalized during SSR
-  vite: {
-    ssr: {
-      noExternal: ["astro-icon"],
-    },
-  },
+  // vite: {
+  //   resolve: {
+  //     alias: {
+  //       "@components": "/src/components",
+  //       "@layouts": "/src/layouts",
+  //     },
+  //   },
+  //   ssr: {
+  //     noExternal: ["astro-icon"],
+  //   },
+  // },
 });
