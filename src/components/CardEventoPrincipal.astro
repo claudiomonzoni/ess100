@@ -18,38 +18,38 @@ const { imageUrl, title, excerpt, postId, contenidoCompleto, pdfUrl, fechaEvento
 ---
 
 <div class="CartaEventoPrincipal" data-post-id={postId}>
-  <img src={imageUrl} alt={title} />
   <h2>{title}</h2>
   
   <!-- Mostrar fecha y subcategoría -->
-  <div class="meta">
+  <!-- <div class="meta">
     {fechaEvento && <Fecha fecha={fechaEvento} />}
     {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
   </div>
-  
+   -->
   <p set:html={excerpt} />
   
   <!-- Botón que dispara el modal -->
   <Button 
-    text="détails" 
-    icon="mdi:chevron-right"
-    type="button"
-    onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
+  text="détails" 
+  icon="mdi:chevron-right"
+  type="button"
+  onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
   />
   
   <!-- Modal Wrapper -->
   <div class="modal-wrapper" data-modal={postId}>
     <ModalEvento
-      isOpen={true}
-      title={title}
-      imageUrl={imageUrl}
-      contenidoCompleto={contenidoCompleto}
-      pdfUrl={pdfUrl}
-      fechaEvento={fechaEvento}
-      subcategoria={subcategoria}
-      onClose={() => {}}
+    isOpen={true}
+    title={title}
+    imageUrl={imageUrl}
+    contenidoCompleto={contenidoCompleto}
+    pdfUrl={pdfUrl}
+    fechaEvento={fechaEvento}
+    subcategoria={subcategoria}
+    onClose={() => {}}
     />
   </div>
+  <img src={imageUrl} alt={title} />
 </div>
 
 <style lang="scss">
