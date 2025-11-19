@@ -26,22 +26,21 @@ const {
 } = Astro.props;
 ---
 
-<div class="CartaEventoPrincipal" data-post-id={postId}>
-  <!-- Mostrar fecha y subcategoría -->
-  <!-- <div class="meta">
+<div id="cardEventoSec" data-post-id={postId}>
+  <div class="date">
     {fechaEvento && <Fecha fecha={fechaEvento} />}
+  </div>
+  <h3>{title}</h3>
+  <div class="sub">
     {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
-    </div>
-    -->
-  <div id="elh">
-    <h3>{title}</h3>
   </div>
-  <div id="eltxt">
-    <p set:html={excerpt} />
-  </div>
+   <p set:html={excerpt} />
 
-  <!-- Botón que dispara el modal -->
-  <div id="elbtn">
+   <div class="der">
+    <div class="ico">
+        Aqui el icono segun <sub>sub</sub>
+    </div>
+      <div id="elbtn">
     <Button
       text="détails"
       icon="mdi:chevron-right"
@@ -49,58 +48,27 @@ const {
       onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
     />
   </div>
-
-  <img src={imageUrl} alt={title} />
-  <!-- Modal Wrapper -->
-  <div class="modal-wrapper" data-modal={postId}>
-    <ModalEvento
-      isOpen={true}
-      title={title}
-      imageUrl={imageUrl}
-      contenidoCompleto={contenidoCompleto}
-      pdfUrl={pdfUrl}
-      fechaEvento={fechaEvento}
-      subcategoria={subcategoria}
-      onClose={() => {}}
-    />
-  </div>
+   </div>
+   
+   <div class="modal-wrapper" data-modal={postId}>
+       <ModalEvento
+       isOpen={true}
+       title={title}
+       imageUrl={imageUrl}
+       contenidoCompleto={contenidoCompleto}
+       pdfUrl={pdfUrl}
+       fechaEvento={fechaEvento}
+       subcategoria={subcategoria}
+       onClose={() => {}}
+       />
+    </div>
 </div>
 
+  
 <style lang="scss">
   @use "/src/styles/variables.scss" as *;
 
-  .CartaEventoPrincipal {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    justify-content: space-evenly;
-    box-shadow: 0 10px 20px rgba($gris, 0.3);
-    transition: transform 0.2s;
-    #elh {
-      flex: 1;
-      h3 {
-        padding: 2rem 2rem 0rem;
-        color: $dorado;
-        font-size: clamp(1.5rem, 2vw, 2rem);
-      }
-    }
-    #eltxt {
-      flex: 1;
-      padding: 1rem 2rem 0rem;
-   
-    }
-    #elbtn {
-      padding: 2rem;
-    }
 
-    img {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1.1/1;
-      object-fit: cover;
-
-    }
-  }
 
   .modal-wrapper {
     :global(.modal) {
@@ -121,7 +89,6 @@ const {
     );
     if (!wrapper) return;
 
-    const modalContent = wrapper.querySelector(".modal-contenido");
     const modal = wrapper.querySelector(".modal");
 
     // Cerrar si clickea en el fondo (fuera del contenido)
@@ -135,3 +102,4 @@ const {
     }
   });
 </script>
+

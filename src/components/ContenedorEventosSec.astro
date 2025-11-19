@@ -1,22 +1,23 @@
 ---
-import CardEventoPrincipal from "./CardEventoPrincipal.astro";
+import CardEventoSec from "./CardEventoSec.astro";
 
 // Detectar idioma desde la URL
 const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
 
 // URLs por idioma
 const API_FR = "https://esscrans-montana.ch/wp-json/wp/v2/posts?categories=45";
-const API_EN =
-  "https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
+const API_EN ="https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
 
 const apiUrl = idioma === "en" ? API_EN : API_FR;
 
+console.log(idioma)
 
 let eventos: any[] = [];
 try {
   const response = await fetch(apiUrl);
   const todos = await response.json();
-  eventos = todos.filter((evento: any) => evento.sticky === true);
+  eventos = todos.filter((evento: any) => evento.sticky === false);
+  console.log("API URL:", apiUrl); // Para depuración
 
   // Obtener imagen de alta resolución
   for (const evento of eventos) {
@@ -68,11 +69,11 @@ try {
 ---
 
 <div class="grid contenido">
-  <div id="contenedorCardsEventoPrincipal">
+  <div id="contenedorCardsSec">
     {
       eventos.length > 0 ? (
         eventos.map((evento: any) => (
-          <CardEventoPrincipal
+          <CardEventoSec
             imageUrl={evento.imagenUrl}
             title={evento.title?.rendered || "Sin título"}
             excerpt={evento.excerpt?.rendered || "Sin descripción"}
@@ -89,6 +90,3 @@ try {
     }
   </div>
 </div>
-
-
-

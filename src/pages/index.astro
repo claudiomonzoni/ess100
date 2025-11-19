@@ -6,6 +6,7 @@ import Button from "@components/Button.astro";
 import Encabezados from "@components/Encabezados.astro";
 import Teaser from "@components/Teaser.astro";
 import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
+import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
 ---
 
 <Layout
@@ -26,21 +27,18 @@ import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.a
       />
     </div>
 
+    
+    
     <Encabezados
       title="Calendrier"
       subtitle="des événements"
       extra="100 ans, ça se fête!"
     />
-    <!-- Ejemplo de uso del nuevo botón -->
-    <Button
-      url="/about"
-      text="Conócenos"
-      class="custom-btn"
-      icon="mdi:account"
-    />
-
-    <div class="grid pantalla">
+    
+    <div class="grid pantalla" id="events">
       <ContenedorEventosPrincipal />
+
+      <ContenedorEventosSec />
     </div>
   </main>
 </Layout>

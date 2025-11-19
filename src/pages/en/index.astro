@@ -9,6 +9,7 @@ import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.a
 
 //i18n
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
 const prueba = getRelativeLocaleUrl("en", "prueba");
 ---
 
@@ -45,6 +46,7 @@ const prueba = getRelativeLocaleUrl("en", "prueba");
 
     <div class="grid pantalla">
       <ContenedorEventosPrincipal />
+      <ContenedorEventosSec />
     </div>
   </main>
 </Layout>

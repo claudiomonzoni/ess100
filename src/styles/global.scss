@@ -186,3 +186,42 @@ b {
   backdrop-filter: blur(5px) brightness(-120%);
        
 }
+#events{
+  background: $fondo;
+  padding: $margen 0;
+  @include cel{
+    padding: $margen 0 $margen 10%;
+  }
+}
+#contenedorCardsEventoPrincipal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    // grid-template-rows: auto auto auto auto;
+    gap: 0.8rem;
+    @include tableta-land{
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    @include cel {
+      // Anular el grid del layout padre
+      grid-column: pantalla !important;
+      grid-template-columns: none;
+      grid-template-rows: none;
+      overflow-x: auto;
+      grid-auto-flow: column;
+      grid-auto-columns: 85%;
+      padding: 0 1rem; 
+      scroll-snap-type: x mandatory;
+      // Asegurar que no haya interferencia del grid padre
+      width: 100%;
+      max-width: 100%;
+      
+      // Para que los elementos se ajusten al desplazamiento
+      & > * {
+        scroll-snap-align: start;
+        min-width: 85%;
+        // Asegurar que las tarjetas no se estiren verticalmente
+        height: auto;
+      }
+     
+    }
+  }
