@@ -309,7 +309,6 @@ const home = getRelativeLocaleUrl("fr", "/");
     transform: translateX(-50%);
     width: calc(100% - 20vw);
     interpolate-size: allow-keywords; /* Enable keyword animation */
- 
 
     /* Variables CSS para fácil cambio de estados */
     --nav-bg: hsla(0, 0%, 92%, 0.2);
@@ -333,7 +332,7 @@ const home = getRelativeLocaleUrl("fr", "/");
       margin 0.4s ease-in-out,
       backdrop-filter 0.4s ease-in-out,
       transform 0.4s ease-in-out;
-      height: 0.4s ease-in-out;
+    height: 0.4s ease-in-out;
 
     will-change: transform;
 
@@ -360,7 +359,6 @@ const home = getRelativeLocaleUrl("fr", "/");
     --nav-margin: 0;
     --nav-border-radius: 0;
     --nav-backdrop-filter: blur(0px);
-
 
     @extend .anime;
     .ceroOpacidad {
@@ -425,8 +423,6 @@ const home = getRelativeLocaleUrl("fr", "/");
       padding: 0 1rem;
       margin: -0.5rem 0;
     }
-  
-  
   }
 
   /* Cuando el logo está "abajo" (pasados 200px de scroll) */
@@ -504,13 +500,14 @@ const home = getRelativeLocaleUrl("fr", "/");
     padding: 0.5rem;
     z-index: 2;
     position: relative;
-    right: 20px;
+    right: 0px;
+    top: 5px;
 
     span {
       display: block;
       width: 28px;
       height: 2px;
-      background-color: $rojo;
+      background-color: $gris;
       margin: 5px 0;
       transition: all 0.3s ease;
       border-radius: 3px;
@@ -550,7 +547,7 @@ const home = getRelativeLocaleUrl("fr", "/");
         &.active {
           top: 0;
           opacity: 1;
-          // background-color: rgba($fondo, 0.224);
+          background-color: rgba($fondo, .6);
         }
       }
     }
@@ -570,6 +567,9 @@ const home = getRelativeLocaleUrl("fr", "/");
 
       a {
         display: block;
+        font-size: 1.2rem;
+        color: $gris;
+        font-weight: 500;
       }
     }
 
@@ -589,11 +589,19 @@ const home = getRelativeLocaleUrl("fr", "/");
 
     .selector {
       margin-top: 2rem;
+      @include cel {
+        background: $rojo;
+        padding: 0.7rem;
+        :global(a) {
+          color: white !important;
+        }
+      }
     }
 
     // Hamburger animation
     .hamburger.active {
       span {
+        background-color: $rojo;
         &:first-child {
           transform: rotate(45deg) translate(5px, 5px);
           background-color: $rojo;

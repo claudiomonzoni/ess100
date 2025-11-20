@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import Fecha from "./Fecha.astro";
 
 interface Props {
@@ -12,44 +13,72 @@ interface Props {
   onClose: () => void;
 }
 
-const { isOpen, title, imageUrl, contenidoCompleto, pdfUrl, fechaEvento, subcategoria, onClose } = Astro.props;
+const {
+  isOpen,
+  title,
+  imageUrl,
+  contenidoCompleto,
+  pdfUrl,
+  fechaEvento,
+  subcategoria,
+  onClose,
+} = Astro.props;
+const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
 ---
 
-{isOpen && (
-  <div class="modal" onclick="if(event.target.id === 'modal-evento') this.style.display='none'">
-    <div class="modal-contenido">
-      <span class="cerrar" onclick="this.closest('.modal').style.display='none'">&times;</span>
-      
-      <h2>{title}</h2>
-      
-      {/* Meta datos con componentes */}
-      {(fechaEvento || subcategoria) && (
-        <div class="modal-meta">
-          {fechaEvento && <Fecha fecha={fechaEvento} />}
-          {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
+{
+  isOpen && (
+    <div
+      class="modal"
+      onclick="if(event.target.id === 'modal-evento') this.style.display='none'"
+    >
+      <div class="modal-contenido">
+        <span
+          class="cerrar"
+          onclick="this.closest('.modal').style.display='none'"
+        >
+          &times;
+        </span>
+
+        <div class="encabezado">
+          {(fechaEvento || subcategoria) && (
+            <div class="modal-meta">
+              {fechaEvento && <Fecha fecha={fechaEvento} />}
+            </div>
+          )}
+
+          <div class="thetitle">
+            <h2>{title}</h2>
+            <div class="sub">
+              <Icon name={icons} class="icon" />
+              {subcategoria && <span class="categoria"> {subcategoria}</span>}
+            </div>
+          </div>
         </div>
-      )}
-      
-      {imageUrl && (
-        <img src={imageUrl} alt={title} style="width:100%; height:auto; margin:1rem 0; border-radius: 8px;" />
-      )}
-      
-      <div class="contenido">
-        {contenidoCompleto && <div set:html={contenidoCompleto} />}
+        <div class="bandeja">
+          <div class="laimg">
+            {imageUrl && <img src={imageUrl} alt={title} />}
+          </div>
+          <div class="elp">
+            {contenidoCompleto && <div set:html={contenidoCompleto} />}
+          </div>
+        </div>
+
+        {pdfUrl && (
+          <div class="modal-pdf">
+            <a href={pdfUrl} target="_blank" download>
+              📄 Descargar PDF
+            </a>
+          </div>
+        )}
       </div>
-      
-      {pdfUrl && (
-        <div class="modal-pdf">
-          <a href={pdfUrl} target="_blank" download>📄 Descargar PDF</a>
-        </div>
-      )}
     </div>
-  </div>
-)}
+  )
+}
 
 <style lang="scss">
   @use "../styles/variables.scss" as *;
-  
+
   .modal {
     position: fixed;
     top: 0;
@@ -76,18 +105,64 @@ const { isOpen, title, imageUrl, contenidoCompleto, pdfUrl, fechaEvento, subcate
   .modal-contenido {
     background: white;
     width: 90%;
-    max-width: 800px;
+    max-width: 70vw;
     max-height: 90vh;
     overflow-y: auto;
-    border-radius: 8px;
-    padding: 2rem;
+    padding: 3rem;
     position: relative;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    @include cel {
+      width: 100%;
+      max-width: 88vw;
+      max-height: 93vh;
+    }
   }
 
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    .modal-meta {
+      flex: 1;
+      background: $fondo;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .thetitle {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: right;
+      align-items: right;
+    }
+    @include cel {
+      flex-wrap: wrap;
+      .thetitle,
+      .modal-meta {
+        flex: 1 0 100%;
+      }
+      .thetitle {
+        align-items: left;
+        h2 {
+          text-align: left;
+        }
+      }
+      .sub {
+       text-align: left;
+       justify-content: left;
+       padding-bottom: 1rem ;
+      }
+    }
+  }
   h2 {
     margin-top: 0;
-    color: #333;
+    color: $dorado;
+    text-align: right;
   }
 
   .cerrar {
@@ -97,56 +172,52 @@ const { isOpen, title, imageUrl, contenidoCompleto, pdfUrl, fechaEvento, subcate
     font-size: 2rem;
     cursor: pointer;
     transition: transform 0.2s;
-    
+
     &:hover {
       transform: scale(1.2);
     }
   }
 
-  .modal-meta {
+  .sub {
     display: flex;
-    gap: 1.5rem;
-    margin: 1rem 0;
-    flex-wrap: wrap;
-  }
-
-  .categoria {
-    display: flex;
+    padding: 0.5rem 0;
+    font-size: clamp(1rem, 1.2vw, 1.2rem);
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.5rem 1rem;
-    background: #f5f5f5;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    justify-content: right;
+    gap: 1rem;
   }
-
-  .contenido {
-    line-height: 1.6;
-    color: #555;
-    
-    :global(img) {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-      margin: 1rem 0;
-    }
-
-     :global(a) {
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    color: $fondo;
-    background-color: $rojo;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-
-    &:hover {
-      background-color: $fondo;
-      color: $rojo;
-    }
+  .icon {
+    width: 2rem;
+    height: auto;
   }
+  .bandeja {
+    border-top: solid 1px $gris;
+    border-bottom: solid 1px $gris;
+    padding: 2rem 0;
+    display: flex;
+    gap: 2rem;
+    @include cel {
+      flex-wrap: wrap;
+    }
+    :global(.laima) {
+      flex: 1 0 40%;
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      @include cel {
+        flex: 1 0 100%;
+      }
+    }
+    :global(.elp) {
+      flex: 1 0 60%;
+      // line-height: 1.6;
+      // color: $gris;
+      @include cel {
+        flex: 1 0 100%;
+      }
+    }
   }
 
   .modal-pdf {
@@ -155,17 +226,20 @@ const { isOpen, title, imageUrl, contenidoCompleto, pdfUrl, fechaEvento, subcate
     border-top: 1px solid #eee;
   }
 
-  .modal-pdf a {
+ .elp{
+  :global(a) {
     display: inline-block;
     padding: 0.75rem 1.5rem;
     background: #ee3124;
     color: white;
     text-decoration: none;
-    border-radius: 4px;
     transition: background 0.3s;
-    
+    margin-top: 1rem;
+
     &:hover {
-      background: darken(#ee3124, 10%);
+      background: $dorado;
+      color:white;
     }
   }
+ }
 </style>
