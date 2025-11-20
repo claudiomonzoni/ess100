@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import Button from "./Button.astro";
 import Fecha from "./Fecha.astro";
 import ModalEvento from "./ModalEvento.astro";
@@ -24,52 +25,126 @@ const {
   fechaEvento,
   subcategoria,
 } = Astro.props;
+
+const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
 ---
 
-<div id="cardEventoSec" data-post-id={postId}>
+<div class="cardEventoSec" data-post-id={postId} data-post-cat={subcategoria}>
   <div class="date">
     {fechaEvento && <Fecha fecha={fechaEvento} />}
   </div>
-  <h3>{title}</h3>
-  <div class="sub">
-    {subcategoria && <span class="categoria">🏷️ {subcategoria}</span>}
-  </div>
-   <p set:html={excerpt} />
-
-   <div class="der">
-    <div class="ico">
-        Aqui el icono segun <sub>sub</sub>
+  <div class="info">
+    <h3>{title}</h3>
+    <div class="sub">
+      {subcategoria && <span class="categoria">{subcategoria}</span>}
     </div>
-      <div id="elbtn">
-    <Button
-      text="détails"
-      icon="mdi:chevron-right"
-      type="button"
-      onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
+    <p set:html={excerpt} />
+  </div>
+
+  <div class="der">
+    <div class="ico">
+      <Icon name={icons} class="icon" />
+    </div>
+    <div id="elbtn">
+      <Button
+        text="détails"
+        icon="mdi:chevron-right"
+        type="button"
+        onclick={`document.querySelector('[data-post-id="${postId}"] .modal-wrapper').classList.add('visible')`}
+      />
+    </div>
+  </div>
+
+  <div class="modal-wrapper" data-modal={postId}>
+    <ModalEvento
+      isOpen={true}
+      title={title}
+      imageUrl={imageUrl}
+      contenidoCompleto={contenidoCompleto}
+      pdfUrl={pdfUrl}
+      fechaEvento={fechaEvento}
+      subcategoria={subcategoria}
+      onClose={() => {}}
     />
   </div>
-   </div>
-   
-   <div class="modal-wrapper" data-modal={postId}>
-       <ModalEvento
-       isOpen={true}
-       title={title}
-       imageUrl={imageUrl}
-       contenidoCompleto={contenidoCompleto}
-       pdfUrl={pdfUrl}
-       fechaEvento={fechaEvento}
-       subcategoria={subcategoria}
-       onClose={() => {}}
-       />
-    </div>
 </div>
 
-  
 <style lang="scss">
   @use "/src/styles/variables.scss" as *;
 
+  .cardEventoSec {
+    flex: 1 0 49%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    max-width: 49%;
+    background: white;
+    font-size: clamp(0.9rem, 0.7vw, 1rem);
+    @include cel {
+      max-width: 100%;
+    }
+  }
+  .date {
+    flex: 1;
+    background: $fondo;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @extend .sombra;
+  }
+  .info {
+    flex: 2;
+    padding: 1rem;
+    h3 {
+      color: $dorado;
+      font-weight: 300;
+      font-size: clamp(1.2rem, 1.4vw, 2rem);
+      padding-bottom: .2rem;
+    }
+    .sub {
+      font-size: clamp(0.6rem, 0.8vw, 1rem);
+    }
+    :global(p) {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+   
+  }
+  .der {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    @include cel{
+      flex: 1.3;
+      padding-right: .5rem;
+    }
+  }
+  .elbtn {
+    flex: 1 0 100%;
+  }
+  .ico {
+    flex: 1 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .icon {
+    vertical-align: middle;
+    width: 1.7em;
+    height: 1.7em;
+   
 
-
+    
+  }
   .modal-wrapper {
     :global(.modal) {
       display: none;
@@ -102,4 +177,3 @@ const {
     }
   });
 </script>
-

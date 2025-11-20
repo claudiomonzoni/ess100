@@ -4,20 +4,23 @@ import CardEventoSec from "./CardEventoSec.astro";
 // Detectar idioma desde la URL
 const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
 
+// filtro de eventos
+const all = idioma === "fr" ? 'Tous' : 'All';
+
 // URLs por idioma
 const API_FR = "https://esscrans-montana.ch/wp-json/wp/v2/posts?categories=45";
 const API_EN ="https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
 
 const apiUrl = idioma === "en" ? API_EN : API_FR;
 
-console.log(idioma)
+
 
 let eventos: any[] = [];
 try {
   const response = await fetch(apiUrl);
   const todos = await response.json();
   eventos = todos.filter((evento: any) => evento.sticky === false);
-  console.log("API URL:", apiUrl); // Para depuración
+  // console.log("API URL:", apiUrl); // Para depuración
 
   // Obtener imagen de alta resolución
   for (const evento of eventos) {
@@ -66,9 +69,18 @@ try {
   console.error("Error al cargar eventos:", error);
   eventos = [];
 }
+
+// Obtener todas las subcategorías únicas
+const subcategorias = [...new Set(eventos.map(evento => evento.subcategoria).filter(Boolean))];
 ---
 
 <div class="grid contenido">
+  <div id="filtro">
+    <button class="filtro-btn active" data-filter="all">{all}</button>
+    {subcategorias.map((cat) => (
+      <button class="filtro-btn" data-filter={cat}>{cat}</button>
+    ))}
+  </div>
   <div id="contenedorCardsSec">
     {
       eventos.length > 0 ? (
@@ -90,3 +102,127 @@ try {
     }
   </div>
 </div>
+
+<style lang="scss">
+@use '/src/styles/variables.scss' as *;
+
+#filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filtro-btn {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+  
+  &.active {
+    background-color: $dorado;
+    color: white;
+  }
+  
+  &:hover:not(.active) {
+    background-color: #e0e0e0;
+  }
+}
+
+#filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  @include cel{
+    margin: 0 0 20px 1rem;
+  }
+}
+
+.filtro-btn {
+  padding: 8px 16px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  
+  &.active {
+    background-color: $gris;
+    color: white;
+    @extend .sombra;
+  }
+  
+  &:hover:not(.active) {
+    background-color: rgba($gris, .2);
+  }
+}
+
+.fade-out {
+  opacity: 1;
+  animation: fadeOut 0.3s forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filtro-btn');
+    const cards = document.querySelectorAll('.cardEventoSec');
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remover clase active de todos los botones
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Agregar clase active al botón clickeado
+        button.classList.add('active');
+        
+        const filterValue = button.getAttribute('data-filter');
+        
+        // Aplicar filtro a las cards
+        cards.forEach(card => {
+          const htmlCard = card as HTMLElement;
+          // Agregar clase para fade out
+          htmlCard.classList.add('fade-out');
+          
+          // Después de la animación, aplicar filtro y mostrar con fade in
+          setTimeout(() => {
+            if (filterValue === 'all') {
+              htmlCard.style.display = 'flex';
+            } else {
+              const cardCategory = htmlCard.getAttribute('data-post-cat');
+              if (cardCategory === filterValue) {
+                htmlCard.style.display = 'flex';
+              } else {
+                htmlCard.style.display = 'none';
+              }
+            }
+            
+            // Remover clase fade-out y agregar fade-in
+            htmlCard.classList.remove('fade-out');
+            htmlCard.classList.add('fade-in');
+            
+            // Remover clase fade-in después de la animación
+            setTimeout(() => {
+              htmlCard.classList.remove('fade-in');
+            }, 300);
+          }, 300);
+        });
+      });
+    });
+  });
+</script>

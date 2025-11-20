@@ -6,10 +6,31 @@ interface Props {
 
 const { fecha } = Astro.props;
 
+// Detectar idioma desde la URL
+const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
+
+// Diccionarios de nombres en francés e inglés
+const meses = {
+  fr: [
+    "janv.", "févr.", "mars", "avr.", "mai", "juin",
+    "juil.", "août", "sept.", "oct.", "nov.", "déc."
+  ],
+  en: [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ]
+};
+
+const dias = {
+  fr: [
+    "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."
+  ],
+  en: [
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+  ]
+};
+
 // Validar fecha
-
-
-// Si hay fecha, continuar...
 let diaNumero = "";
 let nombreDia = "";
 let nombreMes = "";
@@ -17,21 +38,11 @@ let nombreMes = "";
 if (fecha) {
   // Convertir a objeto Date
   const dateObj = new Date(fecha);
-
-  // Diccionarios de nombres en francés
-  const mesesFr = [
-    "janvier", "février", "mars", "avril", "mai", "juin",
-    "juillet", "août", "septembre", "octobre", "novembre", "décembre"
-  ];
-
-  const diasFr = [
-    "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"
-  ];
-
-  // Extraer valores
+  
+  // Extraer valores según el idioma
   diaNumero = dateObj.getDate().toString(); // 1-31
-  nombreDia = diasFr[dateObj.getDay()]; // lundi, etc.
-  nombreMes = mesesFr[dateObj.getMonth()]; // novembre, etc.
+  nombreDia = dias[idioma][dateObj.getDay()]; // lundi, Monday, etc.
+  nombreMes = meses[idioma][dateObj.getMonth()]; // novembre, November, etc.
 }
 ---
 
@@ -39,8 +50,8 @@ if (fecha) {
   {fecha ? (
     <>
       <div class="Numerodia">{diaNumero}</div>
-      <div class="nombredia">{nombreDia}</div>
       <div class="mes">{nombreMes}</div>
+      <div class="nombredia">{nombreDia}</div>
     </>
   ) : (
     <div>Fecha no disponible</div>
@@ -48,24 +59,26 @@ if (fecha) {
 </div>
 
 <style lang="scss">
+  @use '/src/styles/variables.scss' as *;
   #fecha {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     padding: 1rem;
-    background: #f5f5f5;
-    border-radius: 8px;
+    background: $fondo;
   }
   
   .Numerodia {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #ee3124;
+    font-size: clamp(2rem, 3vw, 3rem);
+    color: $dorado;
   }
   
+  .mes{
+    font-weight: bold;
+  }
   .nombredia, .mes {
     font-size: 0.9rem;
-    color: #666;
+    color: $gris;
   }
 </style>

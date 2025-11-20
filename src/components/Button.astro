@@ -44,8 +44,8 @@ const { url, text, class: extraClass = '', icon, onclick, type = "link" } = Astr
   @use "../styles/variables.scss" as *;
 
   .btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
+    padding: 0.6rem .6rem  0.6rem 1.2rem;
+    font-size: clamp(.9rem, 1vw, 1.1rem);
     color: $fondo;
     background-color: $rojo;
     text-decoration: none;
@@ -67,10 +67,16 @@ const { url, text, class: extraClass = '', icon, onclick, type = "link" } = Astr
     height: 1em;
   }
   .linea{
+    padding: 0.6rem 1.2rem;
     border: solid 1px $dorado!important;
     background-color: transparent!important;
-    color: $rojo!important;
+    color: $gris!important;
     font-weight: 600!important;
+    &:hover{
+      border: none!important;
+      background-color: $rojo!important;
+      color: white!important;
+    }
   }
 </style>
 
