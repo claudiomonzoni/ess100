@@ -2,9 +2,8 @@
 interface Props {
   loadingText?: string;
 }
-const { loadingText = "Loading..." } = Astro.props;
 
-// El loader se renderizará inicialmente pero se ocultará mediante JS si todo está en caché
+const { loadingText = "Loading..." } = Astro.props;
 ---
 
 <div class="loader-wrapper">
@@ -21,7 +20,6 @@ const { loadingText = "Loading..." } = Astro.props;
 
 <style lang="scss">
   @use "../styles/variables.scss" as *;
-  $duration: 3000;
 
   .loader-wrapper {
     position: fixed;
@@ -31,7 +29,7 @@ const { loadingText = "Loading..." } = Astro.props;
     height: 100vh;
     display: grid;
     place-items: center;
-    background-color:white;
+    background-color: white;
     z-index: 9999;
     backdrop-filter: blur(5px);
     transition:
@@ -53,17 +51,16 @@ const { loadingText = "Loading..." } = Astro.props;
     width: 100%;
     height: 10px;
     background-color: $fondo;
-    border-radius: 3px;
+    border-radius: 20rem;
     overflow: hidden;
     margin-bottom: 1rem;
-    border-radius: 20rem;
   }
 
   .loader-progress-bar {
     height: 10px;
     width: 0;
-    background:$rojo;
-    border-radius: 3px;
+    background: $rojo;
+    border-radius: 20rem;
     transition: width 0.3s ease-out;
   }
 
@@ -72,7 +69,6 @@ const { loadingText = "Loading..." } = Astro.props;
     font-size: clamp(6rem, 5vw, 7vw);
     font-weight: 600;
     color: $dorado;
-
     margin-bottom: 0.5rem;
   }
 
@@ -98,161 +94,207 @@ const { loadingText = "Loading..." } = Astro.props;
 <script>
   import { gsap } from "gsap";
   import { SplitText } from "gsap/SplitText";
+  
   gsap.registerPlugin(SplitText);
 
-  // Elementos del loader
-  const progressBar = document.querySelector(
-    ".loader-progress-bar"
-  ) as HTMLElement | null;
-  const percentageElement = document.querySelector(
-    ".loader-percentage"
-  ) as HTMLElement | null;
-  const loaderWrapper = document.querySelector(
-    ".loader-wrapper"
-  ) as HTMLElement | null;
+  // Constantes de configuración
+  const CONFIG = {
+    DURATION: 3000, // Duración total de la animación en ms
+    UPDATE_INTERVAL: 30, // Intervalo de actualización en ms
+    COMPLETE_DELAY: 1500, // Delay antes de la animación de salida en ms
+    HIDE_DELAY: 2000, // Delay antes de ocultar el loader en ms
+    FADE_OUT_DURATION: 500, // Duración de la transición de salida en ms
+    EXIT_ANIMATION_DURATION: 2, // Duración de la animación de salida del 100 en segundos
+    EXIT_STAGGER_AMOUNT: 0.5, // Cantidad de stagger para la animación de salida
+  } as const;
 
-  // // Verificar que los elementos existen y son HTMLElements
-  // if (!(progressBar instanceof HTMLElement) ||
-  //     !(percentageElement instanceof HTMLElement) ||
-  //     !(loaderWrapper instanceof HTMLElement)) {
-  //   console.error('No se pudieron encontrar los elementos necesarios');
-  //   return;
-  // }
+  // Selectores
+  const SELECTORS = {
+    PROGRESS_BAR: ".loader-progress-bar",
+    PERCENTAGE: ".loader-percentage",
+    WRAPPER: ".loader-wrapper",
+  } as const;
 
-  // Comprobar si la página ya está cargada
-  if (document.readyState === "complete") {
-    // Si la página ya está cargada, removemos el loader inmediatamente
-    loaderWrapper?.remove();
-  } else {
-    // Si no está cargada, iniciamos la animación
-    if (progressBar && percentageElement && loaderWrapper) {
-      let progress = 0;
-      const interval = 30; // Update interval in ms
-      const increment = (interval / 3000) * 100;
+  /**
+   * Obtiene los elementos del DOM necesarios para el loader
+   */
+  function getLoaderElements() {
+    const progressBar = document.querySelector(
+      SELECTORS.PROGRESS_BAR
+    ) as HTMLElement | null;
+    const percentageElement = document.querySelector(
+      SELECTORS.PERCENTAGE
+    ) as HTMLElement | null;
+    const loaderWrapper = document.querySelector(
+      SELECTORS.WRAPPER
+    ) as HTMLElement | null;
 
-      const updateProgress = () => {
-        if (progress < 100) {
-          progress += increment;
-          const roundedProgress = Math.min(Math.round(progress), 100);
-          percentageElement.textContent = `${roundedProgress}`;
-          progressBar.style.width = `${roundedProgress}%`; // Añadido el símbolo %
-          requestAnimationFrame(updateProgress);
-        } else {
-          // Cuando llega a 100%, esperar y luego ocultar
-          completeLoading();
-        }
-      };
+    return { progressBar, percentageElement, loaderWrapper };
+  }
 
-      const completeLoading = () => {
-        // Asegurar que muestre 100%
-        progressBar.style.width = "100%";
-        percentageElement.textContent = "99";
-        setTimeout(() => {
-          salida100();
-        }, 1500);
+  /**
+   * Verifica si todos los elementos necesarios existen
+   */
+  function areElementsValid(
+    progressBar: HTMLElement | null,
+    percentageElement: HTMLElement | null,
+    loaderWrapper: HTMLElement | null
+  ): boolean {
+    return !!(progressBar && percentageElement && loaderWrapper);
+  }
 
-        // Obtener la posición final del número relativa al viewport
-        // const rect = percentageElement.getBoundingClientRect();
-        // const viewportWidth = window.innerWidth;
-        // const viewportHeight = window.innerHeight;
+  /**
+   * Actualiza el progreso visual (barra y porcentaje)
+   */
+  function updateProgressVisuals(
+    progressBar: HTMLElement,
+    percentageElement: HTMLElement,
+    progress: number
+  ): void {
+    const roundedProgress = Math.min(Math.round(progress), 100);
+    percentageElement.textContent = `${roundedProgress}`;
+    progressBar.style.width = `${roundedProgress}%`;
+  }
 
-        // Esperar 2 segundos y luego iniciar la transición
-        setTimeout(() => {
-          // Disparar el evento con la posición centrada
-          const eventoCompleto = new CustomEvent("loaderComplete", {
-            detail: {
-              // x: viewportWidth / 2,  // Centro horizontal de la pantalla
-              // y: viewportHeight / 2, // Centro vertical de la pantalla
-              fontSize: window.getComputedStyle(percentageElement).fontSize,
-            },
-          });
-          window.dispatchEvent(eventoCompleto);
+  /**
+   * Crea y dispara el evento personalizado de carga completa
+   */
+  function dispatchLoaderCompleteEvent(
+    percentageElement: HTMLElement
+  ): void {
+    const fontSize = window.getComputedStyle(percentageElement).fontSize;
+    const event = new CustomEvent("loaderComplete", {
+      detail: { fontSize },
+    });
+    window.dispatchEvent(event);
+  }
 
-          // Ocultar el loader
-          loaderWrapper.style.opacity = "0";
-          loaderWrapper.style.visibility = "hidden";
+  /**
+   * Oculta y remueve el loader del DOM
+   */
+  function hideLoader(loaderWrapper: HTMLElement): void {
+    loaderWrapper.style.opacity = "0";
+    loaderWrapper.style.visibility = "hidden";
 
-          // Remover después de la transición
-          setTimeout(() => {
-            loaderWrapper.remove();
-          }, 500);
-        }, 2000);
-      };
+    setTimeout(() => {
+      loaderWrapper.remove();
+    }, CONFIG.FADE_OUT_DURATION);
+  }
 
-      // animacion de salida del 100
+  /**
+   * Anima la salida del número 100 usando GSAP SplitText
+   */
+  function animateExit100(percentageElement: HTMLElement): void {
+    const splitText = new SplitText(percentageElement, {
+      type: "chars",
+      position: "relative",
+    });
 
-      const salida100 = () => {
-        // Crear el split text
-        const split100 = new SplitText(percentageElement, {
-          type: "chars",
-          position: "relative",
-        });
+    // Configurar estado inicial de cada carácter
+    splitText.chars.forEach((char) => {
+      gsap.set(char, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        transformOrigin: "center center",
+      });
+    });
 
-        split100.chars.forEach((char) => {
-          gsap.set(char, {
-            // position: 'fixed',
-            left: "0%",
-            top: "0%",
-            //   fontSize: fromLoader.fontSize,
-            opacity: 1,
-            x: "0%",
-            y: "0%",
-            transformOrigin: "center center",
-          });
+    // Animar salida de los caracteres
+    gsap.to(splitText.chars, {
+      opacity: 0,
+      yPercent: 50,
+      duration: CONFIG.EXIT_ANIMATION_DURATION,
+      ease: "elastic.out(1, 0.75)",
+      stagger: {
+        amount: CONFIG.EXIT_STAGGER_AMOUNT,
+      },
+    });
+  }
 
-          const tl = gsap.timeline();
+  /**
+   * Maneja la finalización de la carga
+   */
+  function handleLoadingComplete(
+    progressBar: HTMLElement,
+    percentageElement: HTMLElement,
+    loaderWrapper: HTMLElement
+  ): void {
+    // Asegurar que la barra muestre 100%
+    progressBar.style.width = "100%";
+    // Mantener 99 para que se pueda ver el 100% después de completar la animación
+    percentageElement.textContent = "99";
 
-          tl.to(split100.chars, {
-            position: "relative",
-            left: "0",
-            top: "50%",
-            // fontSize: "10rem",
-            x: 0,
-            yPercent: 50,
-            opacity: 0,
-            duration: 2,
-            ease: "elastic.out(1, 0.75)",
-            stagger: {
-              amount: 0.5,
-              // from: 'left'
-            },
-          });
-        });
-      };
+    // Iniciar animación de salida del 100
+    setTimeout(() => {
+      animateExit100(percentageElement);
+    }, CONFIG.COMPLETE_DELAY);
 
-      // Iniciar animación
-      requestAnimationFrame(updateProgress);
+    // Ocultar loader y disparar evento después del delay
+    setTimeout(() => {
+      dispatchLoaderCompleteEvent(percentageElement);
+      hideLoader(loaderWrapper);
+    }, CONFIG.HIDE_DELAY);
+  }
 
-      // // Si la página ya está cargada, completar inmediatamente
-      // window.addEventListener("load", () => {
-      //   progress = 100;
-      //   completeLoading();
+  /**
+   * Inicia la animación de progreso
+   */
+  function startProgressAnimation(
+    progressBar: HTMLElement,
+    percentageElement: HTMLElement,
+    loaderWrapper: HTMLElement
+  ): void {
+    let progress = 0;
+    const increment = (CONFIG.UPDATE_INTERVAL / CONFIG.DURATION) * 100;
 
-      //   // La interfaz LoaderCompleteEvent solo es válida en TypeScript, así que se elimina.
-      //   // El objeto 'detail' se define directamente en el CustomEvent más abajo.
+    const updateProgress = (): void => {
+      if (progress < 100) {
+        progress += increment;
+        updateProgressVisuals(progressBar, percentageElement, progress);
+        requestAnimationFrame(updateProgress);
+      } else {
+        handleLoadingComplete(progressBar, percentageElement, loaderWrapper);
+      }
+    };
 
-      //   // Disparar evento personalizado con la posición del número 100
-      //   // const finalNumberPosition = percentageElement.getBoundingClientRect();
+    requestAnimationFrame(updateProgress);
+  }
 
-      //   // Ocultar y remover el loader
-      //   setTimeout(() => {
-      //     // Disparar evento antes de que el loader desaparezca
-      //     const event = new CustomEvent<LoaderCompleteEvent>('loaderComplete', {
-      //       detail: {
-      //         // x: finalNumberPosition.left + (finalNumberPosition.width / 2),
-      //         // y: finalNumberPosition.top + (finalNumberPosition.height / 2),
-      //         fontSize: window.getComputedStyle(percentageElement).fontSize
-      //       }
-      //     });
-
-      //     loaderWrapper.style.opacity = "0";
-      //     loaderWrapper.style.visibility = "hidden";
-
-      //     setTimeout(() => {
-      //       loaderWrapper.remove();
-      //     }, 500);
-      //   }, 2000); // Pequeña pausa para mostrar el 100%
-      // });
+  /**
+   * Inicializa el loader
+   */
+  function initLoader(): void {
+    // Si la página ya está cargada, remover el loader inmediatamente
+    if (document.readyState === "complete") {
+      const { loaderWrapper } = getLoaderElements();
+      loaderWrapper?.remove();
+      return;
     }
+
+    // Obtener elementos del DOM
+    const { progressBar, percentageElement, loaderWrapper } =
+      getLoaderElements();
+
+    // Verificar que todos los elementos existen
+    if (
+      !areElementsValid(progressBar, percentageElement, loaderWrapper)
+    ) {
+      return;
+    }
+
+    // Iniciar animación de progreso
+    startProgressAnimation(
+      progressBar!,
+      percentageElement!,
+      loaderWrapper!
+    );
+  }
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initLoader);
+  } else {
+    initLoader();
   }
 </script>
