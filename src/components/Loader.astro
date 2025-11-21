@@ -65,7 +65,6 @@ const { loadingText = "Loading..." } = Astro.props;
     background:$rojo;
     border-radius: 3px;
     transition: width 0.3s ease-out;
-    animation: progress 3000ms ease-in-out forwards;
   }
 
   .loader-percentage {
@@ -82,15 +81,6 @@ const { loadingText = "Loading..." } = Astro.props;
     font-size: 1.1rem;
     margin: 0;
     animation: fadeIn 0.5s ease-out;
-  }
-
-  @keyframes progress {
-    0% {
-      width: 0%;
-    }
-    100% {
-      width: 100%;
-    }
   }
 
   @keyframes fadeIn {
