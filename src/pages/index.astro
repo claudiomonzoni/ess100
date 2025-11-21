@@ -7,13 +7,14 @@ import Encabezados from "@components/Encabezados.astro";
 import Teaser from "@components/Teaser.astro";
 import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
 import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
+import Magazine from "@components/Magazine.astro";
 ---
 
 <Layout
   title="100 aniversary Ess Ski school Crans Montana"
   description="Welcome to the home page"
 >
-  <Loader loadingText="Historique de chargement" />
+  <!-- <Loader loadingText="Historique de chargement" /> -->
   <main>
     <Hero title="100 ans d’histoire… ça se fête !!" subtitle="1926-2026" />
 
@@ -42,6 +43,9 @@ import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
     
     <div class="grid pantalla" id="events2">
     <ContenedorEventosSec />
+    </div>
+    <div class="grid contenido">
+      <Magazine />
     </div>
 
 

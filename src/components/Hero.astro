@@ -116,7 +116,7 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
         transform: translate(-50%, -50%);
         padding: 1rem;
         aspect-ratio: auto;
-        font-size: .8rem;
+        font-size: 0.8rem;
       }
     }
   }
@@ -166,7 +166,7 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
       display: flex;
       place-items: center;
       backdrop-filter: blur(8px);
-        @extend .sombra;
+      @extend .sombra;
 
       .conte {
         grid-row: 2 / span 1;
@@ -328,14 +328,15 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
             // from: 'left'
           },
         }).from(
-          "#hero h2, #hero p",
+          "#hero > *, .der, .mainimage,#hero h2, #hero p, #hero .linea",
           {
             opacity: 0,
-            y: 30,
+            y: 80,
             duration: 0.8,
             stagger: 0.3,
+            delay: -1,
           },
-          "-=0.5"
+          "-=2",
         );
       } else {
         console.log("Animación fallback");
@@ -349,16 +350,27 @@ const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
           duration: 1,
           ease: "power3.out",
           stagger: 0.08,
-        }).from(
-          "#hero h1 br, #hero p",
-          {
-            opacity: 0,
-            y: 30,
-            duration: 0.8,
-            stagger: 0.1,
-          },
-          "-=0.5"
-        );
+        })
+          .from(
+            "#hero h1 br, #hero p",
+            {
+              opacity: 0,
+              y: 30,
+              duration: 0.8,
+              stagger: 0.1,
+            },
+            "-=0.5",
+          )
+          .from(
+            "#hero:after",
+            {
+              opacity: 0,
+              y: 80,
+              duration: 0.8,
+              delay: -1,
+            },
+            "-=2",
+          );
       }
     }
 

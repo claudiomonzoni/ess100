@@ -1,0 +1,103 @@
+---
+import Button from "./Button.astro";
+---
+
+<div id="magazine">
+    <div class="izq">
+        <img
+            src="/magazine.jpg"
+            alt="Ess Ski School 100 ans magazine pdf telechargue"
+        />
+    </div>
+    <div class="der">
+        <div class="centro">
+            <div class="recuadro-rojo">Télécharger</div>
+            <div class="conte-centro">
+                <h2>Magazine</h2>
+                <p>
+                    <b>Découvrez</b>, à travers des anecdotes, des témoignages
+                    et des moments forts, les 100 ans d’histoire de notre Ecole
+                    de Ski dans un magazine haut de gamme.
+                </p>
+                <Button
+                    url="/magazine.pdf"
+                    text="Magazine PDF"
+                    icon="mdi:tray-download"
+                    target="_blank"
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+<style lang="scss">
+    @use "../styles/variables.scss" as *;
+
+    #magazine {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: $margen 0;
+    }
+    .izq {
+        grid-column: 1 / span 1;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+    .der {
+        background: url("/magazine-bg.webp") no-repeat center center/cover;
+        grid-column: 2 / span 1;
+        place-content: center;
+
+        .centro {
+            min-height: 80%;
+            max-width: 90%;
+            padding: $margen-cel;
+            transform: translateX(-10%);
+            background: rgba($fondo, 0.6);
+            backdrop-filter: blur(5px);
+            @extend .sombra;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .conte-centro{
+                flex: 4;
+                
+            }
+            
+            .recuadro-rojo {
+                flex: 1;
+                transform: translateX(-30%);
+            }
+        }
+    }
+    
+    @include cel{
+        #magazine{
+            grid-template-columns: 1fr;
+            margin: 0 0;
+        }
+        .izq{
+            img{
+                aspect-ratio: 1.3/1;
+            }   
+        }
+        .der{
+            grid-column: 1 / span 1;
+            display: flex;
+            justify-content: center;
+            .centro{
+                transform: translate(0%, -10%);
+                flex-direction:column;
+                text-align: center;
+                gap: 2rem;
+                .recuadro-rojo{
+                    transform: translateX(0%);
+                }
+            }
+        }
+    }
+</style>

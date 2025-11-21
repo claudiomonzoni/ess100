@@ -236,3 +236,10 @@ b {
   padding: 0 1rem $margen;
  }
 }
+
+// en el modal abierto prevenir el scroll, con js lo agrego al
+.no-scroll {
+  overflow: hidden;
+  position: fixed; 
+  width: 100%;
+}

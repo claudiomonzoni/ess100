@@ -159,6 +159,10 @@ const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
 <script define:vars={{ postId }}>
   // Script para manejar el cierre del modal
   document.addEventListener("click", (e) => {
+    //desbloquer el scroll general
+    // document.body.style.overflow = '';
+
+    
     const wrapper = document.querySelector(
       `[data-post-id="${postId}"] .modal-wrapper`
     );

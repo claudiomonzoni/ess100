@@ -91,6 +91,8 @@ const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease-in-out;
+    overscroll-behavior: contain;
+    overflow: hidden;
   }
 
   @keyframes fadeIn {
@@ -111,6 +113,8 @@ const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
     padding: 3rem;
     position: relative;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overscroll-behavior: contain;
+    overflow: hidden;
     @include cel {
       width: 100%;
       max-width: 88vw;
@@ -153,9 +157,9 @@ const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
         }
       }
       .sub {
-       text-align: left;
-       justify-content: left;
-       padding-bottom: 1rem ;
+        text-align: left;
+        justify-content: left;
+        padding-bottom: 1rem;
       }
     }
   }
@@ -226,20 +230,22 @@ const icons = subcategoria ? subcategoria.toLowerCase() : "mdi:event-available";
     border-top: 1px solid #eee;
   }
 
- .elp{
-  :global(a) {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #ee3124;
-    color: white;
-    text-decoration: none;
-    transition: background 0.3s;
-    margin-top: 1rem;
+  .elp {
+    :global(a) {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #ee3124;
+      color: white;
+      text-decoration: none;
+      transition: background 0.3s;
+      margin-top: 1rem;
 
-    &:hover {
-      background: $dorado;
-      color:white;
+      &:hover {
+        background: $dorado;
+        color: white;
+      }
     }
   }
- }
+
+
 </style>

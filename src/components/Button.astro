@@ -9,17 +9,19 @@ interface Props {
   text: string;
   class?: string;
   icon?: string;
+  target?: string;
   onclick?: string; // handler onclick como string
   type?: "button" | "link"; // tipo de elemento
 }
 
-const { url, text, class: extraClass = '', icon, onclick, type = "link" } = Astro.props as Props;
+const { url, text, class: extraClass = '', icon, onclick, type = "link", target = "_blank", ...rest} = Astro.props as Props;
 ---
 
 {type === "button" ? (
   <button 
     class={`btn ${extraClass}`}
     onclick={onclick}
+    {...rest}
   >
     {text}
     {icon && <Icon name={icon} class="icon" />}
@@ -29,6 +31,8 @@ const { url, text, class: extraClass = '', icon, onclick, type = "link" } = Astr
     id="boton"
     href={url} 
     class={`btn ${extraClass}`}
+    target={target}
+    {...rest}
   >
     {text}
     {icon && <Icon name={icon} class="icon" />}
