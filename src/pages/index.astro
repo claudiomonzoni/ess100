@@ -8,22 +8,24 @@ import Teaser from "@components/Teaser.astro";
 import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
 import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
 import Magazine from "@components/Magazine.astro";
+import Contact from "@components/Contact.astro";
 ---
 
 <Layout
   title="100 aniversary Ess Ski school Crans Montana"
-  description="Welcome to the home page"
+  description="Welcome to the home page2026 sera rythmé par de nombreux événements festifs et sportifs afin de célébrer cet anniversaire comme il se doit."
 >
   <!-- <Loader loadingText="Historique de chargement" /> -->
   <main>
     <Hero title="100 ans d’histoire… ça se fête !!" subtitle="1926-2026" />
 
-    <Encabezados title="Teaser" subtitle="100 ans avec vous" />
+    <Encabezados title="Timeline" subtitle="100 ans d’histoire en 5 vingtaines" />
+    <Encabezados title="Teaser" subtitle="100 ans d’histoire en 1 minute" />
     <div class="grid contenido">
       <Teaser
         span="REVIVEZ"
         title="100 ANS"
-        subtitle="d'histoire EN 1 MINUTE"
+        subtitle="d’aventure et passion"
         videoSrc="/video/hero.mp4"
       />
     </div>
@@ -32,8 +34,8 @@ import Magazine from "@components/Magazine.astro";
     
     <Encabezados
       title="Calendrier"
-      subtitle="des événements"
-      extra="100 ans, ça se fête!"
+      subtitle="100 ans d’histoire à fêter"
+      extra="Programme des festivités"
     />
     
     <div class="grid pantalla" id="events">
@@ -44,10 +46,15 @@ import Magazine from "@components/Magazine.astro";
     <div class="grid pantalla" id="events2">
     <ContenedorEventosSec />
     </div>
+    <Encabezados title="Magazine" subtitle="100 ans d’histoire à se remémorer" />
     <div class="grid contenido">
-      <Magazine />
+      <Magazine recuadro=" Un siècle d’histoire" parrafo="<b>Découvrez</b>, à travers des anecdotes, des témoignages et des moments forts, les 100 ans d’histoire de notre Ecole de Ski dans un magazine haut de gamme." />
     </div>
-
+    
+    <Encabezados title="Partenariats" subtitle="Ensemble pour fêter nos 100 ans" />
+    <div class="grid contenido">
+    <Contact />
+    </div>
 
   </main>
 </Layout>

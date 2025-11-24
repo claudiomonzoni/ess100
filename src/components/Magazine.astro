@@ -1,24 +1,24 @@
 ---
 import Button from "./Button.astro";
+interface Props {
+ recuadro: string;
+ parrafo: string;   
+}
+const { recuadro, parrafo } = Astro.props;
 ---
 
 <div id="magazine">
     <div class="izq">
         <img
-            src="/magazine.jpg"
+            src="/magazine.webp"
             alt="Ess Ski School 100 ans magazine pdf telechargue"
         />
     </div>
     <div class="der">
         <div class="centro">
-            <div class="recuadro-rojo">Télécharger</div>
+            <div class="recuadro-rojo">{recuadro}</div>
             <div class="conte-centro">
-                <h2>Magazine</h2>
-                <p>
-                    <b>Découvrez</b>, à travers des anecdotes, des témoignages
-                    et des moments forts, les 100 ans d’histoire de notre Ecole
-                    de Ski dans un magazine haut de gamme.
-                </p>
+                <p set:html={parrafo}></p>
                 <Button
                     url="/magazine.pdf"
                     text="Magazine PDF"
@@ -36,7 +36,7 @@ import Button from "./Button.astro";
     #magazine {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        margin: $margen 0;
+        margin: 0 0 $margen 0;
     }
     .izq {
         grid-column: 1 / span 1;
@@ -71,6 +71,7 @@ import Button from "./Button.astro";
             .recuadro-rojo {
                 flex: 1;
                 transform: translateX(-30%);
+                text-align: center;
             }
         }
     }

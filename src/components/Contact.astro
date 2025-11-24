@@ -1,0 +1,118 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<div id="contact">
+    <div id="datos">
+        <ul>
+            <li>
+                <a href="tel:+41274811480">0041 27 481 14 80</a>
+            </li>
+            <li>
+                <a href="mailto:info@esscrans-montana.ch"
+                    >info@esscrans-montana.ch</a
+                >
+            </li>
+            <li>
+                <a
+                    href="https://maps.app.goo.gl/9t4b8aLG7ZPbnrqX7"
+                    target="_blank"
+                >
+                    École suisse de ski Crans-MontanaRoute des Arolles 2CH-3963
+                    Crans-Montana
+                </a>
+            </li>
+            <li>
+                <h4>DAILY OPENING HOURS</h4>
+                <p>Main Office - Monday to Friday</p>
+                <p>09.00 - 12.00 / 14.00 - 17.00</p>
+            </li>
+            <li>
+                <div class="social">
+                    <span>Follow us</span>
+                    <ol>
+                        <li>
+                            <a href="facebook" target="_blank"
+                                ><Icon name="mdi:facebook" /></a
+                            >
+                        </li>
+                        <li>
+                            <a href="instagram" target="_blank"
+                                ><Icon name="mdi:instagram" /></a
+                            >
+                        </li>
+                        <li>
+                            <a href="youtube" target="_blank"
+                                ><Icon name="mdi:youtube" /></a
+                            >
+                        </li>
+                    </ol>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ---------------------------------------------------------------------------------------- -->
+    <div id="form">
+        <form action="">
+            <label for="name">Name</label>
+            <input type="text" placeholder="Full Name" />
+            <label for="email">Email</label>
+            <input type="email" placeholder="Email address" />
+            <label for="message">Message</label>
+            <textarea name="message" id="message" placeholder="Your message"
+            ></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+
+<style lang="scss">
+    @use "../styles/variables.scss" as *;
+    #contact {
+        position: relative;
+        padding: $margen;
+        background: #ffffff;
+        background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba($fondo, 1) 100%
+        );
+
+        // Borde superior con corte diagonal
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: $margen;
+            right: $margen;
+            height: 1px;
+            background-color: rgba($gris, 0.4);
+        }
+
+        // Borde inferior con corte diagonal
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: $margen;
+            right: $margen;
+            height: 1px;
+            background-color: rgba($gris, 0.4);
+        }
+        @include cel {
+            padding: 3rem;
+
+            &::before {
+                left: 3rem;
+                right: 3rem;
+            }
+
+            // Borde inferior con corte diagonal
+            &::after {
+                left: 3rem;
+                right: 3rem;
+            }
+        }
+    }
+</style>
