@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import Button from "./Button.astro";
 ---
 
 <div id="contact">
@@ -55,14 +56,17 @@ import { Icon } from "astro-icon/components";
     <!-- ---------------------------------------------------------------------------------------- -->
     <div id="form">
         <form action="">
-            <label for="name">Name</label>
-            <input type="text" placeholder="Full Name" />
-            <label for="email">Email</label>
-            <input type="email" placeholder="Email address" />
-            <label for="message">Message</label>
-            <textarea name="message" id="message" placeholder="Your message"
-            ></textarea>
-            <button type="submit">Send</button>
+            <label for="name">Name
+                <input type="text" placeholder="Full Name" />
+            </label>
+            <label for="email">Email
+                <input type="email" placeholder="Email address" />
+            </label>
+            <label for="message">Message
+                <textarea name="message" id="message" placeholder="Your message"
+                ></textarea>
+            </label>
+            <Button type="button" text="Send" icon="mdi:send" />
         </form>
     </div>
 </div>
@@ -70,6 +74,8 @@ import { Icon } from "astro-icon/components";
 <style lang="scss">
     @use "../styles/variables.scss" as *;
     #contact {
+        display: flex;
+        gap: 2rem;
         position: relative;
         padding: $margen;
         background: #ffffff;
@@ -98,10 +104,73 @@ import { Icon } from "astro-icon/components";
             left: $margen;
             right: $margen;
             height: 1px;
-            background-color: rgba($gris, 0.4);
+           background-color: rgba($gris, 0.4);
+        }
+        #datos{
+            flex:1 0 50%;
+            li{
+                padding: .8rem 0;
+            }
+            ol{
+                display:flex;
+                gap: .8rem;
+                a{
+                    font-size: 1.6rem;
+                    color: $dorado;
+                }
+            }
+            span{
+                color: $rojo;
+                font-size: .8rem;
+            }
+            a{
+                text-decoration: underline;
+            }
+        }
+        #form{
+            flex:1 0 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        form{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        label{
+            flex: 1 0 50%;
+            display: flex;
+            flex-direction: column;
+            margin-top: .8rem;
+            padding: .7rem .3rem;
+        }
+        input{
+            padding: .8rem;
+            border: none;
+            background: rgba($dorado, 0.2);
+            margin-top: .7rem;
+            @extend .sombra;
+        }
+        textarea{
+            flex: 1 1 100%;
+            padding: .8rem;
+            border: none;
+            background: rgba($dorado, 0.2);
+            margin-top: .7rem;
+            @extend .sombra;
+        }
+        button{
+            margin-top: $margen-cel;
+            padding: .7rem;
+            flex: 1 0 70%;
+            align-items: right;
         }
         @include cel {
             padding: 3rem;
+            flex-wrap: wrap;
+            #datos, #form{
+                flex:1 0 100%;
+            }
 
             &::before {
                 left: 3rem;
