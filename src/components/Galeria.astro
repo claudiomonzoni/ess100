@@ -1,0 +1,72 @@
+---
+
+---
+
+<div id="galeria">
+    <img
+        src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=800&fit=crop"
+        alt="Skiing in mountains"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=600&fit=crop"
+        alt="Ski resort"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1551524164-687a55dd1126?w=600&h=900&fit=crop"
+        alt="Mountain skiing"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1498146831523-fbe41acdc5ad?w=600&h=700&fit=crop"
+        alt="Ski slopes"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=600&h=800&fit=crop"
+        alt="Winter sports"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?w=600&h=650&fit=crop"
+        alt="Ski school"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=800&fit=crop"
+        alt="Skiing in mountains"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=600&fit=crop"
+        alt="Ski resort"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1551524164-687a55dd1126?w=600&h=900&fit=crop"
+        alt="Mountain skiing"
+    />
+    <img
+        src="https://images.unsplash.com/photo-1498146831523-fbe41acdc5ad?w=600&h=700&fit=crop"
+        alt="Ski slopes"
+    />
+</div>
+<style lang="scss">
+    @use "/src/styles/variables.scss" as *;
+    #galeria {
+        column-count: 4;
+        column-gap: 1rem;
+        margin-bottom: $margen;
+        @include hdplus {
+        column-count: 5;
+        }
+        @include tableta-land {
+            column-count: 3;
+        }
+        @include tableta{
+            column-count: 3;
+        }
+        @include cel {
+            padding: 3rem;
+            column-count: 2;
+        }
+    }
+    #galeria img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+</style>
