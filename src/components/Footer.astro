@@ -5,13 +5,14 @@ import { getTranslation, type Locale } from "../i18n/translations";
 const home = getRelativeLocaleUrl("fr", "/");
 const currentLocale = (Astro.currentLocale || "fr") as Locale;
 const t = (key: string) => getTranslation(currentLocale, key);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
-<footer class="grid pantalla" id="footer">
+<footer class="grid pantalla" id="footer" style={`--base-url: ${baseUrl}`}>
   <div class="grid contenido" id="conte-footer">
     <nav>
       <a href="https://esscrans-montana.ch/" target="_blank">
-        <img src="/100-ans-logo.svg" alt="Logo ESS 100 ans" id="logoPie" />
+        <img src={`${baseUrl}100-ans-logo.svg`} alt="Logo ESS 100 ans" id="logoPie" />
       </a>
       <ul>
         <li>
@@ -40,14 +41,14 @@ const t = (key: string) => getTranslation(currentLocale, key);
 
   #footer {
     background-color: $fondo;
-    background: url("/bg-footer.webp") repeat-x center bottom/contain;
+    background: url("var(--base-url)bg-footer.webp") repeat-x center bottom/contain;
     padding-bottom: $margen;
     overflow-y: hidden;
     @include cel {
-      background: url("/bg-footer.webp") repeat-x 0% 100%/160%;
+      background: url("var(--base-url)bg-footer.webp") repeat-x 0% 100%/160%;
     }
     @include hdplus {
-      background: url("/bg-footer.webp") repeat-x 0% 130%/80%;
+      background: url("var(--base-url)bg-footer.webp") repeat-x 0% 130%/80%;
     }
 
     #conte-footer {

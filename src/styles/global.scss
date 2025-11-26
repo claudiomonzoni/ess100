@@ -227,10 +227,9 @@ b {
     }
   }
 }
-
 #contenedorCardsSec {
-  display: flex;
-  flex-wrap: wrap;
+ display: flex;
+ flex-wrap: wrap;
   background-color: $fondo;
   justify-content: space-between;
  @include cel{
@@ -241,6 +240,432 @@ b {
 // en el modal abierto prevenir el scroll, con js lo agrego al
 .no-scroll {
   overflow: hidden;
-  position: fixed; 
+}
+
+// Estilos para cartas de eventos principales (compartidos con React)
+.CartaEventoPrincipal {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  justify-content: space-evenly;
+  box-shadow: 0 10px 20px rgba($gris, 0.3);
+  transition: transform 0.2s;
+
+  #elh {
+    flex: 1;
+
+    h3 {
+      padding: 2rem 2rem 0rem;
+      color: $dorado;
+      font-size: clamp(1.5rem, 2vw, 2rem);
+    }
+  }
+
+  #eltxt {
+    flex: 1;
+    padding: 1rem 2rem 0rem;
+  }
+
+  #elbtn {
+    padding: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.1/1;
+    object-fit: cover;
+  }
+}
+
+// Botón dentro de la carta de evento principal (React)
+.CartaEventoPrincipal .btn {
+  padding: 0.6rem 0.6rem 0.6rem 1.2rem;
+  font-size: clamp(0.9rem, 1vw, 1.1rem);
+  color: $fondo;
+  background-color: $rojo;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  &:hover {
+    background-color: $dorado;
+    color: white;
+  }
+}
+
+// icono dentro del botón de la carta principal (no afectar a otros .icon globales)
+.CartaEventoPrincipal .btn .icon {
+  width: 1em;
+  height: 1em;
+}
+
+// Estilos para el modal de eventos (compartidos con React)
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  overscroll-behavior: contain;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-contenido {
+  background: white;
+  width: 90%;
+  max-width: 70vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 3rem;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  overscroll-behavior: contain;
+  overflow: hidden;
+
+  @include cel {
+    width: 100%;
+    max-width: 88vw;
+    max-height: 93vh;
+  }
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+
+  .modal-meta {
+    flex: 1;
+    background: $fondo;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .thetitle {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: right;
+    h2 {
+      text-align: right;
+    }
+  }
+
+  @include cel {
+    flex-wrap: wrap;
+
+    .thetitle,
+    .modal-meta {
+      flex: 1 0 100%;
+    }
+
+    .thetitle {
+      align-items: left;
+
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .sub {
+      border: solid 1px red;
+      text-align: left!important;
+      justify-content: left;
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+h2 {
+  margin-top: 0;
+  color: $dorado;
+ // text-align: right;
+}
+
+.cerrar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.sub {
+  display: flex;
+  padding: 0.5rem 0;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+}
+
+// No definir .icon globalmente para no romper los iconos originales de astro-icon
+
+.bandeja {
+  border-top: solid 1px $gris;
+  border-bottom: solid 1px $gris;
+  padding: 2rem 0;
+  display: flex;
+  gap: 2rem;
+
+  @include cel {
+    flex-wrap: wrap;
+  }
+
+  .laimg {
+    flex: 1 0 40%;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    @include cel {
+      flex: 1 0 100%;
+    }
+  }
+
+  .elp {
+    flex: 1 0 60%;
+
+    @include cel {
+      flex: 1 0 100%;
+    }
+  }
+}
+
+.modal-pdf {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.elp a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #ee3124;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+  margin-top: 1rem;
+
+  &:hover {
+    background: $dorado;
+    color: white;
+  }
+}
+
+// Estilos para la fecha dentro del modal
+#fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: $fondo;
+}
+
+.Numerodia {
+  font-size: clamp(2rem, 3vw, 3rem);
+  color: $dorado;
+}
+
+.mes {
+  font-weight: bold;
+}
+
+.nombredia,
+.mes {
+  font-size: 0.9rem;
+  color: $gris;
+}
+
+// --- Eventos secundarios ---
+
+#filtro {
+  border: solid 1px blue;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  @include cel {
+    margin: 0 0 20px 1rem;
+  }
+}
+
+.filtro-btn {
+  padding: 8px 16px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &.active {
+    background-color: $gris;
+    color: white;
+    @extend .sombra;
+  }
+
+  &:hover:not(.active) {
+    background-color: rgba($gris, 0.2);
+  }
+}
+
+.cardEventoSec {
+  flex: 1 0 49%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  max-width: 49%;
+  background: white;
+  font-size: clamp(0.9rem, 0.7vw, 1rem);
+
+  @include cel {
+    max-width: 100%;
+  }
+}
+
+.date {
+  flex: 1;
+  background: $fondo;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @extend .sombra;
+}
+
+.cardEventoSec .info {
+  flex: 2;
+  padding: 1rem;
+
+  h3 {
+    color: $dorado;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 1.4vw, 2rem);
+    padding-bottom: 0.2rem;
+  }
+
+  .sub {
+    font-size: clamp(0.6rem, 0.8vw, 1rem);
+    justify-content: left;
+
+  }
+
+  p {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.cardEventoSec .der {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  @include cel {
+    flex: 1.3;
+    padding-right: 0.5rem;
+  }
+}
+
+.cardEventoSec .elbtn {
+  flex: 1 0 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardEventoSec .ico {
+  flex: 1 0 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@include cel {
+  .ico {
+    margin-bottom: 1rem;
+  }	
+  .elbtn .ico {
+    flex: 1 0 100%;
+    display:  flex;
+    justify-content: right;
+    align-items: center;
+  }
+}
+
+// tamaño del icono dentro de las tarjetas secundarias (solo ahí)
+.cardEventoSec .ico .icon {
+  width: 1.7em;
+  height: 1.7em;
+}
+
+// Botón dentro de las tarjetas secundarias (mismo estilo que Button.astro)
+.cardEventoSec .btn {
+  padding: 0.6rem 0.6rem 0.6rem 1.2rem;
+  font-size: clamp(0.9rem, 1vw, 1.1rem);
+  color: $fondo;
+  background-color: $rojo;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  &:hover {
+    background-color: $dorado;
+    color: white;
+  }
+}
+
+.cardEventoSec .btn .icon {
+  width: 1em;
+  height: 1em;
 }

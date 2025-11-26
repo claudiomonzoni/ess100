@@ -1,5 +1,5 @@
 ---
-import CardEventoPrincipal from "./CardEventoPrincipal.astro";
+import EventosPrincipalClient from "./react/EventosPrincipalClient";
 
 // Detectar idioma desde la URL
 const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
@@ -10,85 +10,10 @@ const API_EN =
   "https://esscrans-montana.ch/en/wp-json/wp/v2/posts?categories=45";
 
 const apiUrl = idioma === "en" ? API_EN : API_FR;
-
-
-let eventos: any[] = [];
-try {
-  const response = await fetch(apiUrl);
-  const todos = await response.json();
-  eventos = todos.filter((evento: any) => evento.sticky === true);
-
-  // Obtener imagen de alta resolución
-  for (const evento of eventos) {
-    if (evento.featured_media) {
-      try {
-        const mediaRes = await fetch(
-          `https://esscrans-montana.ch/wp-json/wp/v2/media/${evento.featured_media}`
-        );
-        const media = await mediaRes.json();
-
-        // Prioridad: large → full → medium → original
-        evento.imagenUrl =
-          media?.media_details?.sizes?.large?.source_url ||
-          media?.media_details?.sizes?.full?.source_url ||
-          media?.media_details?.sizes?.medium?.source_url ||
-          media?.source_url ||
-          "/default-event.jpg";
-      } catch (err) {
-        evento.imagenUrl = "/default-event.jpg";
-      }
-    } else {
-      evento.imagenUrl = "/default-event.jpg";
-    }
-
-    // Fecha del evento
-    evento.fechaEvento = evento.meta?.fecha_evento || null;
-
-    // Subcategoría
-    evento.subcategoria = null;
-    if (evento.categories && Array.isArray(evento.categories)) {
-      const subcatId = evento.categories.find((id: number) => id !== 45);
-      if (subcatId) {
-        try {
-          const catRes = await fetch(
-            `https://esscrans-montana.ch/wp-json/wp/v2/categories/${subcatId}`
-          );
-          const categoria = await catRes.json();
-          evento.subcategoria = categoria?.name || null;
-        } catch (err) {
-          console.warn("No se pudo obtener subcategoría:", err);
-        }
-      }
-    }
-  }
-} catch (error) {
-  console.error("Error al cargar eventos:", error);
-  eventos = [];
-}
 ---
 
 <div class="grid contenido">
   <div id="contenedorCardsEventoPrincipal">
-    {
-      eventos.length > 0 ? (
-        eventos.map((evento: any) => (
-          <CardEventoPrincipal
-            imageUrl={evento.imagenUrl}
-            title={evento.title?.rendered || "Sin título"}
-            excerpt={evento.excerpt?.rendered || "Sin descripción"}
-            postId={evento.id}
-            contenidoCompleto={evento.content?.rendered || "Sin contenido"}
-            pdfUrl={evento.acf?.pdf_url || undefined}
-            fechaEvento={evento.fechaEvento}
-            subcategoria={evento.subcategoria}
-          />
-        ))
-      ) : (
-        <p>No hay eventos destacados disponibles.</p>
-      )
-    }
+    <EventosPrincipalClient client:load apiUrl={apiUrl} />
   </div>
 </div>
-
-
-

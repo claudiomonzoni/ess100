@@ -1,10 +1,11 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
 import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-   i18n: {
+  i18n: {
     locales: ["en", "fr"],
     defaultLocale: "fr",
     fallback: {
@@ -14,15 +15,19 @@ export default defineConfig({
       fallbackType: "rewrite",
     },
   },
-  site: "https://ess100.netlify.app/",
-  base: "/", //cambiar en produccion
+  site: "http://esscrans-montana.ch",
+  //site: "https://ess100.netlify.app/",
+  base: "/100/", // Ruta relativa de la subcarpeta
 
   // Add astro-icon integration with mdi icon set included
-  integrations: [icon({
-    include: {
-      mdi: ["*"],
-    },
-  })],
+  integrations: [
+    react(),
+    icon({
+      include: {
+        mdi: ["*"],
+      },
+    }),
+  ],
   // Ensure astro-icon is not externalized during SSR
   // vite: {
   //   resolve: {

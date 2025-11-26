@@ -7,10 +7,11 @@ interface Props {
   subtitle?: string;
   videoSrc?: string;
 }
-const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
+const baseUrl = import.meta.env.BASE_URL;
+const { span, title, subtitle, videoSrc = `${baseUrl}video/hero.mp4` } = Astro.props;
 ---
 
-<div id="teaser">
+<div id="teaser" style={`--base-url: ${baseUrl}`}>
   <div class="izq  ">
     <div class="conte">
       <div class="centrar">
@@ -28,7 +29,7 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
         <Icon name="mdi:play-box" size="2rem" class="icon-play" />
       </a>
       <!-- <Icon name="mdi:stop" size="2rem" class="icon-stop" /> -->
-      <video loop playsinline poster="/cover-video.webp">
+      <video loop playsinline poster={`${baseUrl}cover-video.webp`}>
         <source src={videoSrc} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -45,7 +46,7 @@ const { span, title, subtitle, videoSrc = "/video/hero.mp4" } = Astro.props;
   .izq {
     flex: 1;
     transition: all 0.3s ease;
-    background: url("/teaser-bg.webp") no-repeat right center;
+    background: url("var(--base-url)teaser-bg.webp") no-repeat right center;
     background-size: contain;
     display: flex;
     justify-content: right;
