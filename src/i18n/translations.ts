@@ -1,7 +1,7 @@
 export const translations = {
   fr: {
     nav: {
-      histoire: "histoire",
+      timeline: "timeline",
       events: "événements",
       video: "vidéo teaser",
       magazine: "magazine",
@@ -10,7 +10,7 @@ export const translations = {
   },
   en: {
     nav: {
-      histoire: "history",
+      timeline: "timeline",
       events: "events",
       video: "teaser video",
       magazine: "magazine",
