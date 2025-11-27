@@ -250,6 +250,9 @@ b {
   justify-content: space-evenly;
   box-shadow: 0 10px 20px rgba($gris, 0.3);
   transition: transform 0.2s;
+  @include cel{
+    margin-bottom: $margen-cel;
+  }
 
   #elh {
     flex: 1;
@@ -315,7 +318,7 @@ b {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 1000;
   display: flex;
   justify-content: center;
@@ -337,20 +340,20 @@ b {
 
 .modal-contenido {
   background: white;
-  width: 90%;
+  width: 70%;
   max-width: 70vw;
   max-height: 90vh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 3rem;
   position: relative;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  overscroll-behavior: contain;
-  overflow: hidden;
+  scroll-behavior: smooth;
 
   @include cel {
     width: 100%;
     max-width: 88vw;
-    max-height: 93vh;
+    max-height: 90vh;
   }
 }
 
@@ -397,7 +400,6 @@ b {
     }
 
     .sub {
-      border: solid 1px red;
       text-align: left!important;
       justify-content: left;
       padding-bottom: 1rem;
@@ -558,7 +560,8 @@ h2 {
   font-size: clamp(0.9rem, 0.7vw, 1rem);
 
   @include cel {
-    max-width: 100%;
+    max-width: 90%;
+    margin: 1rem auto;
   }
 }
 
@@ -580,12 +583,12 @@ h2 {
   h3 {
     color: $dorado;
     font-weight: 300;
-    font-size: clamp(1.2rem, 1.4vw, 2rem);
+    font-size: clamp(1.4rem, 1.4vw, 2rem);
     padding-bottom: 0.2rem;
   }
 
   .sub {
-    font-size: clamp(0.6rem, 0.8vw, 1rem);
+    font-size: clamp(0.8rem, 0.8vw, 1rem);
     justify-content: left;
 
   }
