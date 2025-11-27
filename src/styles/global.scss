@@ -189,12 +189,15 @@ b {
   background: $fondo;
   padding: $margen 0;
   @include cel {
-    padding: $margen 0 $margen 10%;
+    padding: $margen 0 $margen 8vw;
   }
 }
 #events2 {
   background: $fondo;
   padding-bottom: $margen;
+  @include cel {
+    padding-bottom: 0;
+  }
 }
 #contenedorCardsEventoPrincipal {
   display: grid;
@@ -506,6 +509,201 @@ h2 {
   font-size: clamp(2rem, 3vw, 3rem);
   color: $dorado;
 }
+// Estilos para el modal de eventos (compartidos con React)
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+  overscroll-behavior: contain;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-contenido {
+  background: white;
+  width: 70%;
+  max-width: 70vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 3rem;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  scroll-behavior: smooth;
+
+  @include cel {
+    width: 100%;
+    max-width: 88vw;
+    max-height: 90vh;
+  }
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+
+  .modal-meta {
+    flex: 1;
+    background: $fondo;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .thetitle {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: right;
+    h2 {
+      text-align: right;
+    }
+  }
+
+  @include cel {
+    flex-wrap: wrap;
+
+    .thetitle,
+    .modal-meta {
+      flex: 1 0 100%;
+    }
+
+    .thetitle {
+      align-items: left;
+
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .sub {
+      text-align: left!important;
+      justify-content: left;
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+h2 {
+  margin-top: 0;
+  color: $dorado;
+ // text-align: right;
+}
+
+.cerrar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.sub {
+  display: flex;
+  padding: 0.5rem 0;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+}
+
+// No definir .icon globalmente para no romper los iconos originales de astro-icon
+
+.bandeja {
+  border-top: solid 1px $gris;
+  border-bottom: solid 1px $gris;
+  padding: 2rem 0;
+  display: flex;
+  gap: 2rem;
+
+  @include cel {
+    flex-wrap: wrap;
+  }
+
+  .laimg {
+    flex: 1 0 40%;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    @include cel {
+      flex: 1 0 100%;
+    }
+  }
+
+  .elp {
+    flex: 1 0 60%;
+
+    @include cel {
+      flex: 1 0 100%;
+    }
+  }
+}
+
+.modal-pdf {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.elp a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #ee3124;
+  color: white;
+  text-decoration: none;
+  transition: background 0.3s;
+  margin-top: 1rem;
+
+  &:hover {
+    background: $dorado;
+    color: white;
+  }
+}
+
+// Estilos para la fecha dentro del modal
+#fecha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: $fondo;
+}
+
+.Numerodia {
+  font-size: clamp(2rem, 3vw, 3rem);
+  color: $dorado;
+}
 
 .mes {
   font-weight: bold;
@@ -525,29 +723,57 @@ h2 {
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
-
+  
   @include cel {
     margin: 0 0 20px 1rem;
   }
 }
 
-.filtro-btn {
-  padding: 8px 16px;
-  background-color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
+// Contenedor moderno para botones de filtro
+.filter-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: .5rem;
+  padding: 1.5rem 0;
 
-  &.active {
-    background-color: $gris;
-    color: white;
-    @extend .sombra;
-  }
-
-  &:hover:not(.active) {
-    background-color: rgba($gris, 0.2);
+  @include cel {
+    padding: 1rem 8vw;
+    gap: 0.6rem;
   }
 }
+
+// Botones de filtro con diseño premium
+.filter-btn {
+  padding: 0.6rem .5rem;
+  border: none;
+  color: $gris;
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  background-color: $fondo;
+
+
+  &:hover:not(.active) {
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    background: $gris;
+    color: white;
+    font-weight: 600;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+ 
+}
+
+
 
 .cardEventoSec {
   flex: 1 0 49%;

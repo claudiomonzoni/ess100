@@ -148,6 +148,24 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
 
   return (
     <>
+      {/* Botones de filtro */}
+      <div className="filter-buttons-container">
+        <button
+          className={`filter-btn ${filtro === "all" ? "active" : ""}`}
+          onClick={() => setFiltro("all")}
+        >
+          {allLabel}
+        </button>
+        {subcategorias.map((subcat) => (
+          <button
+            key={subcat}
+            className={`filter-btn ${filtro === subcat ? "active" : ""}`}
+            onClick={() => setFiltro(subcat)}
+          >
+            {subcat}
+          </button>
+        ))}
+      </div>
 
       <div id="contenedorCardsSec">
         {eventosFiltrados.length ? (
