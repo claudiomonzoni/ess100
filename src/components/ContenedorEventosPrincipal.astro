@@ -1,8 +1,8 @@
 ---
 import EventosPrincipalClient from "./react/EventosPrincipalClient";
 
-// Detectar idioma desde la URL
-const idioma = Astro.url.pathname.startsWith("/en/") ? "en" : "fr";
+// Detectar idioma usando Astro.currentLocale (maneja correctamente el base)
+const idioma = (Astro.currentLocale ?? "fr") as "en" | "fr";
 
 // URLs por idioma
 const API_FR = "https://esscrans-montana.ch/wp-json/wp/v2/posts?categories=45";

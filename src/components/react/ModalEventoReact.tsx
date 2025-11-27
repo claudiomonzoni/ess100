@@ -1,4 +1,8 @@
 import React from "react";
+import bikeIcon from "../../icons/bike.svg?url";
+import skiIcon from "../../icons/ski.svg?url";
+import snowboardIcon from "../../icons/snowboard.svg?url";
+import kidsIcon from "../../icons/kids.svg?url";
 
 interface Props {
   isOpen: boolean;
@@ -73,15 +77,18 @@ const ModalEventoReact: React.FC<Props> = ({
     nombreMes = meses[idioma][dateObj.getMonth()];
   }
 
-  // Icono simple basado en subcategoría (fallback a 🗓️)
-  const icono =
-    subcategoria && subcategoria.toLowerCase().includes("ski")
-      ? "🎿"
-      : subcategoria && subcategoria.toLowerCase().includes("snow")
-      ? "🏂"
-      : subcategoria && subcategoria.toLowerCase().includes("bike")
-      ? "🚴"
-      : "🗓️";
+  // Mapear subcategoría al icono SVG local (igual que en CardEventoSecReact)
+  const getIconSrc = (cat: string | null | undefined): string => {
+    if (!cat) return bikeIcon; // default
+    const catLower = cat.toLowerCase();
+    if (catLower.includes("bike")) return bikeIcon;
+    if (catLower.includes("ski")) return skiIcon;
+    if (catLower.includes("snow")) return snowboardIcon;
+    if (catLower.includes("kids")) return kidsIcon;
+    return bikeIcon; // default
+  };
+
+  const iconSrc = getIconSrc(subcategoria);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -118,7 +125,7 @@ const ModalEventoReact: React.FC<Props> = ({
           <div className="thetitle">
             <h2>{title}</h2>
             <div className="sub">
-              <span className="icon">{icono}</span>
+              <img src={iconSrc} alt={subcategoria || "event"} className="icon" />
               {subcategoria && <span className="categoria"> {subcategoria}</span>}
             </div>
           </div>
