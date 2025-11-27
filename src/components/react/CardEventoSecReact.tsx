@@ -37,7 +37,7 @@ const CardEventoSecReact: React.FC<Props> = ({ evento, onOpen }) => {
         <div className="sub">
           {subcategoria && <span className="categoria">{subcategoria}</span>}
         </div>
-        <p dangerouslySetInnerHTML={{ __html: excerpt }} />
+        {/* <p dangerouslySetInnerHTML={{ __html: excerpt }} /> */}
       </div>
 
       <div className="der">

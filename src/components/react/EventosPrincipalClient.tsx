@@ -7,7 +7,7 @@ interface Props {
   apiUrl: string;
 }
 
-const DEFAULT_IMAGE = "/default-event.jpg";
+const DEFAULT_IMAGE = "/100/default-event.jpg";
 
 const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
   const [eventos, setEventos] = useState<EventoProcesado[]>([]);
@@ -120,7 +120,7 @@ const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
   };
 
   if (loading) {
-    return <p>Cargando...</p>;
+    return <p>chargement de données</p>;
   }
 
   if (error) {

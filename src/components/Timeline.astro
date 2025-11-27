@@ -1,0 +1,446 @@
+---
+
+---
+
+<section id="timeline">
+  <div id="riel">
+    <div class="vagon">
+      <div class="izq">
+        <h5>20</h5>
+      </div>
+      <div class="der">
+        <div class="info">
+          <div class="fecha">
+            1926 <br />
+            1946
+          </div>
+          <div class="txt">
+            Skis hickory, remontée bricolée, profs improvisés : deux ambitieux
+            fondent deux écoles de ski.
+          </div>
+        </div>
+
+        <!-- imagen der -->
+        <img src="/100/20-timeline.webp" alt="20 ans" />
+      </div>
+    </div>
+
+    <!-- 40 -->
+    <div class="vagon">
+      <div class="izq">
+        <h5>40</h5>
+      </div>
+      <div class="der">
+        <div class="info">
+          <div class="fecha">
+            1946 <br />
+            1966
+          </div>
+          <div class="txt">
+            Dans les années 50, les ESS du Haut-Plateau profitent du boom du
+            ski, d’un domaine en essor et de la modernisation.
+          </div>
+        </div>
+
+        <!-- imagen der -->
+        <img src="/100/40-timeline.webp" alt="20 ans" />
+      </div>
+    </div>
+
+    <!-- 60 -->
+    <div class="vagon">
+      <div class="izq">
+        <h5>60</h5>
+      </div>
+      <div class="der">
+        <div class="info">
+          <div class="fecha">
+            1966 <br />
+            1986
+          </div>
+          <div class="txt">
+            Après un demi-siècle d’enseigne ment, nos écoles de ski arrivent au
+            sommet d’un premier âge d’or.
+          </div>
+        </div>
+
+        <!-- imagen der -->
+        <img src="/100/60-timeline.webp" alt="20 ans" />
+      </div>
+    </div>
+
+    <!-- 80 -->
+    <div class="vagon">
+      <div class="izq">
+        <h5>80</h5>
+      </div>
+      <div class="der">
+        <div class="info">
+          <div class="fecha">
+            1986 <br />
+            2006
+          </div>
+          <div class="txt">
+            Au début des années 90, le snow board procure des sensations de
+            glisse incomparables à celles du ski.
+          </div>
+        </div>
+
+        <!-- imagen der -->
+        <img src="/100/80-timeline.webp" alt="20 ans" />
+      </div>
+    </div>
+
+    <!-- 60 -->
+    <div class="vagon">
+      <div class="izq">
+        <h5>100</h5>
+      </div>
+      <div class="der">
+        <div class="info">
+          <div class="fecha">
+            2006 <br />
+            2026
+          </div>
+          <div class="txt">
+            En 2016, les deux Ecoles décident d’unir leurs forces pour le bien
+            des clients et pour se professionnaliser.
+          </div>
+        </div>
+
+        <!-- imagen der -->
+        <img src="/100/100-timeline.webp" alt="100 ans" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use "/src/styles/variables.scss" as *;
+
+  #riel {
+    display: grid;
+    grid-auto-flow: column;
+    overflow: hidden;
+    padding-left: $margen-cel;
+    place-items: center;
+    gap: 10%;
+    padding: 2rem 8vw;
+    @include cel{
+        gap: .4rem;
+    }
+  }
+  .vagon {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50vw;
+    .izq,
+    .der {
+      flex: 1 0 50%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    h5 {
+      font-size: clamp(12rem, 17vw, 17rem);
+      color: rgba($fondo, 1);
+      font-weight: 300;
+    }
+    .info {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      transform: translateX(-80%);
+      background: rgba($fondo, 0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      gap: 1rem;
+      padding: $margen-cel;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .fecha {
+      color: $dorado;
+      font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+      border-right: 1px solid $dorado;
+      padding-right: 1rem;
+      font-weight: 200;
+    }
+    .txt {
+    }
+    .split-letter {
+      display: inline-block;
+      will-change: transform, opacity, filter;
+    }
+    .der img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      @extend .sombra;
+    }
+
+    @include cel {
+      display: flex;
+      flex-wrap: wrap;
+      width: 80vw;
+      height: 94vh;
+      .izq,
+      .der {
+        flex: 1 0 100%;
+      }
+      .info {
+        flex-direction: column;
+        position: absolute;
+        width: 70%;
+        height: auto;
+        left: 50%;
+        transform: translate(-50%, -130%);
+      }
+      .fecha {
+        color: $dorado;
+        font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+        border-right: none;
+        padding-right: 0;
+      }
+      .txt {
+        padding-top: 1rem;
+        border-top: 1px solid $dorado;
+      }
+      .der{
+        max-height: 40%;
+      }
+    //   &:last-child {
+    //     border: solid;
+    //   }
+    }
+  }
+</style>
+
+<script>
+  import gsap from "gsap";
+
+  let tl = gsap.timeline({ repeat: 0 });
+  tl.delay(2);
+
+  tl.from(" .init > .ref", {
+    stagger: {
+      amount: 0.3,
+    },
+    y: 100,
+    opacity: 0,
+  });
+
+  tl.from("#logo path", {
+    stagger: {
+      amount: 2.2,
+    },
+    delay: -0.2,
+    x: "random",
+    // rotate: random,
+    scaleY: 1.5,
+    scaleX: 1.5,
+    transformOrigin: "top",
+    ease: "Power1.easeOut",
+    opacity: 0,
+    duration: 0.7,
+  });
+
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  let mm = gsap.matchMedia();
+
+  const riel = document.querySelector("#riel");
+  const vagones = gsap.utils.toArray("#riel .vagon");
+  const losvagones = document.querySelectorAll("#riel .vagon");
+
+  let scrollAnima = gsap.to(vagones, {
+    xPercent: -100 * (vagones.length - 1),
+    ease: "none",
+    scrollTrigger: {
+      trigger: riel,
+      pin: true,
+      start: "center center center",
+      scrub: 1,
+      end: "+=3000",
+      snap: {
+        snapTo: 1 / (vagones.length - 1),
+        duration: 1,
+        delay: 0.6,
+        ease: "power1.inOut",
+      },
+      // markers: true,
+    },
+  });
+
+  losvagones.forEach((vagon, index) => {
+    // prepare split-like letters for the fecha element
+    const fechaEl = vagon.querySelector(".fecha");
+    if (fechaEl && !fechaEl.classList.contains("split-ready")) {
+      const text = fechaEl.textContent.trim();
+      fechaEl.innerHTML = text
+        .split("")
+        .map((ch) =>
+          ch === " "
+            ? '<span class="split-letter">&nbsp;</span>'
+            : `<span class=\"split-letter\">${ch}</span>`
+        )
+        .join("");
+      fechaEl.classList.add("split-ready");
+    }
+
+    const h5 = vagon.querySelector("h5");
+    const info = vagon.querySelector(".info");
+    const fechaLetters = vagon.querySelectorAll(".split-letter");
+    const img = vagon.querySelector(".der img");
+
+    // Build scrollTrigger options. For the first vagon we want the
+    // animation to fire when the whole `#riel` element appears in the
+    // viewport. For the rest, keep using the horizontal container animation.
+    let scrollTriggerOpts;
+
+    mm.add("(min-width: 800px)", () => {
+      if (index === 0) {
+        scrollTriggerOpts = {
+          trigger: riel,
+          start: "top bottom-=100",
+          toggleActions: "play none none reverse",
+          // do not use containerAnimation here so it fires on vertical scroll
+        };
+      } else {
+        scrollTriggerOpts = {
+          trigger: vagon,
+          containerAnimation: scrollAnima,
+          start: "left bottom-=840",
+          toggleActions: "play none none reverse",
+        };
+      }
+    });
+
+    mm.add("(max-width: 799px)", () => {
+      if (index === 0) {
+        scrollTriggerOpts = {
+          trigger: riel,
+          start: "top bottom",
+          toggleActions: "play none none reverse",
+          // do not use containerAnimation here so it fires on vertical scroll
+        };
+      } else {
+        scrollTriggerOpts = {
+          trigger: vagon,
+          containerAnimation: scrollAnima,
+          start: "left bottom",
+          toggleActions: "play none none reverse",
+        };
+      }
+    });
+
+    const t = gsap.timeline({ scrollTrigger: scrollTriggerOpts });
+
+    // Sequence:
+    // 1) vagon scale (from slightly larger -> normal)
+    // 2) h5 enters with blur -> clear
+    // 3) .info appears
+    // 4) fecha letters animate (split-like)
+    // 5) image slides up
+
+    mm.add("(min-width: 800px)", () => {
+      t.fromTo(
+        vagon,
+        { scale: 1.15, transformOrigin: "center center" },
+        { scale: 1, duration: 0.6, ease: "power2.out" }
+      )
+        .from(
+          h5,
+          {
+            opacity: 0,
+            y: 20,
+            filter: "blur(8px)",
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.25"
+        )
+        .from(
+          info,
+          { opacity: 0, y: 20, duration: 0.55, ease: "power2.out" },
+          "-=0.35"
+        )
+        .from(
+          fechaLetters,
+          {
+            opacity: 0,
+            y: 12,
+            stagger: 0.02,
+            duration: 0.45,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        )
+        .from(
+          img,
+          { y: 60, opacity: 0, duration: 0.6, ease: "power2.out" },
+          "-=0.2"
+        );
+    });
+
+    // celular
+    mm.add("(max-width: 799px)", () => {
+      t.fromTo(
+        vagon,
+        { scale: 2, transformOrigin: "center center" },
+        { scale: 1, duration: 0.6, ease: "power2.out" }
+      )
+        .from(
+          h5,
+          {
+            opacity: 0,
+            y: 20,
+            filter: "blur(108px)",
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.25"
+        )
+        .from(
+          info,
+          { opacity: 0, y: 20, duration: 0.55, ease: "power2.out" },
+          "-=0.35"
+        )
+        .from(
+          fechaLetters,
+          {
+            opacity: 0,
+            y: 12,
+            stagger: 0.02,
+            duration: 0.45,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        )
+        .from(
+          img,
+          { y: 60, opacity: 0, duration: 0.6, ease: "power2.out" },
+          "-=0.2"
+        );
+    });
+  });
+
+  const proyectos = document.querySelectorAll(".int");
+  proyectos.forEach((el) => {
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "left center",
+        // toggleActions: "play none none reverse",
+      },
+    });
+
+    tl.set(el, { transformOrigin: "top center" }).from(el, {
+      opacity: 0,
+      scale: 0.9,
+      y: "+=20",
+    });
+  });
+</script>

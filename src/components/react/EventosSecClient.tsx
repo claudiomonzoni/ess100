@@ -8,7 +8,7 @@ interface Props {
   allLabel: string;
 }
 
-const DEFAULT_IMAGE = "/default-event.jpg";
+const DEFAULT_IMAGE = "/100/default-event.jpg";
 
 const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
   const [eventos, setEventos] = useState<EventoProcesado[]>([]);
@@ -135,7 +135,7 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
       : eventos.filter((e) => e.subcategoria === filtro);
 
   if (loading) {
-    return <p>Cargando...</p>;
+    return <p>chargement de données</p>;
   }
 
   if (error) {
