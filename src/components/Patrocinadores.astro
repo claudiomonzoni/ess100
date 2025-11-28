@@ -1,0 +1,153 @@
+---
+
+---
+
+<div class="grid contenido">
+  <div id="patrocinadores">
+    <div id="izq">
+      <div id="black">
+        <h3><span>BLACK</span> PARTNERS EVENT</h3>
+        <li>
+          <img src="/100/logos/omega.png" alt="omega" />
+        </li>
+        <li>
+          <img src="/100/logos/porsche.png" alt="porsche" />
+        </li>
+      </div>
+    </div>
+    <div id="der">
+      <div id="red">
+        <h3><span>RED</span> PARTNERS EVENT</h3>
+        <li>
+          <img src="" alt="" />
+        </li>
+        <li>
+          <img src="" alt="" />
+        </li>
+      </div>
+      <div id="blue">
+        <h3><span>BLUE</span> PARTNERS EVENT</h3>
+        <li>
+          <img src="" alt="" />
+        </li>
+        <li>
+          <img src="" alt="" />
+        </li>
+      </div>
+      <div id="main">
+        <h3><span>ESS</span> MAIN SPONSORS</h3>
+        <li>
+          <img src="/100/logos/omega.png" alt="omega" />
+        </li>
+        <li>
+          <img src="/100/logos/porsche.png" alt="porsche" />
+        </li>
+        <li>
+          <img src="/100/logos/mammut.png" alt="mammut" />
+        </li>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use "/src/styles/variables" as *;
+
+  #patrocinadores {
+    display: flex;
+    gap: 2rem;
+    #izq {
+      position: relative;
+      flex: 1 0 25%;
+    }
+    #der {
+      flex: 1 0 75%;
+    }
+    h3 {
+      color: $gris;
+      font-size: clamp(0.9rem, 1vw, 1rem);
+      letter-spacing: 0.05rem;
+      span {
+        font-weight: bold;
+      }
+    }
+    #red h3 span,
+    #main h3 span {
+      color: $rojo;
+    }
+    #blue h3 span {
+      color: blue;
+    }
+    #red {
+      padding-top: $margen-cel;
+    }
+    #black {
+      padding-top: $margen-cel;
+      position: sticky;
+      top: 0;
+      li {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 0;
+        margin: $margen-cel;
+        img {
+          max-width: 150px;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+    #main,
+    #red,
+    #blue {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: $margen-cel;
+      h3 {
+        flex: 1 0 100%;
+      }
+      li {
+        flex: 1 0 auto;
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 0;
+        img {
+          max-width: 150px;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    @include cel {
+      gap: 1rem;
+      padding: 0 $margen-cel;
+      #black {
+        padding: $margen 0;
+        li {
+          margin: 0;
+        }
+      }
+      #red {
+        padding-top: 0;
+      }
+      #der {
+        padding: $margen 0;
+      }
+      #izq,
+      #der {
+        flex: 1 0 40%;
+        img {
+          padding: 0 1rem;
+        }
+      }
+      #main,
+      #red,
+      #blue {
+        flex-direction: column;
+      }
+    }
+  }
+</style>
