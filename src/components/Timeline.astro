@@ -193,10 +193,10 @@
       .info {
         flex-direction: column;
         position: absolute;
-        width: 70%;
+        width: 90%;
         height: auto;
         left: 50%;
-        transform: translate(-50%, -130%);
+        transform: translate(-50%, -110%);
       }
       .fecha {
         color: $dorado;
@@ -209,7 +209,7 @@
         border-top: 1px solid $dorado;
       }
       .der{
-        max-height: 40%;
+        max-height: 42%;
       }
     //   &:last-child {
     //     border: solid;
@@ -263,7 +263,7 @@
       pin: true,
       start: "center center center",
       scrub: 1,
-      end: "+=3000",
+      end: "+=2500",
       snap: {
         snapTo: 1 / (vagones.length - 1),
         duration: 1,
@@ -293,6 +293,7 @@
     const h5 = vagon.querySelector("h5");
     const info = vagon.querySelector(".info");
     const fechaLetters = vagon.querySelectorAll(".split-letter");
+    const txt = vagon.querySelector(".txt");
     const img = vagon.querySelector(".der img");
 
     // Build scrollTrigger options. For the first vagon we want the
@@ -338,20 +339,9 @@
 
     const t = gsap.timeline({ scrollTrigger: scrollTriggerOpts });
 
-    // Sequence:
-    // 1) vagon scale (from slightly larger -> normal)
-    // 2) h5 enters with blur -> clear
-    // 3) .info appears
-    // 4) fecha letters animate (split-like)
-    // 5) image slides up
 
     mm.add("(min-width: 800px)", () => {
-      t.fromTo(
-        vagon,
-        { scale: 1.15, transformOrigin: "center center" },
-        { scale: 1, duration: 0.6, ease: "power2.out" }
-      )
-        .from(
+      t.from(
           h5,
           {
             opacity: 0,
@@ -359,6 +349,7 @@
             filter: "blur(8px)",
             duration: 0.6,
             ease: "power2.out",
+            delay: 1,
           },
           "-=0.25"
         )
@@ -377,6 +368,16 @@
             ease: "power2.out",
           },
           "-=0.4"
+        )
+        .from(
+          txt,
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.55,
+            ease: "power2.out",
+          },
+          "-=0.35"
         )
         .from(
           img,
@@ -387,12 +388,7 @@
 
     // celular
     mm.add("(max-width: 799px)", () => {
-      t.fromTo(
-        vagon,
-        { scale: 2, transformOrigin: "center center" },
-        { scale: 1, duration: 0.6, ease: "power2.out" }
-      )
-        .from(
+      t.from(
           h5,
           {
             opacity: 0,
@@ -400,12 +396,13 @@
             filter: "blur(108px)",
             duration: 0.6,
             ease: "power2.out",
+            delay: 1,
           },
           "-=0.25"
         )
         .from(
           info,
-          { opacity: 0, y: 20, duration: 0.55, ease: "power2.out" },
+          { opacity: 0, y: 10, duration: 0.8, ease: "power2.out" },
           "-=0.35"
         )
         .from(
@@ -419,9 +416,19 @@
           },
           "-=0.4"
         )
+         .from(
+          txt,
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.55,
+            ease: "power2.out",
+          },
+          "-=0.35"
+        )
         .from(
           img,
-          { y: 60, opacity: 0, duration: 0.6, ease: "power2.out" },
+          { y: -20, opacity: 0, duration: 0.6, scale: 0.9, ease: "power2.out" },
           "-=0.2"
         );
     });
