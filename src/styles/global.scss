@@ -785,10 +785,16 @@ h2 {
   max-width: 49%;
   background: white;
   font-size: clamp(0.9rem, 0.7vw, 1rem);
-
+  
   @include cel {
+    flex: 1 0 39%;
+   gap: 0rem;
+    flex-direction: column;
     max-width: 90%;
-    margin: 1rem auto;
+    margin: 0 .4rem .8rem;
+    text-align: center;
+    max-width: 100%;
+
   }
 }
 
@@ -817,6 +823,10 @@ h2 {
   .sub {
     font-size: clamp(0.8rem, 0.8vw, 1rem);
     justify-content: left;
+    @include cel{
+      justify-content: center;
+      text-align: center;
+    }
 
   }
 
@@ -826,6 +836,9 @@ h2 {
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+  @include cel{
+    padding: $margen-cel 1rem 0;
   }
 }
 
@@ -838,7 +851,7 @@ h2 {
 
   @include cel {
     flex: 1.3;
-    padding-right: 0.5rem;
+    padding-bottom: $margen-cel;
   }
 }
 
@@ -859,6 +872,7 @@ h2 {
 @include cel {
   .ico {
     margin-bottom: 1rem;
+    justify-content: center;
   }	
   .elbtn .ico {
     flex: 1 0 100%;
