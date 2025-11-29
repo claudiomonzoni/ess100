@@ -24,13 +24,13 @@ import Button from "./Button.astro";
                 </a>
             </li>
             <li>
-                <h4>DAILY OPENING HOURS</h4>
-                <p>Main Office - Monday to Friday</p>
+                <h4>Heures d'ouverture</h4>
+                <p>Lundi - Vendredi</p>
                 <p>09.00 - 12.00 / 14.00 - 17.00</p>
             </li>
             <li>
                 <div class="social">
-                    <span>Follow us</span>
+                    <span>Suivez-nous</span>
                     <ol>
                         <li>
                             <a href="facebook" target="_blank"
@@ -57,12 +57,12 @@ import Button from "./Button.astro";
     <div id="form">
         <form id="contact-form">
             <label for="name"
-                >Name
+                >Nom
                 <input
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Full Name"
+                    placeholder="Nom Complet"
                     required
                 />
             </label>
@@ -72,7 +72,7 @@ import Button from "./Button.astro";
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Email address"
+                    placeholder="Adresse Email"
                     required
                 />
             </label>
@@ -81,10 +81,10 @@ import Button from "./Button.astro";
                 <textarea
                     name="message"
                     id="message"
-                    placeholder="Your message"
+                    placeholder="Votre message"
                     required></textarea>
             </label>
-            <Button type="submit" text="Send" icon="mdi:send" />
+            <Button type="submit" text="Envoyer" icon="mdi:send" />
         </form>
     </div>
     <div class="mensaje"></div>
@@ -208,12 +208,12 @@ import Button from "./Button.astro";
             }
 
             &.success {
-                background: linear-gradient(135deg, #4caf50, #45a049);
-                color: white;
+                background: $dorado;
+                color: $gris;
             }
 
             &.error {
-                background: linear-gradient(135deg, #f44336, #da190b);
+                background: $gris;
                 color: white;
             }
         }
@@ -259,7 +259,7 @@ import Button from "./Button.astro";
 
             if (submitButton) {
                 submitButton.disabled = true;
-                submitButton.textContent = "Enviando...";
+                submitButton.textContent = "Envoi...";
             }
 
             try {
@@ -292,7 +292,7 @@ import Button from "./Button.astro";
 
                 if (mensajeDiv) {
                     mensajeDiv.textContent =
-                        "Error al enviar el mensaje. Por favor, intenta nuevamente.";
+                        "Erreur lors de l'envoi du message. Veuillez réessayer.";
                     mensajeDiv.className = "mensaje show error";
 
                     setTimeout(() => {

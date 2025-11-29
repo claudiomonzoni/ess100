@@ -25,7 +25,7 @@ function sendJsonResponse($response, $httpCode = 200) {
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
     sendJsonResponse([
         'success' => false,
-        'message' => 'Error del servidor. Por favor, contacta al administrador.',
+        'message' => 'Erreur serveur.',
         'debug' => "Error: $errstr en $errfile:$errline"
     ], 500);
 });
@@ -34,7 +34,7 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 set_exception_handler(function($exception) {
     sendJsonResponse([
         'success' => false,
-        'message' => 'Error del servidor. Por favor, contacta al administrador.',
+        'message' => 'Erreur serveur.',
         'debug' => $exception->getMessage()
     ], 500);
 });
@@ -43,12 +43,12 @@ try {
     // Respuesta por defecto
     $response = [
         'success' => false,
-        'message' => 'Error desconocido'
+        'message' => 'Erreur inconnue'
     ];
 
 // Verificar que sea una petición POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $response['message'] = 'Método no permitido';
+    $response['message'] = 'Méthode non autorisée';
     sendJsonResponse($response, 405);
 }
 
@@ -59,13 +59,13 @@ $message = isset($_POST['message']) ? trim($_POST['message']) : '';
 
 // Validar campos requeridos
 if (empty($name) || empty($email) || empty($message)) {
-    $response['message'] = 'Todos los campos son obligatorios';
+    $response['message'] = 'Tous les champs sont obligatoires';
     sendJsonResponse($response, 400);
 }
 
 // Validar formato de email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $response['message'] = 'El email no es válido';
+    $response['message'] = 'L\'email n\'est pas valide';
     sendJsonResponse($response, 400);
 }
 
@@ -77,7 +77,7 @@ $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 // Configurar el email
 $to = 'claudiomonzoni@hotmail.com'; // Email de destino
 // $to = 'info@esscrans-montana.ch'; // Email de destino
-$subject = 'Nuevo mensaje de contacto desde el sitio web';
+$subject = 'Nouveau message d\'Ess pour ses 100 ans';
 
 // Crear el cuerpo del email en HTML
 $email_body = "
@@ -98,11 +98,11 @@ $email_body = "
 <body>
     <div class='container'>
         <div class='header'>
-            <h2>Nuevo Mensaje de Contacto</h2>
+            <h2>Nouveau message d'Ess pour ses 100 ans</h2>
         </div>
         <div class='content'>
             <div class='field'>
-                <span class='label'>Nombre:</span><br>
+                <span class='label'>Nom:</span><br>
                 {$name}
             </div>
             <div class='field'>
@@ -110,12 +110,12 @@ $email_body = "
                 {$email}
             </div>
             <div class='field'>
-                <span class='label'>Mensaje:</span><br>
+                <span class='label'>Message:</span><br>
                 " . nl2br($message) . "
             </div>
         </div>
         <div class='footer'>
-            <p>Este mensaje fue enviado desde el formulario de contacto de École suisse de ski Crans-Montana</p>
+            <p>Ce message a été envoyé depuis le formulaire de contact de École suisse de ski Crans-Montana</p>
         </div>
     </div>
 </body>
@@ -132,17 +132,17 @@ $headers .= "X-Mailer: PHP/" . phpversion();
 // Intentar enviar el email
 if (mail($to, $subject, $email_body, $headers)) {
     $response['success'] = true;
-    $response['message'] = '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.';
+    $response['message'] = 'Message envoyé avec succès ! Nous vous contacterons prochainement.';
     sendJsonResponse($response, 200);
 } else {
-    $response['message'] = 'Error al enviar el mensaje. Por favor, intenta nuevamente o contáctanos directamente.';
+    $response['message'] = 'Erreur lors de l\'envoi du message. Veuillez réessayer.';
     sendJsonResponse($response, 500);
 }
 
 } catch (Exception $e) {
     sendJsonResponse([
         'success' => false,
-        'message' => 'Error del servidor. Por favor, contacta al administrador.',
+        'message' => 'Erreur serveur.',
         'debug' => $e->getMessage()
     ], 500);
 }
