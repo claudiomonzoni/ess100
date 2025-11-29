@@ -55,20 +55,39 @@ import Button from "./Button.astro";
 
     <!-- ---------------------------------------------------------------------------------------- -->
     <div id="form">
-        <form action="">
-            <label for="name">Name
-                <input type="text" placeholder="Full Name" />
+        <form id="contact-form">
+            <label for="name"
+                >Name
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="Full Name"
+                    required
+                />
             </label>
-            <label for="email">Email
-                <input type="email" placeholder="Email address" />
+            <label for="email"
+                >Email
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email address"
+                    required
+                />
             </label>
-            <label for="message">Message
-                <textarea name="message" id="message" placeholder="Your message"
-                ></textarea>
+            <label for="message"
+                >Message
+                <textarea
+                    name="message"
+                    id="message"
+                    placeholder="Your message"
+                    required></textarea>
             </label>
-            <Button type="button" text="Send" icon="mdi:send" />
+            <Button type="submit" text="Send" icon="mdi:send" />
         </form>
     </div>
+    <div class="mensaje"></div>
 </div>
 
 <style lang="scss">
@@ -104,72 +123,107 @@ import Button from "./Button.astro";
             left: $margen;
             right: $margen;
             height: 1px;
-           background-color: rgba($gris, 0.4);
+            background-color: rgba($gris, 0.4);
         }
-        #datos{
-            flex:1 0 50%;
-            li{
-                padding: .8rem 0;
+        #datos {
+            flex: 1 0 50%;
+            li {
+                padding: 0.8rem 0;
             }
-            ol{
-                display:flex;
-                gap: .8rem;
-                a{
+            ol {
+                display: flex;
+                gap: 0.8rem;
+                a {
                     font-size: 1.6rem;
                     color: $dorado;
                 }
             }
-            span{
+            span {
                 color: $rojo;
-                font-size: .8rem;
+                font-size: 0.8rem;
             }
-            a{
+            a {
                 text-decoration: underline;
             }
         }
-        #form{
-            flex:1 0 50%;
+        #form {
+            flex: 1 0 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        form{
+        form {
             display: flex;
             flex-wrap: wrap;
         }
-        label{
+        label {
             flex: 1 0 50%;
             display: flex;
             flex-direction: column;
-            margin-top: .8rem;
-            padding: .7rem .3rem;
+            margin-top: 0.8rem;
+            padding: 0.7rem 0.3rem;
         }
-        input{
-            padding: .8rem;
+        input {
+            padding: 0.8rem;
             border: none;
             background: rgba($dorado, 0.2);
-            margin-top: .7rem;
+            margin-top: 0.7rem;
             @extend .sombra;
         }
-        textarea{
+        textarea {
             flex: 1 1 100%;
-            padding: .8rem;
+            padding: 0.8rem;
             border: none;
             background: rgba($dorado, 0.2);
-            margin-top: .7rem;
+            margin-top: 0.7rem;
             @extend .sombra;
         }
-        button{
+        button {
             margin-top: $margen-cel;
-            padding: .7rem;
+            padding: 0.7rem;
             flex: 1 0 70%;
             align-items: right;
         }
+
+        .mensaje {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+
+            &.show {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            &.success {
+                background: linear-gradient(135deg, #4caf50, #45a049);
+                color: white;
+            }
+
+            &.error {
+                background: linear-gradient(135deg, #f44336, #da190b);
+                color: white;
+            }
+        }
+
         @include cel {
             padding: 3rem;
             flex-wrap: wrap;
-            #datos, #form{
-                flex:1 0 100%;
+            #datos,
+            #form {
+                flex: 1 0 100%;
             }
 
             &::before {
@@ -185,3 +239,73 @@ import Button from "./Button.astro";
         }
     }
 </style>
+
+<script>
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    const mensajeDiv = document.querySelector(".mensaje") as HTMLElement;
+
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            // Obtener los datos del formulario
+            const formData = new FormData(form);
+
+            // Deshabilitar el botón de envío para evitar múltiples envíos
+            const submitButton = form.querySelector(
+                'button[type="submit"]',
+            ) as HTMLButtonElement;
+            const originalButtonText = submitButton?.textContent || "Send";
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = "Enviando...";
+            }
+
+            try {
+                // Enviar el formulario
+                const response = await fetch("/100/contact.php", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                // Mostrar mensaje
+                if (mensajeDiv) {
+                    mensajeDiv.textContent = data.message;
+                    mensajeDiv.className =
+                        "mensaje show " + (data.success ? "success" : "error");
+
+                    // Ocultar mensaje después de 5 segundos
+                    setTimeout(() => {
+                        mensajeDiv.classList.remove("show");
+                    }, 5000);
+                }
+
+                // Si fue exitoso, limpiar el formulario
+                if (data.success) {
+                    form.reset();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+
+                if (mensajeDiv) {
+                    mensajeDiv.textContent =
+                        "Error al enviar el mensaje. Por favor, intenta nuevamente.";
+                    mensajeDiv.className = "mensaje show error";
+
+                    setTimeout(() => {
+                        mensajeDiv.classList.remove("show");
+                    }, 5000);
+                }
+            } finally {
+                // Rehabilitar el botón
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
+            }
+        });
+    }
+</script>
