@@ -12,8 +12,177 @@ const API_EN =
 const apiUrl = idioma === "en" ? API_EN : API_FR;
 ---
 
-<div class="grid contenido">
-  <div id="contenedorCardsEventoPrincipal">
-    <EventosPrincipalClient client:load apiUrl={apiUrl} />
+<div class="grid pantalla">
+  <div class="carousel-container">
+    <button
+      class="carousel-btn carousel-btn-prev"
+      aria-label="Voir les événements précédents">&lt;</button
+    >
+    <div id="contenedorCardsEventoPrincipal">
+      <EventosPrincipalClient client:load apiUrl={apiUrl} />
+    </div>
+    <button
+      class="carousel-btn carousel-btn-next"
+      aria-label="Voir plus d'événements">&gt;</button
+    >
   </div>
 </div>
+
+<style lang="scss">
+  @use "/src/styles/variables" as *;
+  .carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  #contenedorCardsEventoPrincipal {
+    grid-column: pantalla !important;
+    display: grid;
+    grid-template-columns: none;
+    grid-template-rows: none;
+    overflow-x: auto;
+    grid-auto-flow: column;
+    grid-auto-columns: 30%;
+    scroll-snap-type: x mandatory;
+    width: 100%;
+    max-width: 100%;
+    gap: 0.8rem;
+    scrollbar-width: thin;
+    scrollbar-color: $dorado $fondo;
+    position: relative;
+    padding: 0 0 $margen 8vw;
+    @include cel {
+      padding: 0 0 $margen-cel 4vw;
+    }
+  }
+
+  #contenedorCardsEventoPrincipal::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #contenedorCardsEventoPrincipal::-webkit-scrollbar-track {
+    background: $fondo;
+    border-radius: 4px;
+  }
+
+  #contenedorCardsEventoPrincipal::-webkit-scrollbar-thumb {
+    background: $dorado;
+    border-radius: 4px;
+  }
+
+  #contenedorCardsEventoPrincipal::-webkit-scrollbar-thumb:hover {
+    background: $dorado;
+  }
+
+  .carousel-btn {
+    background: #ee3124;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 10;
+    position: absolute;
+    @include cel {
+      display: none;
+    }
+  }
+
+  .carousel-btn:hover {
+    background: #c02519;
+    transform: scale(1.1);
+  }
+
+  .carousel-btn:disabled {
+    display: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .carousel-btn-prev {
+    margin-right: 10px;
+  }
+
+  .carousel-btn-next {
+    margin-left: 10px;
+    top: 0;
+    right: 0;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-btn {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+
+    .carousel-btn-prev {
+      margin-right: 5px;
+    }
+
+    .carousel-btn-next {
+      margin-left: 5px;
+    }
+  }
+</style>
+
+<script>
+  // Client-side JavaScript for carousel functionality
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById(
+        "contenedorCardsEventoPrincipal"
+      );
+      const prevBtn = document.querySelector(
+        ".carousel-btn-prev"
+      ) as HTMLButtonElement | null;
+      const nextBtn = document.querySelector(
+        ".carousel-btn-next"
+      ) as HTMLButtonElement | null;
+
+      if (!container || !prevBtn || !nextBtn) return;
+
+      // Update button states based on scroll position
+      const updateButtons = () => {
+        const scrollLeft = container.scrollLeft;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+
+        // Disable prev button at start
+        prevBtn.disabled = scrollLeft <= 0;
+
+        // Disable next button at end
+        // nextBtn.disabled = scrollLeft >= maxScroll - 1; // -1 for rounding issues
+      };
+
+      // Initial check
+      updateButtons();
+
+      // Update on scroll
+      container.addEventListener("scroll", updateButtons);
+
+      // Button click handlers
+      prevBtn.addEventListener("click", () => {
+        const cardElement = container.querySelector(
+          ".CartaEventoPrincipal"
+        ) as HTMLElement | null;
+        const cardWidth = cardElement?.offsetWidth || 300;
+        container.scrollBy({ left: -cardWidth, behavior: "smooth" });
+      });
+      nextBtn.addEventListener("click", () => {
+        const cardElement = container.querySelector(
+          ".CartaEventoPrincipal"
+        ) as HTMLElement | null;
+        const cardWidth = cardElement?.offsetWidth || 300;
+        container.scrollBy({ left: cardWidth, behavior: "smooth" });
+      });
+    });
+  }
+</script>

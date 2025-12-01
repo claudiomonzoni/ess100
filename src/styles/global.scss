@@ -216,6 +216,28 @@ b {
   gap: 0.8rem;
   padding-bottom: $margen-cel;
   
+  // Estilo minimalista para la barra de scroll
+  // scrollbar-width: thin;
+  // scrollbar-color: $rojo #f0f0f0;
+  
+  // &::-webkit-scrollbar {
+  //   height: 8px;
+  // }
+  
+  // &::-webkit-scrollbar-track {
+  //   background: #f0f0f0;
+  //   border-radius: 4px;
+  // }
+  
+  // &::-webkit-scrollbar-thumb {
+  //   background: $rojo;
+  //   border-radius: 4px;
+  // }
+  
+  // &::-webkit-scrollbar-thumb:hover {
+  //   background: darken($rojo, 10%);
+  // }
+  
   // Para que los elementos se ajusten al desplazamiento
   & > * {
     scroll-snap-align: start;
@@ -225,39 +247,11 @@ b {
   }
   
   @include cel{
-    grid-auto-columns: 85%;
+    grid-auto-columns: 85%!important;
   }
   @include hdplus{
-    grid-auto-columns: 20%;
+    grid-auto-columns: 20%!important;
   }
-
-  // grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  // // grid-template-rows: auto auto auto auto;
-  // // @include tableta-land {
-  // //   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  // // }
-  // @include cel {
-  //   // Anular el grid del layout padre
-  //   grid-column: pantalla !important;
-  //   grid-template-columns: none;
-  //   grid-template-rows: none;
-  //   overflow-x: auto;
-  //   grid-auto-flow: column;
-  //   grid-auto-columns: 85%;
-  //   padding: 0 1rem;
-  //   scroll-snap-type: x mandatory;
-  //   // Asegurar que no haya interferencia del grid padre
-  //   width: 100%;
-  //   max-width: 100%;
-
-  //   // Para que los elementos se ajusten al desplazamiento
-  //   & > * {
-  //     scroll-snap-align: start;
-  //     min-width: 85%;
-  //     // Asegurar que las tarjetas no se estiren verticalmente
-  //     height: auto;
-  //   }
-  // }
 }
 #contenedorCardsSec {
   display: flex;
