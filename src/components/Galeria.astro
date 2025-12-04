@@ -4,52 +4,72 @@
 
 <div id="galeria">
     <img
-        src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=800&fit=crop"
+        src="/100/gale/1_collage.webp"
         alt="Skiing in mountains"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=600&fit=crop"
+        src="/100/gale/2_collage.webp"
         alt="Ski resort"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1551524164-687a55dd1126?w=600&h=900&fit=crop"
+        src="/100/gale/3_collage.webp"
         alt="Mountain skiing"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1498146831523-fbe41acdc5ad?w=600&h=700&fit=crop"
+        src="/100/gale/4_collage.webp"
         alt="Ski slopes"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=600&h=800&fit=crop"
+        src="/100/gale/5_collage.webp"
         alt="Winter sports"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?w=600&h=650&fit=crop"
+        src="/100/gale/6_collage.webp"
         alt="Ski school"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=600&h=800&fit=crop"
+        src="/100/gale/7_collage.webp"
         alt="Skiing in mountains"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=600&h=600&fit=crop"
+        src="/100/gale/8_collage.webp"
         alt="Ski resort"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1551524164-687a55dd1126?w=600&h=900&fit=crop"
+        src="/100/gale/9_collage.webp"
         alt="Mountain skiing"
         class="galeria-img"
     />
     <img
-        src="https://images.unsplash.com/photo-1498146831523-fbe41acdc5ad?w=600&h=700&fit=crop"
+        src="/100/gale/10_collage.webp"
+        alt="Ski slopes"
+        class="galeria-img"
+    />
+    <img
+        src="/100/gale/11_collage.webp"
+        alt="Ski slopes"
+        class="galeria-img"
+    />
+    <img
+        src="/100/gale/12_collage.webp"
+        alt="Ski slopes"
+        class="galeria-img"
+    />
+    <img
+        src="/100/gale/13_collage.webp"
+        alt="Ski slopes"
+        class="galeria-img"
+    />
+    <img
+        src="/100/gale/14_collage.webp"
         alt="Ski slopes"
         class="galeria-img"
     />
@@ -89,6 +109,28 @@
         transition:
             transform 0.3s ease,
             opacity 0.3s ease;
+        
+        /* Animación de entrada escalonada */
+        animation: entradaGaleria;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+        animation-duration: 0.8s;
+        animation-fill-mode: both;
+
+        &:nth-child(1) { animation-delay: 0s; }
+        &:nth-child(2) { animation-delay: 0.1s; }
+        &:nth-child(3) { animation-delay: 0.2s; }
+        &:nth-child(4) { animation-delay: 0.3s; }
+        &:nth-child(5) { animation-delay: 0.4s; }
+        &:nth-child(6) { animation-delay: 0.5s; }
+        &:nth-child(7) { animation-delay: 0.6s; }
+        &:nth-child(8) { animation-delay: 0.7s; }
+        &:nth-child(9) { animation-delay: 0.8s; }
+        &:nth-child(10) { animation-delay: 0.9s; }
+        &:nth-child(11) { animation-delay: 1s; }
+        &:nth-child(12) { animation-delay: 1.1s; }
+        &:nth-child(13) { animation-delay: 1.2s; }
+        &:nth-child(14) { animation-delay: 1.3s; }
 
         &:hover {
             transform: scale(1.02);
@@ -147,6 +189,19 @@
         }
         to {
             opacity: 1;
+        }
+    }
+
+    @keyframes entradaGaleria {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+            filter: blur(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
         }
     }
 

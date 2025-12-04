@@ -75,7 +75,7 @@ $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
 // Configurar el email
-$to = 'claudiomonzoni@hotmail.com'; // Email de destino
+$to = 'info@esscrans-montana.ch'; // Email de destino
 // $to = 'info@esscrans-montana.ch'; // Email de destino
 $subject = 'Nouveau message d\'Ess pour ses 100 ans';
 

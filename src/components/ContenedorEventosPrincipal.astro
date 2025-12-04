@@ -1,5 +1,6 @@
 ---
 import EventosPrincipalClient from "./react/EventosPrincipalClient";
+import { Icon } from "astro-icon/components";
 
 // Detectar idioma usando Astro.currentLocale (maneja correctamente el base)
 const idioma = (Astro.currentLocale ?? "fr") as "en" | "fr";
@@ -16,20 +17,43 @@ const apiUrl = idioma === "en" ? API_EN : API_FR;
   <div class="carousel-container">
     <button
       class="carousel-btn carousel-btn-prev"
-      aria-label="Voir les événements précédents">&lt;</button
+      aria-label="Voir les événements précédents">
+    <Icon name="mdi:chevron-left" class="icon" />
+    </button
     >
-    <div id="contenedorCardsEventoPrincipal">
+    <div id="contenedorCardsEventoPrincipal" class="animacEventos">
       <EventosPrincipalClient client:load apiUrl={apiUrl} />
     </div>
     <button
-      class="carousel-btn carousel-btn-next"
-      aria-label="Voir plus d'événements">&gt;</button
+    class="carousel-btn carousel-btn-next"
+    aria-label="Voir plus d'événements">
+    <Icon name="mdi:chevron-right" class="icon" />
+      </button
     >
   </div>
 </div>
 
 <style lang="scss">
   @use "/src/styles/variables" as *;
+
+    .animacEventos {
+    animation: eventosScroll;
+    animation-timeline: view();
+    animation-range: 0% cover 70vh;
+  }
+
+  @keyframes eventosScroll {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(-120px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateY(0px);
+    }
+  }
   .carousel-container {
     position: relative;
     display: flex;
@@ -52,10 +76,10 @@ const apiUrl = idioma === "en" ? API_EN : API_FR;
     scrollbar-width: thin;
     scrollbar-color: $dorado $fondo;
     position: relative;
-    padding: 0 0 $margen 8vw;
-    @include cel {
-      padding: 0 0 $margen-cel 4vw;
-    }
+    padding: 0 0 $margen-cel 8vw;
+    // @include cel {
+    //   padding: 0 0 $margen-cel 4vw;
+    // }
   }
 
   #contenedorCardsEventoPrincipal::-webkit-scrollbar {
@@ -80,17 +104,18 @@ const apiUrl = idioma === "en" ? API_EN : API_FR;
     background: #ee3124;
     color: white;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     font-size: 1.2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
     transition: all 0.3s ease;
     z-index: 10;
     position: absolute;
+    @extend .sombra;
     @include cel {
       display: none;
     }
@@ -102,18 +127,20 @@ const apiUrl = idioma === "en" ? API_EN : API_FR;
   }
 
   .carousel-btn:disabled {
-    display: none;
+    opacity: 0;
     cursor: not-allowed;
     transform: none;
   }
 
   .carousel-btn-prev {
     margin-right: 10px;
+    top: calc(100% - 35px);
+    left: calc(100% - 125px);
   }
 
   .carousel-btn-next {
     margin-left: 10px;
-    top: 0;
+    top: calc(100% - 35px);
     right: 0;
   }
 
