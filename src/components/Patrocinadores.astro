@@ -8,10 +8,13 @@
       <div id="black">
         <h3><span>BLACK</span> PARTNERS EVENT</h3>
         <li>
-          <img src="/100/logos/omega.png" alt="omega" />
+          <img src="/100/logos/opale.svg" alt="opale" />
         </li>
         <li>
-          <img src="/100/logos/porsche.png" alt="porsche" />
+          <img src="/100/logos/crans-montana.svg" alt="crans-montana" />
+        </li>
+        <li>
+          <img src="/100/logos/crans-montana.svg" alt="crans-montana" />
         </li>
       </div>
     </div>
@@ -19,10 +22,10 @@
       <div id="red">
         <h3><span>RED</span> PARTNERS EVENT</h3>
         <li>
-          <img src="" alt="" />
+          <img src="/100/logos/cameleon.svg" alt="cameleon" />
         </li>
         <li>
-          <img src="" alt="" />
+          <img src="/100/logos/goldtest.svg" alt="goldtest" />
         </li>
       </div>
       <div id="blue">
@@ -53,7 +56,27 @@
 <style lang="scss">
   @use "/src/styles/variables" as *;
 
+  #patrocinadores img{
+    animation: logoAnimado 1s ease-in-out;
+    animation-timeline: view();
+    animation-range: 0 cover 50vh;
+  }
+
+  @keyframes logoAnimado {
+    0% {
+      opacity: 0;
+      filter: blur(5px);
+      transform:translateX(10px)
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0px);
+      transform:translateX(0px)
+    }
+  }
+
   #patrocinadores {
+    margin-bottom: $margen;
     display: flex;
     gap: 2rem;
     #izq {
@@ -92,7 +115,7 @@
         padding: 1.5rem 0;
         margin: $margen-cel;
         img {
-          max-width: 150px;
+          max-width: 250px;
           width: 100%;
           height: auto;
         }
@@ -128,6 +151,9 @@
         padding: $margen 0;
         li {
           margin: 0;
+          img {
+            max-width: 100%;
+          }
         }
       }
       #red {
