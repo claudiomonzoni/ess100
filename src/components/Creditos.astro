@@ -1,0 +1,67 @@
+---
+
+---
+
+<div id="creditos">
+  <h4>Design & developed by:</h4>
+  <li>
+    <a href="https://alinmartinez.com/" target="_blank">
+      <img src="/100/alin.svg" alt="Alin Martinez" />
+    </a>
+  </li>
+  <li>
+    <a href="https://www.behance.net/claudiomnzoni" target="_blank">
+      <img src="/100/cmn.svg" alt="Claudio Manzoni" />
+    </a>
+  </li>
+</div>
+
+<style lang="scss">
+  @use "../styles/variables.scss" as *;
+
+  #creditos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1000;
+    padding: $margen-cel;
+    background: $dorado;
+    background: linear-gradient(
+      180deg,
+      rgba(111, 90, 60, 1) 0%,
+      rgba($dorado, 1) 10%
+    );
+
+    li {
+      list-style: none;
+    }
+    h4 {
+      color: $gris;
+      font-size: .9rem;
+      text-align:right;
+      padding: 0;
+    }
+    img {
+      width: auto;
+      height: 40px;
+      filter: grayscale(100%);
+      transition: scale 0.3s ease;
+
+      &:hover {
+        filter: none;
+        scale: 1.05;
+      }
+      @include tableta-land {
+        height: 25px;
+      }
+      @include tableta {
+        height: 25px;
+      }
+      @include cel {
+        height: 30px;
+      }
+    }
+  }
+</style>

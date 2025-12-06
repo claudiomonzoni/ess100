@@ -12,7 +12,11 @@ const baseUrl = import.meta.env.BASE_URL;
   <div class="grid contenido" id="conte-footer">
     <nav>
       <a href="https://esscrans-montana.ch/" target="_blank">
-        <img src={`${baseUrl}100-ans-logo.svg`} alt="Logo ESS 100 ans" id="logoPie" />
+        <img
+          src={`${baseUrl}100-ans-logo.svg`}
+          alt="Logo ESS 100 ans"
+          id="logoPie"
+        />
       </a>
       <ul>
         <li>
@@ -32,6 +36,18 @@ const baseUrl = import.meta.env.BASE_URL;
         </li>
       </ul>
     </nav>
+    <div class="creditos">
+      <li>
+        <a href="https://alinmartinez.com/" target="_blank">
+          <img src="/100/alin.svg" alt="Alin Martinez" />
+        </a>
+      </li>
+      <li>
+        <a href="https://www.behance.net/claudiomnzoni" target="_blank">
+          <img src="/100/cmn.svg" alt="Claudio Manzoni" />
+        </a>
+      </li>
+    </div>
     <p>&copy; {new Date().getFullYear()} ESS 100 ans. Tous droits réservés.</p>
   </div>
 </footer>
@@ -125,6 +141,31 @@ const baseUrl = import.meta.env.BASE_URL;
       margin: 0;
       color: white;
       font-size: 0.9rem;
+    }
+  }
+  #creditos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1000;
+    border: solid;
+    
+    li {
+      border: solid;
+      list-style: none;
+    }
+
+    img {
+      width: 200px;
+      height: auto;
+      // filter: grayscale(100%);
+      // transition: filter 0.3s ease;
+
+      &:hover {
+        filter: none;
+      }
     }
   }
 </style>

@@ -8,45 +8,67 @@ import Teaser from "@components/Teaser.astro";
 import ContenedorEventosPrincipal from "@components/ContenedorEventosPrincipal.astro";
 
 //i18n
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRelativeLocaleUrl } from "astro:i18n";
 import ContenedorEventosSec from "@components/ContenedorEventosSec.astro";
+import Timeline from "@components/Timeline.astro";
+import Magazine from "@components/Magazine.astro";
+import Patrocinadores from "@components/Patrocinadores.astro";
+import Galeria from "@components/Galeria.astro";
+import Contact from "@components/Contact.astro";
 const prueba = getRelativeLocaleUrl("en", "prueba");
 ---
 
 <Layout
-  title="100 aniversary Ess Ski school Crans Montana"
-  description="Welcome to the home page"
+  title="100th Anniversary of the Ess Ski School in Crans Montana"
+  description="Welcome to the homepage. 2026 will be punctuated by numerous festive and sporting events to celebrate this anniversary in style."
 >
   <!-- <Loader loadingText="Historique de chargement" /> -->
   <main>
-    <Hero title=" 100 years of history" subtitle="1926-2026" />
+    <Hero
+      title="100 years of history… that's something to celebrate!!"
+      subtitle="1926-2026"
+      parrafo="The program of festivities promises to be extensive:"
+      parrafo2="2026 will be punctuated by numerous festive and sporting events to celebrate this anniversary in style."
+      txtBtn="Discover the program"
+    />
 
-    <Encabezados title="Teaser" subtitle="100 ans avec vous" />
+    <Encabezados title="Timeline" subtitle="100 YEARS OF HISTORY AT A GLANCE" />
+
+    <Timeline />
+    <Encabezados title="Teaser" subtitle="100 years of history in 1 minute" />
     <div class="grid contenido">
       <Teaser
-        span="REVIVEZ"
-        title="100 ANS"
-        subtitle="d'histoire EN 1 MINUTE"
+        span="REVIVE"
+        title="100 YEARS"
+        subtitle="adventures and passion"
         videoSrc="/100/video/hero.mp4"
       />
     </div>
-
     <Encabezados
-      title="Calendrier"
-      subtitle="des événements"
-      extra="100 ans, ça se fête!"
-    />
-    <!-- Ejemplo de uso del nuevo botón -->
-    <Button
-      url="/about"
-      text="Conócenos"
-      class="custom-btn"
-      icon="mdi:account"
+      title="Events"
+      subtitle="100 years of history to celebrate"
+      extra="Program of festivities"
     />
 
-    <div class="grid pantalla">
+    <div class="grid pantalla" id="events">
       <ContenedorEventosPrincipal />
-      <ContenedorEventosSec />
+    </div>
+
+    <Encabezados title="Magazine" subtitle="100 years of history to remember" />
+    <div class="grid contenido">
+      <Magazine
+        recuadro="A century of history"
+        parrafo="<b>Discover</b>, through anecdotes, testimonials and highlights, the 100-year history of our Ski School in a high-end magazine."
+      />
+    </div>
+    <Encabezados
+      title="Partnerships"
+      subtitle="Together to celebrate our 100 years"
+    />
+    <Patrocinadores />
+    <div class="grid contenido">
+      <Galeria />
+      <Contact />
     </div>
   </main>
 </Layout>

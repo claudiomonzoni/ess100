@@ -1,6 +1,15 @@
 ---
+
 import { Icon } from "astro-icon/components";
 import Button from "./Button.astro";
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { getTranslation, type Locale } from "../i18n/translations";
+
+const home = getRelativeLocaleUrl("fr", "/");
+const currentLocale = (Astro.currentLocale || "fr") as Locale;
+const t = (key: string) => getTranslation(currentLocale, key);
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <div id="contact">
@@ -30,7 +39,7 @@ import Button from "./Button.astro";
             </li> -->
             <li>
                 <div class="social">
-                    <span>Suivez-nous</span>
+                    <span>{t("contact.suivez")}</span>
                     <ol>
                         <li>
                             <a href="https://www.facebook.com/swiss.ski.school.montana" target="_blank"
@@ -57,12 +66,12 @@ import Button from "./Button.astro";
     <div id="form">
         <form id="contact-form">
             <label for="name"
-                >Nom
+                >{t("contact.nom")}
                 <input
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="Nom Complet"
+                    placeholder={t("contact.complete")}
                     required
                 />
             </label>
@@ -72,7 +81,7 @@ import Button from "./Button.astro";
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="Adresse Email"
+                    placeholder={t("contact.adresse")}
                     required
                 />
             </label>
@@ -81,10 +90,10 @@ import Button from "./Button.astro";
                 <textarea
                     name="message"
                     id="message"
-                    placeholder="Votre message"
+                    placeholder={t("contact.votre")}
                     required></textarea>
             </label>
-            <Button type="submit" text="Envoyer" icon="mdi:send" />
+            <Button type="submit" text={t("contact.envoyer")} icon="mdi:send" />
         </form>
     </div>
     <div class="mensaje"></div>

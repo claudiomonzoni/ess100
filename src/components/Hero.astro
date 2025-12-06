@@ -4,9 +4,12 @@ import Button from "./Button.astro";
 interface Props {
   title: string;
   subtitle?: string;
+  parrafo?: string;
+  parrafo2?: string;
+  txtBtn?: string;
   cover?: string;
 }
-const { title, subtitle = "", cover = "/1.jpg" } = Astro.props;
+const { title, subtitle = "", parrafo, parrafo2, txtBtn = "", cover = "/1.jpg" } = Astro.props;
 const baseUrl = import.meta.env.BASE_URL;
 ---
 
@@ -28,13 +31,12 @@ const baseUrl = import.meta.env.BASE_URL;
         <div class="der">
           <div class="conteder">
             <p>
-              <b>Le programme des festivités s’annonce copieux:</b>
+              <b>{parrafo}</b>
             </p>
             <p>
-              2026 sera rythmé par de nombreux événements festifs et sportifs
-              afin de célébrer cet anniversaire comme il se doit.
+              {parrafo2}
             </p>
-            <Button url="#contenedorCardsEventoPrincipal" text=" Découvrez le programme" class="linea" target="_self" />
+            <Button url="#contenedorCardsEventoPrincipal" text={txtBtn} class="linea" target="_self" />
           </div>
         </div>
       </div>
