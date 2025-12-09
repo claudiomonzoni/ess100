@@ -131,6 +131,8 @@ const baseUrl = import.meta.env.BASE_URL;
     grid-template-columns: 1fr 1.5fr 10%;
     grid-template-rows: 20% repeat(2, 1fr);
     height: 29dvw;
+    
+   
 
     .mainimage {
       grid-column: 1 / span 1;
@@ -241,6 +243,26 @@ const baseUrl = import.meta.env.BASE_URL;
             }
           }
         }
+      }
+    }
+
+     @include tableta-land{
+      grid-template-columns: 1fr 2fr 2%;
+      height: 40dvw;
+
+      .mainimage {
+        img {
+         object-position: 30% center;
+        }
+
+      }
+      
+      .conte{
+        gap: 0rem!important;
+      }
+      .conteder{
+        width: 90%!important;
+        margin: $margen-cel;
       }
     }
   }

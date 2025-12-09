@@ -11,7 +11,7 @@ export const translations = {
       20: "Skis hickory, remontée bricolée, profs improvisés : deux ambitieux fondent deux écoles de ski.",
       40: "Dans les années 50, les ESS du Haut-Plateau profitent du boom du ski, d’un domaine en essor et de la modernisation.",
       60: "Après un demi-siècle d’enseigne ment, nos écoles de ski arrivent au sommet d’un premier âge d’or.",
-      80: "Au début des années 90, le snow board procure des sensations de glisse incomparables à celles du ski.",
+      80: "Au début des années 90, le snowboard procure des sensations de glisse incomparables à celles du ski.",
       100: "En 2016, les deux Ecoles décident d’unir leurs forces pour le bien des clients et pour se professionnaliser.",
     },
     contact:{
