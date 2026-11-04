@@ -18,6 +18,7 @@ export default defineConfig({
   site: "http://esscrans-montana.ch",
   //site: "https://ess100.netlify.app/",
   base: "/100/", // Ruta relativa de la subcarpeta
+  // base: process.env.NETLIFY ? "/" : "/100/",
 
   // Add astro-icon integration with mdi icon set included
   integrations: [

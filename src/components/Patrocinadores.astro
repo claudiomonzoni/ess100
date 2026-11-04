@@ -1,53 +1,90 @@
 ---
-
+import Button from "./Button.astro";
 ---
 
 <div class="grid contenido">
   <div id="patrocinadores">
     <div id="izq">
       <div id="black">
-        <h3><span>BLACK</span> PARTNERS EVENT</h3>
+        <h3><span>BLACK</span> PARTNERS</h3>
         <li>
-          <img src="/100/logos/opale.svg" alt="opale" />
+          <a href="https://www.fondationopale.ch" target="_blank">
+            <img src="/100/logos/opale.svg" alt="opale" />
+          </a>
         </li>
         <li>
-          <img src="/100/logos/crans-montana.svg" alt="crans-montana" />
+          <a href="https://www.cransmontana.ch/" target="_blank">
+            <img src="/100/logos/crans-montana.svg" alt="crans-montana" />
+          </a>
         </li>
         <li>
-          <img src="/100/logos/crans-montana.svg" alt="crans-montana" />
-        </li>
+          <a href="https://www.mycma.ch/" target="_blank">
+            <img src="/100/logos/crans-montana-domaine.svg" alt="crans-montana" />
+          </a>
+        </li> 
       </div>
     </div>
     <div id="der">
       <div id="red">
-        <h3><span>RED</span> PARTNERS EVENT</h3>
+        <h3><span>RED</span> PARTNERS</h3>
         <li>
-          <img src="/100/logos/cameleon.svg" alt="cameleon" />
+          <a href="https://www.cameleon.ch/" target="_blank">
+            <img src="/100/logos/cameleon.svg" alt="cameleon" />
+          </a>
         </li>
         <li>
-          <img src="/100/logos/goldtest.svg" alt="goldtest" />
+          <a href="https://goldtest.ch" target="_blank">
+            <img src="/100/logos/goldtest.svg" alt="goldtest" />
+          </a>
+        </li>
+        <li>
+          <a href="https://www.bestwear.ch/" target="_blank">
+            <img src="/100/logos/bestwear.svg" alt="bestwear" />
+          </a>
+        </li>
+        <li>
+          <a href="https://zermattensports.ch" target="_blank">
+            <img src="/100/logos/intersport.svg" alt="intersport" />
+          </a>
+        </li>
+        <li>
+          <a href="https://saveurs-des-alpes.ch/" target="_blank">
+            <img
+              src="/100/logos/saveurs-des-alpes.svg"
+              alt="saveurs des alpes service traiteur"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="https://www.raiffeisen.ch/" target="_blank">
+            <img src="/100/logos/raiffeisen.svg" alt="raiffeisen" />
+          </a>
+        </li>
+        <li>
+          <a href="https://www.pierrerobyr.ch/" target="_blank">
+            <img
+              src="/100/logos/pierre-robyr.svg"
+              alt="pierre robyr / jean rené germanier"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="https://lamon-tagne.ch/" target="_blank">
+            <img
+              src="/100/logos/lamontagne.svg"
+              alt="lamontagne"
+            />
+          </a>
         </li>
       </div>
       <div id="blue">
-        <h3><span>BLUE</span> PARTNERS EVENT</h3>
-        <li>
-          <img src="" alt="" />
-        </li>
-        <li>
-          <img src="" alt="" />
-        </li>
-      </div>
-      <div id="main">
-        <h3><span>ESS</span> MAIN SPONSORS</h3>
-        <li>
-          <img src="/100/logos/omega.png" alt="omega" />
-        </li>
-        <li>
-          <img src="/100/logos/porsche.png" alt="porsche" />
-        </li>
-        <li>
-          <img src="/100/logos/mammut.png" alt="mammut" />
-        </li>
+        <h3><span>BLUE</span> PARTNERS</h3>
+        <Button
+          url="/100/logos/blue-partners.pdf"
+          text="All logos"
+          target="_blank"
+          icon="mdi:file-download-outline"
+        />
       </div>
     </div>
   </div>
@@ -56,22 +93,56 @@
 <style lang="scss">
   @use "/src/styles/variables" as *;
 
-  #patrocinadores img{
+  #patrocinadores img {
     animation: logoAnimado 1s ease-in-out;
     animation-timeline: view();
-    animation-range: 0 cover 50vh;
+    animation-range: -2vh cover 40vh;
+    animation-fill-mode: both;
+  }
+  #izq #black li {
+    &:nth-of-type(1) img {
+      animation-delay: 0s;
+    }
+    &:nth-of-type(2) img {
+      animation-delay: 0.5s;
+    }
+    &:nth-of-type(3) img {
+      animation-delay: 1s;
+    }
+  }
+
+  #izq #black img {
+    animation: logoAnimadoBlack 1s ease-in-out;
+    animation-timeline: view();
+    animation-range: -20vh cover 40vh;
+    animation-fill-mode: both;
   }
 
   @keyframes logoAnimado {
     0% {
       opacity: 0;
       filter: blur(5px);
-      transform:translateX(10px)
+      transform: translateX(10px);
     }
     100% {
       opacity: 1;
       filter: blur(0px);
-      transform:translateX(0px)
+      transform: translateX(0px);
+    }
+  }
+
+  @keyframes logoAnimadoBlack {
+    0% {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateX(10px);
+      scale: 1.2;
+    }
+    100% {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateX(0px);
+      scale: 1;
     }
   }
 
@@ -79,12 +150,14 @@
     margin-bottom: $margen;
     display: flex;
     gap: 2rem;
+    flex-wrap: wrap;
     #izq {
       position: relative;
-      flex: 1 0 25%;
+      flex: 1 0 100%;
     }
     #der {
-      flex: 1 0 75%;
+      flex: 1 0 100%;
+      padding-left: $margen-cel;
     }
     h3 {
       color: $gris;
@@ -94,6 +167,7 @@
         font-weight: bold;
       }
     }
+
     #red h3 span,
     #main h3 span {
       color: $rojo;
@@ -108,14 +182,30 @@
       padding-top: $margen-cel;
       position: sticky;
       top: 0;
+      border-bottom: 1px solid $gris;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      h3 {
+        flex: 1 0 100%;
+      }
+
       li {
+        text-align: center;
         flex: 1;
         display: flex;
         align-items: center;
+        justify-content: center;
         padding: 1.5rem 0;
         margin: $margen-cel;
+        a {
+          display: block;
+          width: 100%;
+        }
+
         img {
-          max-width: 250px;
+          max-width: 400px;
           width: 100%;
           height: auto;
         }
@@ -132,14 +222,35 @@
         flex: 1 0 100%;
       }
       li {
-        flex: 1 0 auto;
+        flex: 1 0 22%;
         display: flex;
         align-items: center;
-        padding: 1.5rem 0;
+        padding: 3rem 0;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        a {
+          display: block;
+          width: 100%;
+        }
         img {
-          max-width: 150px;
+          max-width: 140px;
           width: 100%;
           height: auto;
+          @include cel {
+            max-width: 100px;
+          }
+          @include hdplus{
+            max-width: 240px;
+          }
+        }
+        &:last-of-type {
+          img {
+            max-width: 200px;
+            @include hdplus{
+              max-width: 340px;
+            }
+          }
         }
       }
     }
@@ -147,8 +258,14 @@
     @include cel {
       gap: 1rem;
       padding: 0 $margen-cel;
+      h3 {
+        text-align: center;
+      }
       #black {
-        padding: $margen 0;
+        flex-direction: column;
+        padding: $margen .5rem $margen 0;
+        border-right: 1px solid $gris;
+        border-bottom: none;
         li {
           margin: 0;
           img {
@@ -159,12 +276,16 @@
       #red {
         padding-top: 0;
       }
+
+      #izq {
+        flex: 1 0 40%;
+      }
       #der {
+        flex: 1 0 30%;
         padding: $margen 0;
       }
       #izq,
       #der {
-        flex: 1 0 40%;
         img {
           padding: 0 1rem;
         }
@@ -173,6 +294,15 @@
       #red,
       #blue {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        li{
+           padding: 0 0 1.5rem 0;
+           img{
+            padding: 0 .5rem;
+            max-width: 100%;
+           }
+        }
       }
     }
   }

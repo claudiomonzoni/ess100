@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import bikeIcon from "../../icons/bike.svg?url";
 import skiIcon from "../../icons/ski.svg?url";
 import snowboardIcon from "../../icons/snowboard.svg?url";
@@ -25,6 +26,37 @@ const ModalEventoReact: React.FC<Props> = ({
   subcategoria,
   onClose,
 }) => {
+  // Prevenir scroll del body cuando el modal está abierto
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Limpiar al desmontar
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Cerrar con tecla Escape
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   // Lógica equivalente a `Fecha.astro` pero en React
@@ -96,7 +128,7 @@ const ModalEventoReact: React.FC<Props> = ({
     }
   };
 
-  return (
+  const modalContent = (
     <div className="modal" onClick={handleBackdropClick}>
       <div className="modal-contenido">
         <span className="cerrar" onClick={onClose}>
@@ -155,6 +187,9 @@ const ModalEventoReact: React.FC<Props> = ({
       </div>
     </div>
   );
+
+  // Usar Portal para renderizar el modal directamente en el body
+  return createPortal(modalContent, document.body);
 };
 
 export default ModalEventoReact;
