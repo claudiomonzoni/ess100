@@ -111,12 +111,10 @@ const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
 
   const handleOpen = (evento: EventoProcesado) => {
     setSeleccionado(evento);
-    document.body.classList.add("no-scroll");
   };
 
   const handleClose = () => {
     setSeleccionado(null);
-    document.body.classList.remove("no-scroll");
   };
 
   if (loading) {
@@ -158,5 +156,4 @@ const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
 };
 
 export default EventosPrincipalClient;
-
 

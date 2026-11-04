@@ -268,6 +268,11 @@ b {
   overflow: hidden;
 }
 
+html.no-scroll,
+body.no-scroll {
+  overflow: hidden;
+}
+
 // Estilos para cartas de eventos principales (compartidos con React)
 .CartaEventoPrincipal {
   display: flex;
@@ -375,6 +380,7 @@ b {
   position: relative;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   scroll-behavior: smooth;
+  overscroll-behavior: contain;
 
   @include cel {
     width: 100%;
@@ -452,6 +458,27 @@ h2 {
   }
 }
 
+.modal-react .cerrar {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 1001;
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: $rojo;
+  color: white;
+  line-height: 1;
+}
+
+.modal-react .cerrar:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 3px;
+}
+
 .sub {
   display: flex;
   padding: 0.5rem 0;
@@ -467,7 +494,7 @@ h2 {
   border-top: solid 1px $gris;
   border-bottom: solid 1px $gris;
   padding: 2rem 0;
-  display: flex;
+ // display: flex;
   gap: 2rem;
 
   @include cel {
@@ -497,198 +524,31 @@ h2 {
   }
 }
 
-.modal-pdf {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+.modal-react .elp .wp-block-gallery .wp-block-image,
+.modal-react .elp .gallery .gallery-item {
+  animation: modalGaleriaEntrada 0.8s ease both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
 }
 
-.elp a {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #ee3124;
-  color: white;
-  text-decoration: none;
-  transition: background 0.3s;
-  margin-top: 1rem;
-
-  &:hover {
-    background: $dorado;
-    color: white;
-  }
-}
-
-// Estilos para la fecha dentro del modal
-#fecha {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
-  background: $fondo;
-}
-
-.Numerodia {
-  font-size: clamp(2rem, 3vw, 3rem);
-  color: $dorado;
-}
-// Estilos para el modal de eventos (compartidos con React)
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.3s ease-in-out;
-  overscroll-behavior: contain;
-  overflow: hidden;
-}
-
-@keyframes fadeIn {
+@keyframes modalGaleriaEntrada {
   from {
     opacity: 0;
+    transform: translateY(60px);
+    filter: blur(15px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
-.modal-contenido {
-  background: white;
-  width: 70%;
-  max-width: 70vw;
-  max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 3rem;
-  position: relative;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  scroll-behavior: smooth;
-
-  @include cel {
-    width: 100%;
-    max-width: 88vw;
-    max-height: 90vh;
-  }
-}
-
-.encabezado {
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-
-  .modal-meta {
-    flex: 1;
-    background: $fondo;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-
-  .thetitle {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: right;
-    align-items: right;
-    h2 {
-      text-align: right;
-    }
-  }
-
-  @include cel {
-    flex-wrap: wrap;
-
-    .thetitle,
-    .modal-meta {
-      flex: 1 0 100%;
-    }
-
-    .thetitle {
-      align-items: left;
-
-      h2 {
-        text-align: left;
-      }
-    }
-
-    .sub {
-      text-align: left !important;
-      justify-content: left;
-      padding-bottom: 1rem;
-    }
-  }
-}
-
-h2 {
-  margin-top: 0;
-  color: $dorado;
-  // text-align: right;
-}
-
-.cerrar {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-}
-
-.sub {
-  display: flex;
-  padding: 0.5rem 0;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-  align-items: center;
-  justify-content: right;
-  gap: 1rem;
-}
-
-// No definir .icon globalmente para no romper los iconos originales de astro-icon
-
-.bandeja {
-  border-top: solid 1px $gris;
-  border-bottom: solid 1px $gris;
-  padding: 2rem 0;
-  display: flex;
-  gap: 2rem;
-
-  @include cel {
-    flex-wrap: wrap;
-  }
-
-  .laimg {
-    flex: 1 0 40%;
-
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
-
-    @include cel {
-      flex: 1 0 100%;
-    }
-  }
-
-  .elp {
-    flex: 1 0 60%;
-
-    @include cel {
-      flex: 1 0 100%;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .modal-react .elp .wp-block-gallery .wp-block-image,
+  .modal-react .elp .gallery .gallery-item {
+    animation: none;
   }
 }
 

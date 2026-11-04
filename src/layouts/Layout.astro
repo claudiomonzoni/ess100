@@ -47,6 +47,13 @@ import "lenis/dist/lenis.css";
 
 	// Initialize a new Lenis instance for smooth scrolling
 	const lenis = new Lenis();
+	window.addEventListener("modal-scroll-lock", (event) => {
+		if ((event as CustomEvent<boolean>).detail) {
+			lenis.stop();
+		} else {
+			lenis.start();
+		}
+	});
 
 	// Synchronize Lenis scrolling with GSAP's ScrollTrigger plugin
 	lenis.on("scroll", ScrollTrigger.update);

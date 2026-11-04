@@ -113,12 +113,10 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
 
   const handleOpen = (evento: EventoProcesado) => {
     setSeleccionado(evento);
-    document.body.classList.add("no-scroll");
   };
 
   const handleClose = () => {
     setSeleccionado(null);
-    document.body.classList.remove("no-scroll");
   };
 
   const subcategorias = Array.from(
@@ -198,5 +196,4 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
 };
 
 export default EventosSecClient;
-
 

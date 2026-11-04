@@ -26,36 +26,21 @@ const ModalEventoReact: React.FC<Props> = ({
   subcategoria,
   onClose,
 }) => {
-  // Prevenir scroll del body cuando el modal está abierto
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!isOpen) return;
 
-    // Limpiar al desmontar
+    document.documentElement.classList.add("no-scroll");
+    document.body.classList.add("no-scroll");
+    window.dispatchEvent(new CustomEvent("modal-scroll-lock", { detail: true }));
+
     return () => {
-      document.body.style.overflow = "";
+      document.documentElement.classList.remove("no-scroll");
+      document.body.classList.remove("no-scroll");
+      window.dispatchEvent(
+        new CustomEvent("modal-scroll-lock", { detail: false })
+      );
     };
   }, [isOpen]);
-
-  // Cerrar con tecla Escape
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -128,9 +113,9 @@ const ModalEventoReact: React.FC<Props> = ({
     }
   };
 
-  const modalContent = (
-    <div className="modal" onClick={handleBackdropClick}>
-      <div className="modal-contenido">
+  return createPortal(
+    <div className="modal modal-react" onClick={handleBackdropClick}>
+      <div className="modal-contenido" data-lenis-prevent>
         <span className="cerrar" onClick={onClose}>
           &times;
         </span>
@@ -185,7 +170,8 @@ const ModalEventoReact: React.FC<Props> = ({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 
   // Usar Portal para renderizar el modal directamente en el body
@@ -193,5 +179,3 @@ const ModalEventoReact: React.FC<Props> = ({
 };
 
 export default ModalEventoReact;
-
-
