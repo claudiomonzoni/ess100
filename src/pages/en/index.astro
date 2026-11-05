@@ -35,6 +35,18 @@ const prueba = getRelativeLocaleUrl("en", "prueba");
     <Encabezados title="Timeline" subtitle="100 YEARS OF HISTORY AT A GLANCE" />
 
     <Timeline />
+
+     <Encabezados
+      title="Events"
+      subtitle="100 years of history to celebrate"
+      extra="Program of festivities"
+    />
+
+    <div class="grid pantalla" id="events">
+      <ContenedorEventosPrincipal />
+    </div>
+
+    
     <Encabezados title="Teaser" subtitle="100 years of history in 1 minute" />
     <div class="grid contenido">
       <Teaser
@@ -44,15 +56,7 @@ const prueba = getRelativeLocaleUrl("en", "prueba");
         videoSrc="/100/video/ESS-100-ans.mp4"
       />
     </div>
-    <Encabezados
-      title="Events"
-      subtitle="100 years of history to celebrate"
-      extra="Program of festivities"
-    />
-
-    <div class="grid pantalla" id="events">
-      <ContenedorEventosPrincipal />
-    </div>
+   
 
     <Encabezados title="Magazine" subtitle="100 years of history to remember" />
     <div class="grid contenido">

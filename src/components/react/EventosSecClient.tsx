@@ -183,11 +183,7 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
         <ModalEventoReact
           isOpen={!!seleccionado}
           title={seleccionado.title}
-          imageUrl={seleccionado.imagenUrl}
           contenidoCompleto={seleccionado.content}
-          pdfUrl={seleccionado.pdfUrl}
-          fechaEvento={seleccionado.fechaEvento}
-          subcategoria={seleccionado.subcategoria ?? undefined}
           onClose={handleClose}
         />
       )}
@@ -196,4 +192,3 @@ const EventosSecClient: React.FC<Props> = ({ apiUrl, allLabel }) => {
 };
 
 export default EventosSecClient;
-

@@ -143,11 +143,7 @@ const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
         <ModalEventoReact
           isOpen={!!seleccionado}
           title={seleccionado.title}
-          imageUrl={seleccionado.imagenUrl}
           contenidoCompleto={seleccionado.content}
-          pdfUrl={seleccionado.pdfUrl}
-          fechaEvento={seleccionado.fechaEvento}
-          subcategoria={seleccionado.subcategoria ?? undefined}
           onClose={handleClose}
         />
       )}
@@ -156,4 +152,3 @@ const EventosPrincipalClient: React.FC<Props> = ({ apiUrl }) => {
 };
 
 export default EventosPrincipalClient;
-
